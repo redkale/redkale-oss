@@ -1,0 +1,23 @@
+[
+    {
+        "text": "系统权限",
+        "iconCls": "ext-icon-monitor",
+        "state": "open",
+        "children": [
+            {
+                "moduleid": 101,
+                "text": "账号管理",
+                "iconCls": "ext-icon-user",
+                "url": "/modules/sys/usermember.html",
+                "state": "open"
+            },
+            {
+                "moduleid": 103,
+                "text": "角色管理",
+                "iconCls": "ext-icon-user",
+                "url": "/modules/sys/role.html",
+                "state": "open"
+            }
+        ]
+    }
+]

@@ -1,0 +1,264 @@
+
+<table class="module-table" />
+<div class="module-dialog-role" style="display:none;">
+    <form class="module-form-role" >
+        <table class="datagrid-cell-rownumber">
+            <tr style="height: 15px;">
+                <th></th>
+                <td><input name="roleid" style="display:none;" /></td>
+            </tr>
+            <tr>
+                <th>角色名称<font color="red"> *</font></th>
+                <td><input name="rolename" class="easyui-validatebox" data-options="required:true" /></td>
+            </tr>
+            <tr>
+                <th>备注说明</th>
+                <td><textarea class="easyui-validatebox" name="description" style="height:40px;" ></textarea></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div class="module-dialog-option" style="display:none;">
+    <form class="module-form-option">
+        <table class="module-table-option" />
+    </form>
+</div>
+<script type="text/javascript">
+
+    (function () {
+        //加载表格
+        var moduleTab = $('#moduleTab');
+        var dataTable = moduleTab.find(".module-table").first();
+        var windialogrole = moduleTab.find(".module-dialog-role").first();
+        var windialogoption = moduleTab.find(".module-dialog-option").first();
+        var filterform = moduleTab.find(".module-filter-role").first();
+        var formrole = moduleTab.find(".module-form-role").first();
+
+        var formoption = moduleTab.find(".module-form-option").first();
+        var optionTable = moduleTab.find(".module-table-option").first();
+
+        var createQueryParams = function () {//查询条件
+            return  {bean: {}};
+        };
+        moduleTab.find(".module-filter-button-role").first().click(function () {
+            dataTable.datagrid('load', createQueryParams());
+        });
+        dataTable.datagrid({
+            collapsible: true,
+            title: '',
+            iconCls: '',
+            url: '/pipes/role/query',
+            pageSize : 50,
+            columns: [[
+                    {field: 'ck', checkbox: true, width: 30, align: 'center'},
+                    {field: 'roleid', title: '角色ID', width: 40, align: 'center'},
+                    {field: 'rolename', title: '角色名称', width: 100, align: 'left'},
+                    {field: 'createtime', title: '创建时间', width: 80, align: 'center', formatter: Platform.DateFormatter},
+                    {field: 'creator', title: '创建人', width: 60, align: 'left'},
+                    {field: 'description', title: '描述', width: 200, align: 'left'}
+                ]],
+            queryParams: createQueryParams(),
+            toolbar: [{//正上方工具栏
+                    text: '新增角色',
+                    iconCls: 'icon-add',
+                    handler: function () {
+                        formrole.form('reset');
+                        var dialog = windialogrole.show().dialog({
+                            title: '新增角色',
+                            iconCls: 'ext-icon-user',
+                            width: 350,
+                            height: 200,
+                            shadow: true,
+                            modal: true,
+                            buttons: [{
+                                    text: '新 增',
+                                    iconCls: 'ext-icon-new',
+                                    handler: function () {
+                                        if (!formrole.form('validate'))
+                                            return;
+                                        $.ajax({
+                                            async: false,
+                                            cache: false,
+                                            dataType: "json",
+                                            data: {
+                                                "data": formrole.serializeJsonString()
+                                            },
+                                            url: '/pipes/role/create',
+                                            error: function () {//请求失败处理函数
+                                                alert('请求失败');
+                                            }, success: function (data) {
+                                                dataTable.datagrid('reload', createQueryParams());
+                                                dialog.dialog("close");
+                                            }
+                                        });
+                                    }
+                                }]
+
+                        });
+                    }
+                }, {
+                    text: '修改角色',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        var row = dataTable.datagrid('getSelected');
+                        if (!row)
+                            return;
+                        formrole.form('load', row);
+                        var dialog = windialogrole.show().dialog({
+                            title: '修改角色',
+                            iconCls: 'ext-icon-user',
+                            width: 350,
+                            height: 200,
+                            shadow: true,
+                            modal: true,
+                            buttons: [{
+                                    text: '修 改',
+                                    iconCls: 'ext-icon-edit',
+                                    handler: function () {
+                                        if (!formrole.form('validate'))
+                                            return;
+                                        $.ajax({
+                                            async: false,
+                                            cache: false,
+                                            dataType: "json",
+                                            data: {
+                                                "data": formrole.serializeJsonString()
+                                            },
+                                            url: '/pipes/role/update',
+                                            error: function () {//请求失败处理函数
+                                                alert('请求失败');
+                                            }, success: function (data) {
+                                                dataTable.datagrid('reload', createQueryParams());
+                                                dialog.dialog("close");
+                                            }
+                                        });
+                                    }
+                                }]
+
+                        });
+                    }
+                }, {
+                    text: '修改权限',
+                    iconCls: 'icon-edit',
+                    handler: function () {
+                        var rolerow = dataTable.datagrid('getSelected');
+                        if (!rolerow)
+                            return;
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            dataType: "json",
+                            data: {
+                                "bean": "{'roleid':" + rolerow.roleid + "}"
+                            },
+                            url: '/pipes/role/qryoption',
+                            error: function () {//请求失败处理函数
+                                alert('获取权限信息失败');
+                            }, success: function (olddata) {
+                                var optionobj = {};
+                                for (var i = 0; i < olddata.length; i++) {
+                                    var moduleid = Math.floor(olddata[i].optionid / 10000);
+                                    optionobj["" + moduleid] = -1;
+                                    optionobj["" + olddata[i].optionid] = olddata[i].seqid;
+                                }
+                                var columns = [];
+                                columns.push({field: 'modulename', title: '模块名称', width: 200, align: 'left'});
+                                for (var i = 0; i < system_actiones.length; i++) {
+                                    var action = system_actiones[i];
+                                    var aid = action.actionid;
+                                    columns.push({field: '' + action.actionid, title: action.actionname, width: 60, align: 'center',
+                                        formatter: function (value, rec, rowIndex) {
+                                            var optionid = rec.moduleid * 10000 + parseInt(this.field);
+                                            return '<input type="checkbox" name="' + optionid + '" value="' + optionid + '" ' + (value ? 'checked' : '') + '>';
+                                        }});
+                                }
+                                var optionsdata = [];
+                                for (var i = 0; i < system_rmodules.length; i++) {
+                                    var module = system_rmodules[i];
+                                    var mv = {
+                                        moduleid: module.moduleid,
+                                        modulename: module.modulename
+                                    };
+                                    for (var j = 0; j < system_actiones.length; j++) {
+                                        var actionid = system_actiones[j].actionid;
+                                        mv['' + actionid] = !!optionobj["" + (module.moduleid * 10000 + actionid)];
+                                    }
+                                    optionsdata.push(mv);
+                                }
+                                optionTable.datagrid({
+                                    checkOnSelect: false,
+                                    selectOnCheck: false,
+                                    pagination: false,
+                                    title: '',
+                                    iconCls: '',
+                                    columns: [columns],
+                                    data: optionsdata
+                                });
+                                var dialog = windialogoption.show().dialog({
+                                    title: '修改权限',
+                                    iconCls: 'ext-icon-user',
+                                    width: 650,
+                                    height: 400,
+                                    shadow: true,
+                                    modal: true,
+                                    buttons: [{
+                                            text: '修 改',
+                                            iconCls: 'ext-icon-edit',
+                                            handler: function () {
+                                                var editobj = formoption.serializeJson();
+                                                var delseqids = [];
+                                                for (var p in optionobj) {
+                                                    var seqid = optionobj[p];
+                                                    if (seqid < 0)
+                                                        continue;
+                                                    if (!editobj[p])
+                                                        delseqids.push(seqid);
+                                                }
+                                                $.unique(delseqids);
+
+                                                var newoptions = [];
+                                                for (var p in editobj) {
+                                                    if (optionobj[p])
+                                                        continue;
+                                                    newoptions.push({
+                                                        roleid: rolerow.roleid,
+                                                        optionid: parseInt(p)
+                                                    });
+                                                }
+
+                                                $.ajax({
+                                                    async: false,
+                                                    cache: false,
+                                                    dataType: "json",
+                                                    data: {
+                                                        "delseqids": "[" + delseqids.join(",") + "]",
+                                                        "data": $.objectToString(newoptions)
+                                                    },
+                                                    url: '/pipes/role/updoption',
+                                                    error: function () {//请求失败处理函数
+                                                        alert('请求失败');
+                                                    }, success: function (data) {
+                                                        dialog.dialog("close");
+                                                    }
+                                                });
+                                            }
+                                        }]
+
+                                });
+                            }
+                        });
+
+
+                    }
+                }],
+            onLoadError: function () {
+                //alert('数据加载失败!');
+            },
+            onLoadSuccess: function () {
+                var value = dataTable.datagrid('getData')['errorMsg'];
+                if (value)
+                    alert("错误消息:" + value);
+            }
+        });
+    })();
+</script>
