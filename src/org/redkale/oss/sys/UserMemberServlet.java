@@ -5,7 +5,6 @@
  */
 package org.redkale.oss.sys;
 
-
 import java.io.IOException;
 import java.util.*;
 import javax.annotation.Resource;
@@ -19,7 +18,7 @@ import org.redkale.plugins.weixin.WeiXinQYService;
  *
  * @author zhangjx
  */
-@WebServlet({"/user/*"})
+@WebServlet({"/user/*", "/wx/*"})
 public class UserMemberServlet extends BasedServlet {
 
     @Resource
@@ -49,7 +48,7 @@ public class UserMemberServlet extends BasedServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/wxlogin")
+    @WebAction(url = "/wx/login")
     public void wxlogin(HttpRequest req, HttpResponse resp) throws IOException {
         if (finest) logger.finest(req.toString());
         if (currentUser(req) == null) {
@@ -59,7 +58,31 @@ public class UserMemberServlet extends BasedServlet {
             bean.setAccount(map.get("UserId"));
             bean.setSessionid(req.getSessionid(true));
             bean.setWxlogin(true);
-            service.login(bean); 
+            service.login(bean);
+        }
+        resp.setHeader("Location", req.getParameter("url", "/"));
+        resp.finish(302, null);
+    }
+
+    @AuthIgnore
+    @WebAction(url = "/wx/verifyqy")
+    public void verifyqy(HttpRequest req, HttpResponse resp) throws IOException {
+        if (finest) logger.finest(req.toString());
+        resp.finish(wxservice.verifyQYURL(req.getParameter("msg_signature"), req.getParameter("timestamp"), req.getParameter("nonce"), req.getParameter("echostr")));
+    }
+
+    @AuthIgnore
+    @WebAction(url = "/user/wxlogin")
+    public void weixinlogin(HttpRequest req, HttpResponse resp) throws IOException {
+        if (finest) logger.finest(req.toString());
+        if (currentUser(req) == null) {
+            Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
+            logger.finest("wx.login : " + map);
+            LoginBean bean = new LoginBean();
+            bean.setAccount(map.get("UserId"));
+            bean.setSessionid(req.getSessionid(true));
+            bean.setWxlogin(true);
+            service.login(bean);
         }
         resp.setHeader("Location", req.getParameter("url", "/"));
         resp.finish(302, null);
