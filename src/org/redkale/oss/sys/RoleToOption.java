@@ -5,23 +5,16 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.BasedEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+import org.redkale.oss.base.BasedEntity;
 import org.redkale.source.FilterBean;
 import org.redkale.util.AutoLoad;
 
 /**
- * CREATE TABLE `roletooption` (
- * `seqid` int(11) NOT NULL AUTO_INCREMENT,
- * `sysid` int(11) NOT NULL,
- * `roleid` int(11) NOT NULL,
- * `optionid` int(11) NOT NULL COMMENT 'optionid = moduleid * 10000 + actionid',
- * `createtime` bigint(20) NOT NULL,
- * `creator` varchar(255) NOT NULL,
- * PRIMARY KEY (`seqid`)
- * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ * CREATE TABLE `roletooption` ( `seqid` int(11) NOT NULL AUTO_INCREMENT, `roleid` int(11) NOT NULL, `optionid` int(11) NOT NULL COMMENT 'optionid = moduleid * 10000 + actionid', `createtime`
+ * bigint(20) NOT NULL, `creator` varchar(255) NOT NULL, PRIMARY KEY (`seqid`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
@@ -31,11 +24,8 @@ import org.redkale.util.AutoLoad;
 public class RoleToOption extends BasedEntity implements FilterBean, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int seqid;
-
-    @Column(updatable = false)
-    private int sysid;
 
     @Column(updatable = false)
     private int roleid;
@@ -82,14 +72,6 @@ public class RoleToOption extends BasedEntity implements FilterBean, Serializabl
 
     public void setSeqid(int seqid) {
         this.seqid = seqid;
-    }
-
-    public int getSysid() {
-        return sysid;
-    }
-
-    public void setSysid(int sysid) {
-        this.sysid = sysid;
     }
 
     public int getRoleid() {
