@@ -14,7 +14,7 @@ import org.redkale.util.AutoLoad;
  * @author zhangjx
  */
 @AutoLoad(false)
-public abstract class BasedService implements Service {
+public abstract class BaseService implements Service {
 
     protected static final boolean winos = System.getProperty("os.name").contains("Window");
 

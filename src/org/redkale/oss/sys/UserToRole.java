@@ -5,7 +5,7 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.BasedEntity;
+import org.redkale.oss.base.BaseEntity;
 import javax.persistence.*;
 import org.redkale.util.AutoLoad;
 
@@ -25,7 +25,7 @@ import org.redkale.util.AutoLoad;
 @Entity
 @AutoLoad
 @Cacheable
-public class UserToRole extends BasedEntity {
+public class UserToRole extends BaseEntity {
 
     @Id
     private int seqid;

@@ -14,7 +14,7 @@ import org.redkale.convert.ConvertColumn;
  *
  * @author zhangjx
  */
-public class UserInfo extends BasedEntity {
+public class UserInfo extends BaseEntity {
 
     //管理员类型
     public static final short TYPE_ADMIN = 8192;

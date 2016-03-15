@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
-import org.redkale.oss.base.BasedServlet;
+import org.redkale.oss.base.BaseServlet;
 import static org.redkale.oss.base.Services.*;
 
 /**
@@ -19,7 +19,7 @@ import static org.redkale.oss.base.Services.*;
  * @author zhangjx
  */
 @WebServlet({"/role/*"})
-public final class RoleServlet extends BasedServlet {
+public final class RoleServlet extends BaseServlet {
 
     @Resource
     private RoleService service;

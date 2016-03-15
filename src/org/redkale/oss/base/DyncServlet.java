@@ -22,7 +22,7 @@ import org.redkale.util.TypeToken;
  * @author zhangjx
  */
 @WebServlet({"/dync/*"})
-public final class DyncServlet extends BasedServlet {
+public final class DyncServlet extends BaseServlet {
 
     public static final class TextValue {
 

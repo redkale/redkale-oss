@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
-import org.redkale.oss.base.BasedServlet;
+import org.redkale.oss.base.BaseServlet;
 import org.redkale.plugins.weixin.WeiXinQYService;
 
 /**
@@ -19,7 +19,7 @@ import org.redkale.plugins.weixin.WeiXinQYService;
  * @author zhangjx
  */
 @WebServlet({"/user/*", "/wx/*"})
-public class UserMemberServlet extends BasedServlet {
+public class UserMemberServlet extends BaseServlet {
 
     @Resource
     private WeiXinQYService wxservice;

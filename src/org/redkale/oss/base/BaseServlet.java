@@ -18,7 +18,7 @@ import org.redkale.source.Flipper;
  *
  * @author zhangjx
  */
-public class BasedServlet extends org.redkale.net.http.BasedHttpServlet {
+public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 

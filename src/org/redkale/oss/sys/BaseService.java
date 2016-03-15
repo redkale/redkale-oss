@@ -14,7 +14,7 @@ import org.redkale.util.AutoLoad;
  * @author zhangjx
  */
 @AutoLoad(false)
-public abstract class BaseService extends org.redkale.oss.base.BasedService {
+public abstract class BaseService extends org.redkale.oss.base.BaseService {
 
     @Resource(name = "redoss")
     protected DataSource source;

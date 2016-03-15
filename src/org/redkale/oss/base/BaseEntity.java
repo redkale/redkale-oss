@@ -13,7 +13,7 @@ import org.redkale.convert.json.JsonFactory;
  *
  * @author zhangjx
  */
-public abstract class BasedEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Override
     public String toString() {

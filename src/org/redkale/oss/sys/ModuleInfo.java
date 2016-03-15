@@ -6,7 +6,7 @@
 package org.redkale.oss.sys;
 
 import javax.persistence.*;
-import org.redkale.oss.base.BasedEntity;
+import org.redkale.oss.base.BaseEntity;
 import org.redkale.source.DistributeGenerator;
 import org.redkale.util.AutoLoad;
 
@@ -17,7 +17,7 @@ import org.redkale.util.AutoLoad;
 @Entity
 @AutoLoad
 @Cacheable
-public class ModuleInfo extends BasedEntity {
+public class ModuleInfo extends BaseEntity {
 
     @Id
     @GeneratedValue

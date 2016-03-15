@@ -5,7 +5,7 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.BasedEntity;
+import org.redkale.oss.base.BaseEntity;
 import org.redkale.oss.base.UserInfo;
 import static org.redkale.oss.base.UserInfo.STATUS_NORMAL;
 import java.security.*;
@@ -36,7 +36,7 @@ import org.redkale.util.Utility;
 @Entity
 @AutoLoad
 @Cacheable
-public class UserMember extends BasedEntity {
+public class UserMember extends BaseEntity {
 
     private static final MessageDigest md5;
 
