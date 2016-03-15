@@ -5,31 +5,33 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.BaseEntity;
-import org.redkale.oss.base.UserInfo;
-import static org.redkale.oss.base.UserInfo.STATUS_NORMAL;
 import java.security.*;
 import javax.persistence.*;
 import org.redkale.convert.ConvertColumn;
 import org.redkale.convert.ConvertType;
+import org.redkale.oss.base.BaseEntity;
+import org.redkale.oss.base.UserInfo;
+import static org.redkale.oss.base.UserInfo.STATUS_NORMAL;
 import org.redkale.util.AutoLoad;
 import org.redkale.util.Utility;
 
 /**
- * CREATE TABLE `usermember` (
- * `userid` int(10) NOT NULL AUTO_INCREMENT,
- * `account` varchar(64) NOT NULL,
- * `chname` varchar(255) NOT NULL,
- * `password` varchar(64) NOT NULL,
- * `type` smallint(5) NOT NULL,
- * `status` smallint(5) NOT NULL,
- * `mobile` varchar(32) NOT NULL,
- * `email` varchar(128) NOT NULL,
- * `remark` varchar(255) NOT NULL,
- * `createtime` bigint(20) NOT NULL,
- * `updatetime` bigint(20) NOT NULL,
- * PRIMARY KEY (`userid`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `usermember` (
+  `userid` int(10) NOT NULL AUTO_INCREMENT,
+  `account` varchar(64) NOT NULL DEFAULT '',
+  `chname` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(64) NOT NULL DEFAULT '',
+  `type` smallint(5) NOT NULL DEFAULT '0',
+  `status` smallint(5) NOT NULL DEFAULT '0',
+  `mobile` varchar(32) NOT NULL DEFAULT '',
+  `email` varchar(128) NOT NULL DEFAULT '',
+  `remark` varchar(255) NOT NULL DEFAULT '',
+  `createtime` bigint(20) NOT NULL DEFAULT '0',
+  `updatetime` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userid`),
+  UNIQUE KEY `singel` (`account`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8
  *
  * @author zhangjx
  */

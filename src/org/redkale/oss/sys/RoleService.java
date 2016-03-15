@@ -41,9 +41,8 @@ public class RoleService extends BaseService {
         return 1;
     }
 
-    public int updateRoleInfo(RoleInfo info) {
+    public void updateRoleInfo(RoleInfo info) {
         source.update(info);
-        return 1;
     }
 
     public Sheet<RoleInfo> queryRoleInfo(Flipper flipper, FilterBean bean) {
