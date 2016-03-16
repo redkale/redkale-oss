@@ -16,65 +16,65 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`redoss` /*!40100 DEFAULT CHARACTER SET 
 
 USE `redoss`;
 
-/*Table structure for table `actioninfo` */
+/*Table structure for table `sys_actioninfo` */
 
-DROP TABLE IF EXISTS `actioninfo`;
+DROP TABLE IF EXISTS `sys_actioninfo`;
 
-CREATE TABLE `actioninfo` (
+CREATE TABLE `sys_actioninfo` (
   `actionid` int(11) NOT NULL AUTO_INCREMENT COMMENT '操作ID，值的范围必须是2001-9999,1xxx预留给框架',
   `actionname` varchar(64) NOT NULL DEFAULT '' COMMENT '操作名称;系统已经存在的有查询、新增、修改、删除、登录',
   PRIMARY KEY (`actionid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
 
-/*Data for the table `actioninfo` */
+/*Data for the table `sys_actioninfo` */
 
-/*Table structure for table `moduleinfo` */
+/*Table structure for table `sys_moduleinfo` */
 
-DROP TABLE IF EXISTS `moduleinfo`;
+DROP TABLE IF EXISTS `sys_moduleinfo`;
 
-CREATE TABLE `moduleinfo` (
+CREATE TABLE `sys_moduleinfo` (
   `moduleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '模块ID，值范围必须是201-999，1xx预留给框架',
   `modulename` varchar(64) NOT NULL DEFAULT '' COMMENT '模块名称',
   PRIMARY KEY (`moduleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 
-/*Data for the table `moduleinfo` */
+/*Data for the table `sys_moduleinfo` */
 
-/*Table structure for table `roleinfo` */
+/*Table structure for table `sys_roleinfo` */
 
-DROP TABLE IF EXISTS `roleinfo`;
+DROP TABLE IF EXISTS `sys_roleinfo`;
 
-CREATE TABLE `roleinfo` (
+CREATE TABLE `sys_roleinfo` (
   `roleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `rolename` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '角色描述',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   PRIMARY KEY (`roleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
 
-/*Data for the table `roleinfo` */
+/*Data for the table `sys_roleinfo` */
 
-/*Table structure for table `roletooption` */
+/*Table structure for table `sys_roletooption` */
 
-DROP TABLE IF EXISTS `roletooption`;
+DROP TABLE IF EXISTS `sys_roletooption`;
 
-CREATE TABLE `roletooption` (
+CREATE TABLE `sys_roletooption` (
   `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
   `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
   `optionid` int(11) NOT NULL DEFAULT '0' COMMENT 'optionid = moduleid * 10000 + actionid',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   PRIMARY KEY (`seqid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
 
-/*Data for the table `roletooption` */
+/*Data for the table `sys_roletooption` */
 
-/*Table structure for table `usermember` */
+/*Table structure for table `sys_usermember` */
 
-DROP TABLE IF EXISTS `usermember`;
+DROP TABLE IF EXISTS `sys_usermember`;
 
-CREATE TABLE `usermember` (
+CREATE TABLE `sys_usermember` (
   `userid` int(10) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `account` varchar(64) NOT NULL DEFAULT '' COMMENT '账号',
   `chname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称，通常为员工姓名',
@@ -90,24 +90,24 @@ CREATE TABLE `usermember` (
   UNIQUE KEY `singel` (`account`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000003 DEFAULT CHARSET=utf8;
 
-/*Data for the table `usermember` */
+/*Data for the table `sys_usermember` */
 
-insert  into `usermember`(`userid`,`account`,`chname`,`password`,`type`,`status`,`mobile`,`email`,`remark`,`createtime`,`updatetime`) values (1000001,'admin','管理员','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','','',1450000000000,1450000000000),(1000002,'redkale','Redkale','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','redkale@redkale.org','',1450000000000,0);
+insert  into `sys_usermember`(`userid`,`account`,`chname`,`password`,`type`,`status`,`mobile`,`email`,`remark`,`createtime`,`updatetime`) values (1000001,'admin','管理员','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','','',1450000000000,1450000000000),(1000002,'redkale','Redkale','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','redkale@redkale.org','',1450000000000,0);
 
-/*Table structure for table `usertorole` */
+/*Table structure for table `sys_usertorole` */
 
-DROP TABLE IF EXISTS `usertorole`;
+DROP TABLE IF EXISTS `sys_usertorole`;
 
-CREATE TABLE `usertorole` (
+CREATE TABLE `sys_usertorole` (
   `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
   `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
   `userid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   PRIMARY KEY (`seqid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
 
-/*Data for the table `usertorole` */
+/*Data for the table `sys_usertorole` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

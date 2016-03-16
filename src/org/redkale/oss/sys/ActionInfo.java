@@ -10,12 +10,18 @@ import javax.persistence.*;
 import org.redkale.util.AutoLoad;
 
 /**
+ * CREATE TABLE `sys_actioninfo` (
+ * `actionid` int(11) NOT NULL AUTO_INCREMENT COMMENT '操作ID，值的范围必须是2001-9999,1xxx为框架预留',
+ * `actionname` varchar(64) NOT NULL DEFAULT '' COMMENT '操作名称;系统已经存在的有查询、新增、修改、删除、登录',
+ * PRIMARY KEY (`actionid`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @AutoLoad
 @Cacheable
+@Table(name = "sys_actioninfo")
 public class ActionInfo implements Serializable {
 
     @Id

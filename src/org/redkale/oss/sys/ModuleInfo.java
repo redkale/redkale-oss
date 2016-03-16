@@ -11,12 +11,18 @@ import org.redkale.source.DistributeGenerator;
 import org.redkale.util.AutoLoad;
 
 /**
+ * CREATE TABLE `sys_moduleinfo` (
+ * `moduleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '模块ID，值范围必须是201-999，1xx为框架预留',
+ * `modulename` varchar(64) NOT NULL DEFAULT '' COMMENT '模块名称',
+ * PRIMARY KEY (`moduleid`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @AutoLoad
 @Cacheable
+@Table(name = "sys_moduleinfo")
 public class ModuleInfo extends BaseEntity {
 
     @Id

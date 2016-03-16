@@ -13,14 +13,21 @@ import org.redkale.source.FilterBean;
 import org.redkale.util.AutoLoad;
 
 /**
- * CREATE TABLE `roletooption` ( `seqid` int(11) NOT NULL AUTO_INCREMENT, `roleid` int(11) NOT NULL, `optionid` int(11) NOT NULL COMMENT 'optionid = moduleid * 10000 + actionid', `createtime`
- * bigint(20) NOT NULL, `creator` varchar(255) NOT NULL, PRIMARY KEY (`seqid`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ * CREATE TABLE `sys_roletooption` (
+ * `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
+ * `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
+ * `optionid` int(11) NOT NULL DEFAULT '0' COMMENT 'optionid = moduleid * 10000 + actionid',
+ * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+ * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
+ * PRIMARY KEY (`seqid`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @AutoLoad
 @Cacheable
+@Table(name = "sys_roletooption")
 public class RoleToOption extends BaseEntity implements FilterBean, Serializable {
 
     @Id

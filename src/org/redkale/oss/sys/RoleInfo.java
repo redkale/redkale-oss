@@ -11,12 +11,12 @@ import org.redkale.source.DistributeGenerator;
 import org.redkale.util.AutoLoad;
 
 /**
- * CREATE TABLE `roleinfo` (
- * `roleid` int(11) NOT NULL AUTO_INCREMENT,
- * `rolename` varchar(64) NOT NULL DEFAULT '',
- * `description` varchar(255) NOT NULL DEFAULT '',
- * `createtime` bigint(20) NOT NULL DEFAULT 0,
- * `creator` varchar(255) NOT NULL DEFAULT '',
+ * CREATE TABLE `sys_roleinfo` (
+ * `roleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+ * `rolename` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名称',
+ * `description` varchar(255) NOT NULL DEFAULT '' COMMENT '角色描述',
+ * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+ * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
  * PRIMARY KEY (`roleid`)
  * ) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
  *
@@ -25,6 +25,7 @@ import org.redkale.util.AutoLoad;
 @Entity
 @AutoLoad
 @Cacheable
+@Table(name = "sys_roleinfo")
 public class RoleInfo extends BaseEntity {
 
     @Id

@@ -5,26 +5,26 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.BaseEntity;
 import javax.persistence.*;
+import org.redkale.oss.base.BaseEntity;
 import org.redkale.util.AutoLoad;
 
 /**
- * CREATE TABLE `usertorole` (
- `seqid` int(11) NOT NULL AUTO_INCREMENT,
- `sysid` int(11) NOT NULL,
- `roleid` int(11) NOT NULL,
- `userid` int(11) NOT NULL,
- `createtime` bigint(20) NOT NULL,
- `creator` varchar(255) NOT NULL,
- PRIMARY KEY (`seqid`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ * CREATE TABLE `sys_usertorole` (
+ * `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
+ * `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
+ * `userid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+ * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+ * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
+ * PRIMARY KEY (`seqid`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @AutoLoad
 @Cacheable
+@Table(name = "sys_usertorole")
 public class UserToRole extends BaseEntity {
 
     @Id
