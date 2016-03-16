@@ -5,8 +5,8 @@
  */
 package org.redkale.oss.sys;
 
-import java.io.Serializable;
 import javax.persistence.*;
+import org.redkale.oss.base.BaseEntity;
 import org.redkale.util.AutoLoad;
 
 /**
@@ -22,7 +22,7 @@ import org.redkale.util.AutoLoad;
 @AutoLoad
 @Cacheable
 @Table(name = "sys_actioninfo")
-public class ActionInfo implements Serializable {
+public class ActionInfo extends BaseEntity{
 
     @Id
     //@DistributeGenerator(initialValue = 200, allocationSize = 1)
