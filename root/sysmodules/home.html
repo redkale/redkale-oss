@@ -16,20 +16,20 @@
         <table class="datagrid-cell-rownumber" style="width: 100%;">
             <tr>
                 <th></th>
-                <td style="height: 20px;"></td>
-                <td style="width: 30px;"></td>
+                <td style="height: 50px;"></td>
+                <td style="width: 120px;"></td>
             </tr>
             <tr>
-                <th>用户名:</th>
+                <th style="padding-right: 20px;">用户名:</th>
                 <td><input id="glogin_account" name="data.account" class="easyui-validatebox" data-options="required:true" /></td>
                 <td></td>
             </tr>
             <tr>
                 <th></th>
-                <td style="height: 15px;"></td>
+                <td style="height: 25px;"></td>
             </tr>
             <tr>
-                <th>密 码:</th>
+                <th style="padding-right: 20px;">密 码:</th>
                 <td><input id="glogin_password" name="data.password" type="password" class="easyui-validatebox" data-options="required:true" /></td>
                 <td></td>
             </tr>
@@ -41,8 +41,8 @@
         <table class="datagrid-cell-rownumber" style="width: 100%;">
             <tr>
                 <th></th>
-                <td style="height: 20px;"></td>
-                <td style="width: 30px;"></td>
+                <td style="height: 25px;"></td>
+                <td style="width: 100px;"></td>
             </tr>
             <tr>
                 <th>旧 密 码:</th>
@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <th></th>
-                <td style="height: 15px;"></td>
+                <td style="height: 20px;"></td>
             </tr>
             <tr>
                 <th>新 密 码:</th>
@@ -60,7 +60,7 @@
             </tr>
             <tr>
                 <th></th>
-                <td style="height: 15px;"></td>
+                <td style="height: 20px;"></td>
             </tr>
             <tr>
                 <th>确认密码:</th>
@@ -79,7 +79,7 @@
             winDialog.show().dialog({
                 title: '修改密码',
                 iconCls: 'ext-icon-user',
-                width: 320,
+                width: 400,
                 height: 250,
                 shadow: true,
                 modal: true,
@@ -173,8 +173,8 @@
             winDialog.show().dialog({
                 title: '用户登陆',
                 iconCls: 'ext-icon-user',
-                width: 300,
-                height: 200,
+                width: 400,
+                height: 250,
                 shadow: true,
                 modal: true,
                 buttons: [{
