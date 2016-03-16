@@ -5,14 +5,14 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.Services;
-import static org.redkale.oss.base.Services.*;
-import org.redkale.oss.base.UserInfo;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 import javax.annotation.Resource;
 import org.redkale.boot.Application;
+import org.redkale.oss.base.Services;
+import static org.redkale.oss.base.Services.*;
+import org.redkale.oss.base.UserInfo;
 import org.redkale.source.Flipper;
 import org.redkale.util.AnyValue;
 import org.redkale.util.Sheet;
@@ -101,7 +101,7 @@ public class UserMemberService extends BaseService {
         result.setRetcode(0);
         result.setSessionid(bean.getSessionid());
         UserInfo user = detail.createUserInfo();
-        if (user.isStatusFrobid()) {
+        if (user.isStatusFreeze()) {
             result.setRetcode(1002);
             super.log(user, optionid, "用户被禁用，登录失败.");
             return result;

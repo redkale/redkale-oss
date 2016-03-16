@@ -25,8 +25,23 @@ public class UserInfo extends BaseEntity {
     //正常
     public static final short STATUS_NORMAL = 10;
 
-    //禁用
-    public static final short STATUS_FORBID = 20;
+    //待审批
+    public static final short STATUS_PENDING = 20;
+
+    //冻结
+    public static final short STATUS_FREEZE = 40;
+
+    //隐藏
+    public static final short STATUS_HIDDEN = 50;
+
+    //关闭
+    public static final short STATUS_CLOSED = 60;
+
+    //过期
+    public static final short STATUS_EXPIRE = 70;
+
+    //删除
+    public static final short STATUS_DELTED = 80;
 
     protected int userid;
 
@@ -77,8 +92,8 @@ public class UserInfo extends BaseEntity {
     }
 
     @ConvertColumn(ignore = true)
-    public boolean isStatusFrobid() {
-        return this.status == STATUS_FORBID;
+    public boolean isStatusFreeze() {
+        return this.status == STATUS_FREEZE;
     }
 
     @ConvertColumn(ignore = true)

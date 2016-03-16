@@ -53,7 +53,7 @@ public class UserMember extends BaseEntity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private int userid;
 
     @Column(updatable = false)
