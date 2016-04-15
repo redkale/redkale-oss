@@ -66,8 +66,8 @@
                     return value ? new Date(value).toDayString() : "";
                 };
                 //-------------------------------------------------------------------------------------------------------------------
-                if (window['system_userinfo'] && system_userinfo.userid) {
-                    document.getElementById("sessioninfo").innerHTML = '欢迎您，<span id="curruserfeat" style="cursor:pointer;">' + system_userinfo.chname + '</span>  <a href="/pipes/user/logout">注销</a>';
+                if (window['system_memberinfo'] && system_memberinfo.userid) {
+                    document.getElementById("sessioninfo").innerHTML = '欢迎您，<span id="curruserfeat" style="cursor:pointer;">' + system_memberinfo.chname + '</span>  <a href="/pipes/user/logout">注销</a>';
                 }
                 if (/msie/.test(navigator.userAgent.toLowerCase()) || (window.external && window.external.twGetRunPath && window.external.twGetRunPath().toLowerCase().indexOf("360se") > -1)) {
                     alert('本站不支持低等的浏览器访问，请更换Google Chrome浏览器！');
