@@ -76,7 +76,7 @@ public class UserMemberService extends BaseService {
         sessionExpirerExecutor.shutdownNow();
     }
 
-    public MemberInfo findUserInfo(int userid) {
+    public MemberInfo findMemberInfo(int userid) {
         UserMember detail = source.find(UserMember.class, userid);
         return detail == null ? null : detail.createMemberInfo();
     }
