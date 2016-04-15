@@ -168,10 +168,10 @@ public final class DyncServlet extends BaseServlet {
         long s = System.currentTimeMillis();
         resp.setContentType("text/javascript");
         MemberInfo user = currentUser(req);
-        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.redkale.org%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fview%2Fweeky.html#wechat_redirect
+        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxXXXXXXX&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.redkale.org%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fyyy%2Fxxx.html#wechat_redirect
         if (user == null) {
             //String url = URLEncoder.encode("http://oa.redkale.org/pipes/wx/login?agentid=" + req.getParameter("agentid") + "&url=" + req.getHeader("Referer", "/"), "utf-8");
-            //resp.finish("window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=" + url + "#wechat_redirect';");
+            //resp.finish("window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxXXXXXXX&response_type=code&scope=snsapi_base&redirect_uri=" + url + "#wechat_redirect';");
             resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
         } else {
             resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
