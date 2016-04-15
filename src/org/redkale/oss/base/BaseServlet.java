@@ -73,4 +73,9 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var " + var + " = " + convert.convertTo(result) + ";");
     }
+    
+    protected void sendJsResult(HttpResponse resp, JsonConvert jsonConvert, String var, Object result) {
+        resp.setContentType("application/javascript; charset=utf-8");
+        resp.finish("var " + var + " = " + jsonConvert.convertTo(result) + ";");
+    }
 }
