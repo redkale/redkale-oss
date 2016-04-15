@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.logging.*;
 import javax.annotation.Resource;
 import org.redkale.convert.json.JsonConvert;
-import org.redkale.net.http.HttpRequest;
-import org.redkale.net.http.HttpResponse;
+import org.redkale.net.http.*;
 import org.redkale.oss.sys.UserMemberService;
 import org.redkale.source.Flipper;
 
@@ -53,10 +52,10 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     protected final MemberInfo currentUser(HttpRequest req) throws IOException {
         final String sessionid = req.getSessionid(false);
         if (sessionid == null) return null;
-        MemberInfo user = (MemberInfo) req.getAttribute("CurrentUserInfo");
+        MemberInfo user = (MemberInfo) req.getAttribute("CurrentMemberInfo");
         if (user == null) {
             user = service.current(sessionid);
-            req.setAttribute("CurrentUserInfo", user);
+            req.setAttribute("CurrentMemberInfo", user);
         }
         return user;
     }

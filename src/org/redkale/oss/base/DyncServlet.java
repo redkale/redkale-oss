@@ -7,15 +7,11 @@ package org.redkale.oss.base;
 
 import java.io.*;
 import java.util.*;
-import javax.annotation.*;
+import javax.annotation.Resource;
 import org.redkale.convert.json.JsonFactory;
-import org.redkale.net.http.HttpContext;
-import org.redkale.net.http.HttpRequest;
-import org.redkale.net.http.HttpResponse;
-import org.redkale.net.http.WebServlet;
+import org.redkale.net.http.*;
 import org.redkale.oss.sys.RoleService;
-import org.redkale.util.AnyValue;
-import org.redkale.util.TypeToken;
+import org.redkale.util.*;
 
 /**
  *
@@ -172,13 +168,13 @@ public final class DyncServlet extends BaseServlet {
         long s = System.currentTimeMillis();
         resp.setContentType("text/javascript");
         MemberInfo user = currentUser(req);
-        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.3wyc.cn%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fview%2Fweeky.html#wechat_redirect
+        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.redkale.org%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fview%2Fweeky.html#wechat_redirect
         if (user == null) {
-            //String url = URLEncoder.encode("http://oa.3wyc.cn/pipes/wx/login?agentid=" + req.getParameter("agentid") + "&url=" + req.getHeader("Referer", "/"), "utf-8");
+            //String url = URLEncoder.encode("http://oa.redkale.org/pipes/wx/login?agentid=" + req.getParameter("agentid") + "&url=" + req.getHeader("Referer", "/"), "utf-8");
             //resp.finish("window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=" + url + "#wechat_redirect';");
-            resp.finish("var system_userinfo = " + convert.convertTo(user) + "; var userself = system_userinfo;");
+            resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
         } else {
-            resp.finish("var system_userinfo = " + convert.convertTo(user) + "; var userself = system_userinfo;");
+            resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
         }
         long e = System.currentTimeMillis() - s;
         //logger.finest("/dync/myjsinfo in " + e + " ms"); 
@@ -218,7 +214,7 @@ public final class DyncServlet extends BaseServlet {
         }
         sb.append("var system_adminpid = ").append(MemberInfo.TYPE_ADMIN).append(";\r\n");
         sb.append("var system_sysmenus = ").append(menujson).append(";\r\n");
-        sb.append("var system_userinfo = ").append(userjson).append(";\r\n");
+        sb.append("var system_memberinfo = ").append(userjson).append(";\r\n");
         sb.append("var system_rmodules = ").append(convert.convertTo(roleService.queryModuleInfo())).append(";\r\n");
         sb.append("var system_actiones = ").append(convert.convertTo(roleService.queryActionInfo())).append(";\r\n");
         resp.finish(sb.toString());
