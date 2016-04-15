@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import org.redkale.boot.Application;
 import org.redkale.oss.base.Services;
 import static org.redkale.oss.base.Services.*;
-import org.redkale.oss.base.UserInfo;
+import org.redkale.oss.base.MemberInfo;
 import org.redkale.source.Flipper;
 import org.redkale.util.AnyValue;
 import org.redkale.util.Sheet;
@@ -31,9 +31,9 @@ public class UserMemberService extends BaseService {
 
         public long lastAccessed; //最后刷新时间
 
-        public UserInfo info;
+        public MemberInfo info;
 
-        public UserSessionEntry(String sessionid, UserInfo info) {
+        public UserSessionEntry(String sessionid, MemberInfo info) {
             this.sessionid = sessionid;
             this.info = info;
             this.creationTime = System.currentTimeMillis();
@@ -76,12 +76,12 @@ public class UserMemberService extends BaseService {
         sessionExpirerExecutor.shutdownNow();
     }
 
-    public UserInfo findUserInfo(int userid) {
+    public MemberInfo findUserInfo(int userid) {
         UserMember detail = source.find(UserMember.class, userid);
-        return detail == null ? null : detail.createUserInfo();
+        return detail == null ? null : detail.createMemberInfo();
     }
 
-    public UserInfo current(String sessionid) {
+    public MemberInfo current(String sessionid) {
         UserSessionEntry entry = sessions.get(sessionid);
         if (entry != null) entry.lastAccessed = System.currentTimeMillis();
         return entry == null ? null : entry.info;
@@ -100,7 +100,7 @@ public class UserMemberService extends BaseService {
         }
         result.setRetcode(0);
         result.setSessionid(bean.getSessionid());
-        UserInfo user = detail.createUserInfo();
+        MemberInfo user = detail.createMemberInfo();
         if (user.isStatusFreeze()) {
             result.setRetcode(1002);
             super.log(user, optionid, "用户被禁用，登录失败.");
@@ -114,7 +114,7 @@ public class UserMemberService extends BaseService {
     }
 
     public int updatePwd(String sessionid, String newpwd, String oldpwd) {
-        UserInfo user = sessionid == null ? null : current(sessionid);
+        MemberInfo user = sessionid == null ? null : current(sessionid);
         if (user == null) return 1010021;
         if (newpwd == null || newpwd.length() < 30) return 1010021;
         if (!Objects.equals(user.getPassword(), oldpwd)) return 1010020;
@@ -162,7 +162,7 @@ public class UserMemberService extends BaseService {
         if (user != null) {
             user.setCreatetime(System.currentTimeMillis());
             user.setPassword(user.passwordForMD5());
-            user.setStatus(UserInfo.STATUS_NORMAL);
+            user.setStatus(MemberInfo.STATUS_NORMAL);
         }
         source.insert(user);
     }

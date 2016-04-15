@@ -34,7 +34,7 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
 
     @Override
     public boolean authenticate(int moduleid, int actionid, HttpRequest request, HttpResponse response) throws IOException {
-        UserInfo info = currentUser(request);
+        MemberInfo info = currentUser(request);
         if (info == null) {
             response.addHeader("RetCode", "1001");
             response.addHeader("RetMessage", "Not Login");
@@ -50,10 +50,10 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
         return true;
     }
 
-    protected final UserInfo currentUser(HttpRequest req) throws IOException {
+    protected final MemberInfo currentUser(HttpRequest req) throws IOException {
         final String sessionid = req.getSessionid(false);
         if (sessionid == null) return null;
-        UserInfo user = (UserInfo) req.getAttribute("CurrentUserInfo");
+        MemberInfo user = (MemberInfo) req.getAttribute("CurrentUserInfo");
         if (user == null) {
             user = service.current(sessionid);
             req.setAttribute("CurrentUserInfo", user);

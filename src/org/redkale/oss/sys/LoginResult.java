@@ -5,7 +5,7 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.oss.base.UserInfo;
+import org.redkale.oss.base.MemberInfo;
 
 /**
  *
@@ -15,7 +15,7 @@ public class LoginResult {
 
     private String sessionid;
 
-    private UserInfo user;
+    private MemberInfo user;
 
     private int retcode = -1; //返回码， 0表示登陆成功
 
@@ -36,11 +36,11 @@ public class LoginResult {
         this.sessionid = sessionid;
     }
 
-    public UserInfo getUser() {
+    public MemberInfo getUser() {
         return user;
     }
 
-    public void setUser(UserInfo user) {
+    public void setUser(MemberInfo user) {
         this.user = user;
     }
 

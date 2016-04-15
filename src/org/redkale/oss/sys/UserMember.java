@@ -9,7 +9,7 @@ import java.security.*;
 import javax.persistence.*;
 import org.redkale.convert.*;
 import org.redkale.oss.base.*;
-import static org.redkale.oss.base.UserInfo.STATUS_NORMAL;
+import static org.redkale.oss.base.MemberInfo.STATUS_NORMAL;
 import org.redkale.util.*;
 
 /**
@@ -94,8 +94,8 @@ public class UserMember extends BaseEntity {
         return (this.userid != ((UserMember) obj).userid);
     }
 
-    public UserInfo createUserInfo() {
-        UserInfo info = new UserInfo();
+    public MemberInfo createMemberInfo() {
+        MemberInfo info = new MemberInfo();
         info.setAccount(this.account);
         info.setChname(this.chname);
         info.setPassword(this.password);

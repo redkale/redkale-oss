@@ -14,7 +14,7 @@ import org.redkale.convert.ConvertColumn;
  *
  * @author zhangjx
  */
-public class UserInfo extends BaseEntity {
+public class MemberInfo extends BaseEntity {
 
     //管理员类型
     public static final short TYPE_ADMIN = 8192;
@@ -66,7 +66,7 @@ public class UserInfo extends BaseEntity {
     @Override
     public boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass()) return false;
-        return this.userid == ((UserInfo) obj).userid;
+        return this.userid == ((MemberInfo) obj).userid;
     }
 
     @Override

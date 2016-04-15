@@ -20,7 +20,7 @@ public abstract class BaseService implements Service {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
-    protected void log(UserInfo user, int optionid, String message) {
+    protected void log(MemberInfo user, int optionid, String message) {
 
     }
 }

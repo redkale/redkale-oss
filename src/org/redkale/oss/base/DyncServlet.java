@@ -171,7 +171,7 @@ public final class DyncServlet extends BaseServlet {
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         long s = System.currentTimeMillis();
         resp.setContentType("text/javascript");
-        UserInfo user = currentUser(req);
+        MemberInfo user = currentUser(req);
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx79b7707365c6ce61&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.3wyc.cn%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fview%2Fweeky.html#wechat_redirect
         if (user == null) {
             //String url = URLEncoder.encode("http://oa.3wyc.cn/pipes/wx/login?agentid=" + req.getParameter("agentid") + "&url=" + req.getHeader("Referer", "/"), "utf-8");
@@ -189,7 +189,7 @@ public final class DyncServlet extends BaseServlet {
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript");
         StringBuilder sb = new StringBuilder();
-        UserInfo user = currentUser(req);
+        MemberInfo user = currentUser(req);
         String userjson;
         String menujson;
         if (user == null) {
@@ -216,7 +216,7 @@ public final class DyncServlet extends BaseServlet {
                 menujson = convert.convertTo(ms);
             }
         }
-        sb.append("var system_adminpid = ").append(UserInfo.TYPE_ADMIN).append(";\r\n");
+        sb.append("var system_adminpid = ").append(MemberInfo.TYPE_ADMIN).append(";\r\n");
         sb.append("var system_sysmenus = ").append(menujson).append(";\r\n");
         sb.append("var system_userinfo = ").append(userjson).append(";\r\n");
         sb.append("var system_rmodules = ").append(convert.convertTo(roleService.queryModuleInfo())).append(";\r\n");

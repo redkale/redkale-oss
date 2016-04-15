@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.redkale.oss.base.Services;
 import org.redkale.oss.base.Services.ActionName;
 import org.redkale.oss.base.Services.ModuleName;
-import org.redkale.oss.base.UserInfo;
+import org.redkale.oss.base.MemberInfo;
 import org.redkale.source.FilterBean;
 import org.redkale.source.FilterExpress;
 import org.redkale.source.FilterNode;
@@ -32,7 +32,7 @@ public class RoleService extends BaseService {
         return source.find(RoleInfo.class, roleid);
     }
 
-    public int createRoleInfo(UserInfo admin, RoleInfo info) {
+    public int createRoleInfo(MemberInfo admin, RoleInfo info) {
         if (admin != null) {
             info.setCreatetime(System.currentTimeMillis());
             info.setCreator(admin.getChname());
@@ -90,7 +90,7 @@ public class RoleService extends BaseService {
         return actioninfos;
     }
 
-    public int createUserToRole(UserInfo admin, UserToRole info) {
+    public int createUserToRole(MemberInfo admin, UserToRole info) {
         if (admin != null) {
             info.setCreatetime(System.currentTimeMillis());
             info.setCreator(admin.getChname());
@@ -111,7 +111,7 @@ public class RoleService extends BaseService {
         return source.querySheet(UserToRole.class, flipper, bean);
     }
 
-    public int[] updateRoleToOption(UserInfo admin, int[] delseqids, RoleToOption... infos) {
+    public int[] updateRoleToOption(MemberInfo admin, int[] delseqids, RoleToOption... infos) {
         final boolean deled = delseqids != null && delseqids.length > 0;
         if (deled) source.delete(RoleToOption.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
         if (infos.length == 0) return new int[0];
@@ -131,7 +131,7 @@ public class RoleService extends BaseService {
         return rs;
     }
 
-    public int[] updateUserToRole(UserInfo admin, int[] delseqids, UserToRole... infos) {
+    public int[] updateUserToRole(MemberInfo admin, int[] delseqids, UserToRole... infos) {
         final boolean deled = delseqids != null && delseqids.length > 0;
         if (deled) source.delete(UserToRole.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
         if (infos.length == 0) return new int[0];
