@@ -80,7 +80,7 @@ CREATE TABLE `sys_usermember` (
   `chname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称，通常为员工姓名',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
   `type` smallint(5) NOT NULL DEFAULT '0' COMMENT '类型；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32',
-  `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50：隐藏;60:过期;70:关闭;80:删除;',
+  `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50:隐藏;60:关闭;70:过期;80:删除;',
   `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
   `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
