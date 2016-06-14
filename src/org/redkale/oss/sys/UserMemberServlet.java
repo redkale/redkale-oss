@@ -18,7 +18,7 @@ import org.redkale.plugins.weixin.WeiXinQYService;
  *
  * @author zhangjx
  */
-@WebServlet({"/user/*", "/wx/*"})
+@WebServlet({"/user/*"})
 public class UserMemberServlet extends BaseServlet {
 
     @Resource
@@ -48,12 +48,12 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/wx/login")
+    @WebAction(url = "/user/wxlogin")
     public void wxlogin(HttpRequest req, HttpResponse resp) throws IOException {
         if (finest) logger.finest(req.toString());
         if (currentUser(req) == null) {
             Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
-            logger.finest("wx.login : " + map);
+            logger.finest("user.wxlogin : " + map);
             LoginBean bean = new LoginBean();
             bean.setAccount(map.get("UserId"));
             bean.setSessionid(req.getSessionid(true));
@@ -65,7 +65,7 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/wx/verifyqy")
+    @WebAction(url = "/user/wxverifyqy")
     public void verifyqy(HttpRequest req, HttpResponse resp) throws IOException {
         if (finest) logger.finest(req.toString());
         resp.finish(wxservice.verifyQYURL(req.getParameter("msg_signature"), req.getParameter("timestamp"), req.getParameter("nonce"), req.getParameter("echostr")));
