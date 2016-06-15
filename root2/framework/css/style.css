@@ -4,6 +4,8 @@ html,body {
   min-height: 100%;
 }
 
+.logo {color: white;font-style: italic;font-size: 3rem;vertical-align: middle;}
+
 body{
     background: #f1f3f6;
     margin: 0;
@@ -135,6 +137,9 @@ h1,h2,h3,h4,h5,h6{
 }
 .top-right-nav li{
     vertical-align: middle;
+}
+.profile-link {
+    margin-right: 20px;
 }
 .profile-link a{
       padding-top: 12px;

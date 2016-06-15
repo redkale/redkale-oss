@@ -11,158 +11,10 @@
         <link href="/framework/css/morris.css" rel="stylesheet">
         <link href="/framework/css/font-family.css" rel="stylesheet">
         <link href="/framework/css/style.css" rel="stylesheet">
+        <link href="/framework/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="/framework/css/dataTables.colVis.css" rel="stylesheet">
         <script src="/framework/js/modernizr.js"></script>
-    </head>
-    <body class="fixed-left">
-        <div id="wrapper">
-            <!--top bar-->
-            <div class="topbar">
-                <div class="topbar-left">
-                    <div class="text-center">
-                        <a href="index.html" class="logo"><img src="/res/images/logo.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="pull-left menu-toggle">
-                    <i class="fa fa-bars"></i>
-                </div>
-                <ul class="nav navbar-nav  top-right-nav hidden-xs">
-                    <li>
-                        <span id="bannertime"></span>
-                    </li>
-                    <li class="dropdown profile-link hidden-xs">
-                        <div class="clearfix">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/res/images/user.png" alt="" class="pull-left">
-                                <span>Angila Deo <br><em>Admin</em></span>                            
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Account</a></li>
-                                <li><a href="#">Settings</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </div>
 
-                    </li>
-                    <li class=" hidden-xs">&nbsp;</li>
-                </ul>
-            </div>
-            <!--end top bar-->
-
-
-            <!--left menu start-->
-            <div class="side-menu left" id="side-menu">
-
-                <ul class="metismenu clearfix" id="menu">
-                    <li class="profile-menu visible-xs">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/res/images/user.png" alt="" class="pull-left">
-                            <span>Angila Deo <br><em>Admin</em></span>                            
-                        </a>
-                        <ul class="dropdown-menu profile-drop">
-                            <li><a href="#">Account</a></li>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </li>
-                    <li class="active"><a href="index.html"><i class="fa fa-home"></i>  <span>Dashboard</span></a></li>  
-
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span>Graphs</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="graph_flot.html">Flot Charts</a></li>
-                            <li><a href="graph_morris.html">Morris.js Charts</a></li>
-                            <li><a href="graph_chartjs.html">Chart.js</a></li>
-                            <li><a href="graph_chartist.html">Chartist</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-envelope"></i> <span>Mailbox </span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="mailbox.html">Inbox</a></li>
-                            <li><a href="mail_detail.html">Email view</a></li>
-                            <li><a href="mail_compose.html">Compose email</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit"></i> <span>Forms</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="form_basic.html">Basic form</a></li>
-                            <li><a href="form_wizard.html">Wizard</a></li>
-                            <li><a href="form_file_upload.html">File Upload</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-table"></i> <span>Tables</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="table_basic.html">Static Tables</a></li>
-                            <li><a href="table_data_tables.html">Data Tables</a></li>
-                        </ul>
-                    </li>
-                    <li class="">
-                        <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Other Pages</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="lockscreen.html">Lockscreen</a></li>
-                            <li><a href="login.html">Login</a></li>
-                            <li><a href="register.html">Register</a></li>
-                            <li><a href="404.html">404 Page</a></li>
-                            <li><a href="empty_page.html">Empty page</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">UI Elements</span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li><a href="typography.html">Typography</a></li>
-                            <li><a href="icons.html">Icons</a></li>
-                            <li><a href="buttons.html">Buttons</a></li>
-                            <li><a href="video.html">Video</a></li>
-                            <li><a href="tabs.html">Tabs</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap"></i> <span>Menu Levels </span><span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level collapse">
-                            <li>
-                                <a href="#">Third Level <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Third Level Item</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Second Level Item</a></li>
-                            <li>
-                                <a href="#">Second Level Item</a></li>
-                            <li>
-                                <a href="#">Second Level Item</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="nav-bottom clearfix">
-                    <a href="#" style="border-right: 0px;"><i class="fa fa-lock"></i></a>
-                    <a href="#" style="border-right: 0px;"><i class="fa fa-download"></i></a>
-                    <a href="#" style="border-right: 0px;"><i class="fa fa-globe"></i></a>
-                    <a href="#" style="border-right: 0px;"><i class="fa fa-phone"></i></a>
-                </div>
-            </div>
-            <!--left menu end-->
-
-            <div class="content-page  equal-height">
-                <div class="content">
-                    <div class="container">
-
-                    </div><!--content-->               
-                </div><!--content page-->
-            </div><!--end wrapper-->
-        </div>
-        <div class="footer">
-            <span>Copyright &copy; 2016. Redkale.</span>
-        </div>
         <!-- Plugins  -->
         <script src="/framework/js/jquery.min.js"></script>
         <script src="/framework/js/bootstrap.min.js"></script>
@@ -178,6 +30,13 @@
         <script src="/framework/js/jquery.flot.selection.min.js"></script>
         <script src="/framework/js/jquery.flot.stack.min.js"></script>
         <script src="/framework/js/jquery.flot.crosshair.min.js"></script>
+
+        <script src="/framework/js/jquery.dataTables.min.js"></script>        
+        <script src="/framework/js/dataTables.bootstrap.min.js"></script>        
+        <script src="/framework/js/dataTables.buttons.min.js"></script>
+        <script src="/framework/js/buttons.bootstrap.min.js"></script>
+        <script src="/framework/js/dataTables.select.min.js"></script>
+
         <script src="/framework/js/raphael.min.js"></script>
         <script src="/framework/js/morris.min.js"></script>
         <script src="/framework/js/Chart.min.js"></script>
@@ -188,34 +47,67 @@
         <script src='/framework/extends.js'></script>
         <script src='/pipes/dync/mydata'></script>
 
-        <script>
-            $(document).ready(function () {
-                $("#sidebar-toggle").click(function () {
-                    $(".sidebar").toggleClass("active");
-                });
-                $(".menu-toggle").click(function () {
-                    $("body").toggleClass("widescreen");
-                });
-                //slim
-                $('.nicescroll').slimScroll({
-                    height: '100%',
-                    railOpacity: 0.9
-                });
+    </head>
+    <body class="fixed-left">
+        <div id="wrapper">
+            <!--top bar-->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div class="text-center"><a href="/index.html" class="logo">工作平台</a></div>
+                </div>
+                <div class="pull-left menu-toggle">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <ul class="nav navbar-nav  top-right-nav hidden-xs">
+                    <li class="dropdown profile-link hidden-xs">
+                        <div class="clearfix" id="curruserel"></div>
+                    </li>
+                    <li class=" hidden-xs" style="width: 3rem;">&nbsp;</li>
+                </ul>
+            </div>
+            <!--end top bar-->
 
-                //metis menu
-                $("#menu").metisMenu();
+            <!--left menu start-->
+            <div class="side-menu left" id="side-menu">
+                <ul class="metismenu clearfix" id="menu"></ul>
+                <div class="nav-bottom clearfix">
+                    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-lock"></i></a>
+                    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-download"></i></a>
+                    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-globe"></i></a>
+                    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-phone"></i></a>
+                </div>
+            </div>
+            <!--left menu end-->
 
-                $(".content-page,.side-menu").equalize({
-                });
+            <div class="content-page  equal-height">
+                <div class="content">
+                    <div class="container">
+                        <div class="panel-box">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>功能模块</th>
+                                            <th>功能描述</th>
+                                            <th>上线时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>XXX功能</td>
+                                            <td>此处说明功能描述.</td>
+                                            <td>2016-03-01</td>
+                                        </tr>                                   
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div><!--content-->               
+                </div><!--content page-->
+            </div><!--end wrapper-->
+        </div>
+        <div class="footer"><span>Copyright &copy; 2016. Redkale.</span></div>
 
-                //tooltips
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip();
-                    $('[data-toggle="popover"]').popover();
-                });
-
-                document.getElementById("bannertime").innerHTML = new Date().toSimpleDayString();
-            });
-        </script>
+        <script src="/res/js/app.js"></script>
     </body>
 </html>
