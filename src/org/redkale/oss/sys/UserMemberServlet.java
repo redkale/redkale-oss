@@ -72,23 +72,6 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/wxlogin")
-    public void weixinlogin(HttpRequest req, HttpResponse resp) throws IOException {
-        if (finest) logger.finest(req.toString());
-        if (currentUser(req) == null) {
-            Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
-            logger.finest("wx.login : " + map);
-            LoginBean bean = new LoginBean();
-            bean.setAccount(map.get("UserId"));
-            bean.setSessionid(req.getSessionid(true));
-            bean.setWxlogin(true);
-            service.login(bean);
-        }
-        resp.setHeader("Location", req.getParameter("url", "/"));
-        resp.finish(302, null);
-    }
-
-    @AuthIgnore
     @WebAction(url = "/user/login")
     public void login(HttpRequest req, HttpResponse resp) throws IOException {
         LoginBean bean = req.getJsonParameter(LoginBean.class, "bean");
