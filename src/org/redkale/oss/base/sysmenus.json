@@ -1,20 +1,20 @@
 [
     {
         "text": "系统权限",
-        "iconCls": "ext-icon-monitor",
+        "iconCls": "fa-cog",
         "state": "open",
         "children": [
             {
                 "moduleid": 101,
                 "text": "账号管理",
-                "iconCls": "ext-icon-user",
-                "url": "/sysmodules/usermember.html",
+                "iconCls": "fa-child",
+                "url": "/sysmodules/member.html",
                 "state": "open"
             },
             {
                 "moduleid": 103,
                 "text": "角色管理",
-                "iconCls": "ext-icon-user",
+                "iconCls": "fa-street-view",
                 "url": "/sysmodules/role.html",
                 "state": "open"
             }
