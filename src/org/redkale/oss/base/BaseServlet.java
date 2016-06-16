@@ -40,7 +40,7 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
             response.setStatus(203);
             response.finish("{'success':false, 'message':'Not Login'}");
             return false;
-        } else if(!info.checkAuth(moduleid, actionid)) {
+        } else if (!info.checkAuth(moduleid, actionid)) {
             response.addHeader("RetCode", "2001");
             response.addHeader("RetMessage", "No Authority");
             response.setStatus(203);
@@ -61,8 +61,8 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     }
 
     protected Flipper findFlipper(HttpRequest request) {  //easyUI
-        int pageSize = request.getIntParameter("rows", Flipper.DEFAULT_PAGESIZE);
-        int pageNo = request.getIntParameter("page", 1);
+        int pageSize = request.getIntParameter("rows", request.getIntParameter("length", Flipper.DEFAULT_PAGESIZE));
+        int pageNo = request.getIntParameter("page", request.getIntParameter("start", 0) / pageSize + 1);
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
         String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
@@ -73,7 +73,7 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var " + var + " = " + convert.convertTo(result) + ";");
     }
-    
+
     protected void sendJsResult(HttpResponse resp, JsonConvert jsonConvert, String var, Object result) {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var " + var + " = " + jsonConvert.convertTo(result) + ";");
