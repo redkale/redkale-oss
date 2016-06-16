@@ -18,7 +18,7 @@ $(document).ready(function () {
     footerhtml.push('    <div id="tips-user-login" class="module-alert-tips"></div><br>  ');
     footerhtml.push('</div>');
     //------------------------- 密码修改框 ------------------------------------------------------
-    footerhtml.push('<div id="dialog-user-changepwd" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
+    footerhtml.push('<div id="dialog-user-changepwd" class="modal fade" tabindex="-1" data-width="500" style="display: none;"> ');
     footerhtml.push('    <div class="modal-header"> ');
     footerhtml.push('        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> ');
     footerhtml.push('        <h4 class="modal-title">密码修改</h4> ');
