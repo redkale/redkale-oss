@@ -1,4 +1,8 @@
 
+$.extend($.fn.dataTableExt, {
+    errMode: "none"
+});
+
 $.extend($.fn.dataTable.defaults, {
     bSort: false,
     bFilter: false,
