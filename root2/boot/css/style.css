@@ -5,10 +5,11 @@ html,body {
 }
 
 .logo {color: white;font-style: italic;font-size: 3rem;vertical-align: middle;}
-.modal-title {
-    color: #f7b03e;
-}
+.modal-title {color: #f7b03e;}
 .module-alert-tips {margin-left: 30px;color: red;font-style: italic;font-size: 2rem;}
+.dataTables_wrapper .dataTables_length {display: none;}
+
+
 body{
     background: #f1f3f6;
     margin: 0;
