@@ -22,10 +22,13 @@
                                 <table id="table-user-sheet" class="table">
                                     <thead>
                                         <tr>
-                                            <th>功能模块</th>
-                                            <th>功能描述</th>
-                                            <th>上线时间</th>
-                                            <th>上线时间</th>
+                                            <th>用户ID</th>
+                                            <th>用户账号</th>
+                                            <th>用户名称</th>
+                                            <th>状 态</th>
+                                            <th>角色</th>
+                                            <th>创建时间</th>
+                                            <th>描述</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -40,15 +43,49 @@
         <script src="/res/js/starup.js"></script>
         <script>
             if (system_memberinfo && system_memberinfo.userid) {
-                $('#table-user-sheet').dataTable({
-                    ajax: "/pipes/user/query",
-                    columns: [
-                        {"data": "userid"},
-                        {"data": "account"},
-                        {"data": "chname"},
-                        {"data": "status"}
-                    ]
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    dataType: "json",
+                    url: '/pipes/role/query',
+                    success: function (sheetdata) {
+                        var rows = sheetdata.rows || [];
+                        var allroledata = {};
+                        for (var i = 0; i < rows.length; i++) {
+                            allroledata["" + rows[i].roleid] = rows[i].rolename;
+                        }
+                        //----------------------------------------------------
+                        $('#table-user-sheet').dataTable({
+                            ajax: "/pipes/user/query",
+                            columns: [
+                                {"data": "userid"},
+                                {"data": "account"},
+                                {"data": "chname"},
+                                {"data": "status", render: function (value, type, full) {
+                                        if (value === 10) return "正常";
+                                        if (value === 20) return "<font color=red>禁用</font>";
+                                        return "<font color=#FF00FF>未知</font>";
+                                    }},
+                                {"data": "roleids", render: function (value, type, full) {
+                                        if (!value || !value.length) return "";
+                                        var a = [];
+                                        for (var i = 0; i < value.length; i++) {
+                                            var n = allroledata["" + value[i]];
+                                            a.push(n ? n : value[i]);
+                                        }
+                                        return a.join("  ");
+                                    }},
+                                {"data": "createtime", render: Date.DateFormatter},
+                                {"data": "remark"}
+                            ]
+                        });
+                    },
+                    error: function () {
+                        alert('获取角色信息失败');
+                    }
                 });
+
+
             }
         </script>
     </body>

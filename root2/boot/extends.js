@@ -125,6 +125,14 @@ if (!Date.prototype.format) {
         return this.format(window['LOCALE'] === 'en' ? "MM/dd/yyyy hh:mm" : "yyyy-MM-dd hh:mm");
     };
 }
+
+Date.DateFormatter = function (value, type, full) {
+    return value ? new Date(value) : "";
+};
+Date.DayFormatter = function (value, type, full) {
+    return value ? new Date(value).toDayString() : "";
+};
+
 if (!Date.prototype.zone) {
     Date.prototype.zone = function (zoneOffset) {
         var localOffset = this.getTimezoneOffset() * 60000; //获得当地时间偏移的毫秒数 
