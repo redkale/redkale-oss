@@ -55,9 +55,9 @@ public class UserMember extends BaseEntity {
     private int userid;
 
     @Column(updatable = false)
-    private String account;
+    private String account = "";
 
-    private String chname;
+    private String chname = "";
 
     @Column(updatable = false)
     private String password = "";
@@ -68,16 +68,16 @@ public class UserMember extends BaseEntity {
     @Column(updatable = false)
     private short status = STATUS_NORMAL;
 
-    private String mobile;
+    private String mobile = "";
 
-    private String email;
+    private String email = "";
 
     @Column(updatable = false)
     private long createtime;
 
     private long updatetime;
 
-    private String remark;
+    private String remark = "";
 
     @Transient
     private int[] roleids;

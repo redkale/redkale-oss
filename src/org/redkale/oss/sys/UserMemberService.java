@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 import javax.annotation.Resource;
-import org.redkale.boot.Application;
 import org.redkale.oss.base.Services;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.oss.base.MemberInfo;
@@ -174,11 +173,6 @@ public class UserMemberService extends BaseService {
 
     public void deleteUser(UserMember user) {
         source.delete(user);
-    }
-
-    public static void main(String[] args) throws Exception {
-        UserMemberService service = Application.singleton(UserMemberService.class);
-        System.out.println(service.queryUser(new Flipper(), new UserFilterBean()));
     }
 
 }
