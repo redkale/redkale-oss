@@ -5,7 +5,9 @@ html,body {
 }
 
 .logo {color: white;font-style: italic;font-size: 3rem;vertical-align: middle;}
-
+.modal-title {
+    color: #f7b03e;
+}
 body{
     background: #f1f3f6;
     margin: 0;
