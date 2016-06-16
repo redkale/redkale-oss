@@ -329,7 +329,7 @@ body.fixed-left .side-menu.left {
     margin-left: 240px;
 }
 .content-page > .content {
-    min-height: 98vh;
+    min-height: 100vh;
     margin-top: 0px;
     padding: 20px 5px 60px 5px;
     padding-top: 80px;
