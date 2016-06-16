@@ -41,11 +41,7 @@
         <script>
             if (system_memberinfo && system_memberinfo.userid) {
                 $('#table-user-sheet').dataTable({
-                    ajax: {
-                        url: "/pipes/user/query",
-                        dataSrc: "rows"
-                    },
-                    serverSide: false,
+                    ajax: "/pipes/user/query",
                     columns: [
                         {"data": "userid"},
                         {"data": "account"},

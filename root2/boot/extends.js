@@ -1,43 +1,53 @@
 
-(function () {
-    var old_fnAjaxUpdateDraw = $.fn.dataTable.ext.internal._fnAjaxUpdateDraw;
-    $.extend($.fn.dataTable.ext.internal, {
-        _fnAjaxUpdateDraw: function (settings, json) {
+$.extend($.fn.dataTable.defaults, {
+    bSort: false,
+    bFilter: false,
+    processing: true,
+    serverSide: true,
+    bLengthChange: false,
+    iDisplayLength: 20,
+    aLengthMenu: [20],
+    sPaginationType: "full_numbers",
+    sServerMethod: 'POST',
+    language: {
+        sLengthMenu: "每页显示 _MENU_ 条记录",
+        sZeroRecords: "没有检索到数据",
+        sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+        sInfoEmtpy: "没有数据",
+        sProcessing: '正在加载数据...',
+        paginate: {
+            sFirst: "首页",
+            sPrevious: "前一页",
+            sNext: "后一页",
+            sLast: "尾页"
+        }
+    },
+    preDrawCallback: function (settings) {
+        $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
+            delete data.columns;
+            delete data.search;
+        });
+        $(settings.nTable).on('xhr.dt', function (e, settings, json) {
             if (json) {
                 if (json.rows) json.data = json.rows;
                 if (json.total) json.recordsTotal = json.total;
                 json.recordsFiltered = json.recordsTotal;
                 json.draw = new Date().getTime();
             }
-            old_fnAjaxUpdateDraw(settings, json);
+        });
+    },
+    initComplete: function (settings, json) {
+        if (json) {
+            if (json.rows) json.data = json.rows;
+            if (json.total) json.recordsTotal = json.total;
+            json.recordsFiltered = json.recordsTotal;
+            json.draw = new Date().getTime();
         }
-    });
-})();
-
-$.extend($.fn.dataTable.defaults.oLanguage, {
-    "sLengthMenu": "每页显示 _MENU_ 条记录",
-    "sZeroRecords": "没有检索到数据",
-    "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
-    "sInfoEmtpy": "没有数据",
-    "sProcessing": '正在加载数据...',
-    "oPaginate": {
-        "sFirst": "首页",
-        "sPrevious": "前一页",
-        "sNext": "后一页",
-        "sLast": "尾页"
     }
 });
 
-$.extend($.fn.dataTable.defaults, {
-    bSort: false,
-    bFilter: false,
-    iDisplayLength: 20,
-    processing: true,
-    serverSide: true
-});
-
-
-if (!window['console']) console = {
+if (!window['console'])
+    console = {
         log: function () {
         }
     };
@@ -52,7 +62,8 @@ if (!String.prototype.bytelength) {
     String.prototype.bytelength = function () {
         var len = this.length;
         for (var i = 0; i < this.length; i++) {
-            if (this.charCodeAt(i) > 127) len++;
+            if (this.charCodeAt(i) > 127)
+                len++;
         }
         return len;
     };
@@ -88,7 +99,8 @@ if (!Date.prototype.format) {
             "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
             "S": this.getMilliseconds()             //毫秒   
         };
-        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
         for (var k in o) {
             if (new RegExp("(" + k + ")").test(fmt)) {
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
@@ -122,12 +134,16 @@ if (!String.prototype.template) {
         return this.replace(/\$\{([\w\.]*)\}/g, function (str, key) {
             var keys = key.split(".");
             var v = data[keys.shift()];
-            if (data._show0 && v === 0) return "0";
-            if (!v) return "";
-            if (v instanceof Array && v.length > 0) v = v[0];
+            if (data._show0 && v === 0)
+                return "0";
+            if (!v)
+                return "";
+            if (v instanceof Array && v.length > 0)
+                v = v[0];
             for (var i = 0, l = keys.length; v && i < l; i++)
                 v = v[keys[i]];
-            if (data._show0 && v === 0) return "0";
+            if (data._show0 && v === 0)
+                return "0";
             return (typeof v !== "undefined" && v) ? v : "";
         });
     };
@@ -156,13 +172,15 @@ if (!String.prototype.template) {
             }
         }
         $(array).each(function () {
-            if (!this.name || this.name.indexOf(n) !== 0) return;
+            if (!this.name || this.name.indexOf(n) !== 0)
+                return;
             var name = this.name.substring(n.length);
             var idot = name.indexOf('.');
             if (idot > 0) {
                 var n1 = name.substring(0, idot);
                 var n2 = name.substring(idot + 1);
-                if (!result[n1]) result[n1] = {};
+                if (!result[n1])
+                    result[n1] = {};
                 result[n1][n2] = this.value.trim();
             } else if (result[name]) {
                 if ($.isArray(result[name])) {
@@ -174,7 +192,8 @@ if (!String.prototype.template) {
                 result[name] = this.value.trim();
             }
         });
-        if (!arrayTypes) return result;
+        if (!arrayTypes)
+            return result;
         for (var i = 0; i < arrayTypes.length; i++) {
             var n = arrayTypes[i];
             if (!result[n]) {
