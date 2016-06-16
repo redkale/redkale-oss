@@ -8,6 +8,7 @@ html,body {
 .modal-title {
     color: #f7b03e;
 }
+.module-alert-tips {margin-left: 30px;color: red;font-style: italic;font-size: 2rem;}
 body{
     background: #f1f3f6;
     margin: 0;

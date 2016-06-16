@@ -12,9 +12,10 @@ $(document).ready(function () {
     footerhtml.push('        <form id="module-login-form" class="m-t" role="form" >  ');
     footerhtml.push('            <div class="form-group"><input name="data.account" type="text" class="form-control" placeholder="用户名" required=""></div>  ');
     footerhtml.push('            <div class="form-group"><input name="data.password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  ');
-    footerhtml.push('            <button id="module-login-submit" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br><br>  ');
+    footerhtml.push('            <button id="module-login-submit" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  ');
     footerhtml.push('        </form>  ');
     footerhtml.push('    </div>  ');
+    footerhtml.push('    <div id="module-login-tips" class="module-alert-tips"></div><br>  ');
     footerhtml.push('</div>');
     //------------------------- 密码修改框 ------------------------------------------------------
     footerhtml.push('<div id="module-changepwd-dialog" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
@@ -27,14 +28,16 @@ $(document).ready(function () {
     footerhtml.push('            <div class="form-group"><input name="data.oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> ');
     footerhtml.push('            <div class="form-group"><input name="data.newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> ');
     footerhtml.push('            <div class="form-group"><input name="data.newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> ');
-    footerhtml.push('            <button id="module-changepwd-submit" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br><br> ');
+    footerhtml.push('            <button id="module-changepwd-submit" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> ');
     footerhtml.push('        </form> ');
     footerhtml.push('    </div> ');
+    footerhtml.push('    <div id="module-changepwd-tips" class="module-alert-tips"></div><br>  ');
     footerhtml.push('</div>');
     document.getElementById("footer").innerHTML = footerhtml.join('');
     //---------------------------------- 用户登录框 绑定事件 -------------------------------------
     $('#module-login-dialog').on('show.bs.modal', function () { //
         $("#module-login-form")[0].reset();
+        $("#module-login-tips").html('');
     });
     //
     $('#module-login-submit').click(function (e) {
@@ -52,11 +55,11 @@ $(document).ready(function () {
             success: function (data) {
                 if (!data.success) {
                     if (data.retcode === 1001) {
-                        alert("用户或密码错误!");
+                        $("#module-login-tips").html('用户或密码错误!');
                     } else if (data.retcode === 1002) {
-                        alert("用户已被禁用!");
+                        $("#module-login-tips").html('用户已被禁用!');
                     } else {
-                        alert("登陆失败!");
+                        $("#module-login-tips").html('登陆失败!');
                     }
                     return;
                 } else {
@@ -71,6 +74,7 @@ $(document).ready(function () {
     //---------------------------------- 密码修改框 绑定事件 -------------------------------------
     $('#module-changepwd-dialog').on('show.bs.modal', function () { //
         $("#module-changepwd-form")[0].reset();
+        $("#module-changepwd-tips").html('');
     });
     //
     $('#module-changepwd-submit').click(function (e) {
@@ -95,15 +99,14 @@ $(document).ready(function () {
             success: function (data) {
                 if (!data.success) {
                     if (data.retcode === 1010021) {
-                        alert("新密码未加密!");
+                        $("#module-changepwd-tips").html('新密码未加密!');
                     } else if (data.retcode === 1010020) {
-                        alert("旧密码错误!");
+                        $("#module-changepwd-tips").html('旧密码错误!');
                     } else {
-                        alert("密码修改失败!");
+                        $("#module-changepwd-tips").html('密码修改失败!');
                     }
                     return;
                 }
-                alert("密码已修改成功");
                 $("#module-changepwd-dialog").modal('hide');
             }
         });
@@ -123,7 +126,7 @@ $(document).ready(function () {
                                 </a> \
                                 <ul class="dropdown-menu profile-drop"> \
                                     <li><a data-toggle="modal" data-target="#module-changepwd-dialog">设 置</a></li> \
-                                    <li><a href="javascript:void(0);">注 销</a></li> \
+                                    <li><a id="user-logout-btn" href="/pipes/user/logout">注 销</a></li> \
                                 </ul>');
     }
     topbarhtml.push('       </div>');
