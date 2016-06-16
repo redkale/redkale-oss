@@ -1,4 +1,42 @@
 
+(function () {
+    var old_fnAjaxUpdateDraw = $.fn.dataTable.ext.internal._fnAjaxUpdateDraw;
+    $.extend($.fn.dataTable.ext.internal, {
+        _fnAjaxUpdateDraw: function (settings, json) {
+            if (json) {
+                if (json.rows) json.data = json.rows;
+                if (json.total) json.recordsTotal = json.total;
+                json.recordsFiltered = json.recordsTotal;
+                json.draw = new Date().getTime();
+            }
+            old_fnAjaxUpdateDraw(settings, json);
+        }
+    });
+})();
+
+$.extend($.fn.dataTable.defaults.oLanguage, {
+    "sLengthMenu": "每页显示 _MENU_ 条记录",
+    "sZeroRecords": "没有检索到数据",
+    "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+    "sInfoEmtpy": "没有数据",
+    "sProcessing": '正在加载数据...',
+    "oPaginate": {
+        "sFirst": "首页",
+        "sPrevious": "前一页",
+        "sNext": "后一页",
+        "sLast": "尾页"
+    }
+});
+
+$.extend($.fn.dataTable.defaults, {
+    bSort: false,
+    bFilter: false,
+    iDisplayLength: 20,
+    processing: true,
+    serverSide: true
+});
+
+
 if (!window['console']) console = {
         log: function () {
         }

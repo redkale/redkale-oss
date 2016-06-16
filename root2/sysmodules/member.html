@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>控制中心</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <script src='/res/js/loader.js'></script>
+
+    </head>
+    <body class="fixed-left">
+        <div id="wrapper">
+            <!-- top bar -->
+            <div id="topbar" class="topbar"></div>
+            <!-- left menu -->
+            <div class="side-menu left" id="side-menu"></div>
+
+            <div class="content-page  equal-height">
+                <div class="content">
+                    <div class="container">
+                        <div class="panel-box">
+                            <div class="table-responsive">
+                                <table id="table-user-sheet" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>功能模块</th>
+                                            <th>功能描述</th>
+                                            <th>上线时间</th>
+                                            <th>上线时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div><!--content-->               
+                </div><!--content page-->
+            </div><!--end wrapper-->
+        </div>
+        <div id="footer" class="footer"></div>
+        <script src="/res/js/starup.js"></script>
+        <script>
+            if (system_memberinfo && system_memberinfo.userid) {
+                $('#table-user-sheet').dataTable({
+                    ajax: {
+                        url: "/pipes/user/query",
+                        dataSrc: "rows"
+                    },
+                    serverSide: false,
+                    columns: [
+                        {"data": "userid"},
+                        {"data": "account"},
+                        {"data": "chname"},
+                        {"data": "status"}
+                    ]
+                });
+            }
+        </script>
+    </body>
+</html>
