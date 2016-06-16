@@ -136,21 +136,37 @@ $(document).ready(function () {
     $("#topbar").html(topbarhtml.join(''));
     //-------------------------- side-menu ----------------------------------------------------------
     //menu data
+    var winhref = '' + window.location.href;
+    var hasactived = false;
+    var recursmenu = function (menuhtml, onemenu, index) {
+        if (onemenu.active) hasactived = true;
+        if (onemenu.children && onemenu.children.length) {
+            var subhref = false;
+            var subminhtml = [];
+            for (var j = 0; j < onemenu.children.length; j++) {
+                subhref |= recursmenu(subminhtml, onemenu.children[j], index + 1);
+            }
+            if (subhref) onemenu.active = true;
+
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="' + (onemenu.url || 'javascript:void(0);') + '"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
+            menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
+            menuhtml.push(subminhtml.join(''));
+            menuhtml.push('    </ul>');
+            menuhtml.push('</li>');
+            return subhref;
+        } else {
+            var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0);
+            if (rs) onemenu.active = true;
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="' + (onemenu.url || 'javascript:void(0);') + '"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
+            return rs;
+        }
+    };
     var menuhtml = [];
     menuhtml.push('<ul class="metismenu clearfix" id="menu">');
-    menuhtml.push('    <li class="active"><a href="/index.html"><i class="fa fa-home"></i>  <span>工作台首页</span></a></li>');
-    for (var i = 0; i < system_sysmenus.length; i++) {
-        var submenu = system_sysmenus[i];
-        menuhtml.push('<li><a href="' + (submenu.url || 'javascript:void(0);') + '"><i class="fa ' + submenu.iconCls + '"></i> <span>' + submenu.text + '</span><span class="fa arrow"></span></a>');
-        if (submenu.children && submenu.children.length) {
-            menuhtml.push('    <ul class="nav nav-second-level collapse">');
-            for (var j = 0; j < submenu.children.length; j++) {
-                var child = submenu.children[j];
-                menuhtml.push('    <li><a href="' + child.url + '">' + (child.iconCls ? ('<i class="fa ' + child.iconCls + '"></i>  ') : '') + child.text + '</a></li>');
-            }
-            menuhtml.push('    </ul>');
-        }
-        menuhtml.push('</li>');
+    menuhtml.push('    <li class="first_active"><a href="/index.html"><i class="fa fa-home"></i>  <span>工作台首页</span></a></li>');
+
+    for (var i = 0; system_sysmenus && i < system_sysmenus.length; i++) {
+        hasactived |= recursmenu(menuhtml, system_sysmenus[i], 1);
     }
     menuhtml.push('</ul>');
     menuhtml.push('<div class="nav-bottom clearfix">');
@@ -159,7 +175,7 @@ $(document).ready(function () {
     menuhtml.push('    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-globe"></i></a>');
     menuhtml.push('    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-phone"></i></a>');
     menuhtml.push('</div>');
-    $("#side-menu").html(menuhtml.join(''));
+    $("#side-menu").html(menuhtml.join('').replace('first_active', hasactived ? '' : 'active'));
     $("#sidebar-toggle").click(function () {
         $(".sidebar").toggleClass("active");
     });
