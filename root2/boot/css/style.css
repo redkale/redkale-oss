@@ -395,6 +395,18 @@ body.widescreen.fixed-left .footer{
 .nav.nav-third-level li a{
     padding-left:55px;
 }
+.nav.nav-2-level>li>a{
+    padding-left:30px;
+}
+.nav.nav-3-level li a{
+    padding-left:55px;
+}
+.nav.nav-4-level li a{
+    padding-left:80px;
+}
+.nav.nav-5-level li a{
+    padding-left:100px;
+}
 .metismenu>li.active>a{
     background: #eee;
     color: #f7b03e;
