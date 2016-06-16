@@ -3,45 +3,45 @@ $(document).ready(function () {
     var footerhtml = [];
     footerhtml.push('<span>Copyright &copy; 2016. Redkale.</span>');
     //------------------------- 用户登录框 ------------------------------------------------------
-    footerhtml.push('<div id="module-login-dialog" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
+    footerhtml.push('<div id="dialog-user-login" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
     footerhtml.push('    <div class="modal-header">  ');
     footerhtml.push('        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  ');
     footerhtml.push('        <h4 class="modal-title">用户登录</h4>  ');
     footerhtml.push('    </div>  ');
     footerhtml.push('    <div class="modal-body">  ');
-    footerhtml.push('        <form id="module-login-form" class="m-t" role="form" >  ');
+    footerhtml.push('        <form id="form-user-login" class="m-t" role="form" >  ');
     footerhtml.push('            <div class="form-group"><input name="data.account" type="text" class="form-control" placeholder="用户名" required=""></div>  ');
     footerhtml.push('            <div class="form-group"><input name="data.password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  ');
-    footerhtml.push('            <button id="module-login-submit" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  ');
+    footerhtml.push('            <button id="btnok-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  ');
     footerhtml.push('        </form>  ');
     footerhtml.push('    </div>  ');
-    footerhtml.push('    <div id="module-login-tips" class="module-alert-tips"></div><br>  ');
+    footerhtml.push('    <div id="tips-user-login" class="module-alert-tips"></div><br>  ');
     footerhtml.push('</div>');
     //------------------------- 密码修改框 ------------------------------------------------------
-    footerhtml.push('<div id="module-changepwd-dialog" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
+    footerhtml.push('<div id="dialog-user-changepwd" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
     footerhtml.push('    <div class="modal-header"> ');
     footerhtml.push('        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> ');
     footerhtml.push('        <h4 class="modal-title">密码修改</h4> ');
     footerhtml.push('    </div> ');
     footerhtml.push('    <div class="modal-body"> ');
-    footerhtml.push('        <form id="module-changepwd-form" class="m-t" role="form"> ');
+    footerhtml.push('        <form id="form-user-changepwd" class="m-t" role="form"> ');
     footerhtml.push('            <div class="form-group"><input name="data.oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> ');
     footerhtml.push('            <div class="form-group"><input name="data.newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> ');
     footerhtml.push('            <div class="form-group"><input name="data.newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> ');
-    footerhtml.push('            <button id="module-changepwd-submit" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> ');
+    footerhtml.push('            <button id="btnok-user-changepwd" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> ');
     footerhtml.push('        </form> ');
     footerhtml.push('    </div> ');
-    footerhtml.push('    <div id="module-changepwd-tips" class="module-alert-tips"></div><br>  ');
+    footerhtml.push('    <div id="tips-user-changepwd" class="module-alert-tips"></div><br>  ');
     footerhtml.push('</div>');
     document.getElementById("footer").innerHTML = footerhtml.join('');
     //---------------------------------- 用户登录框 绑定事件 -------------------------------------
-    $('#module-login-dialog').on('show.bs.modal', function () { //
-        $("#module-login-form")[0].reset();
-        $("#module-login-tips").html('');
+    $('#dialog-user-login').on('show.bs.modal', function () { //
+        $("#form-user-login")[0].reset();
+        $("#tips-user-login").html('');
     });
     //
-    $('#module-login-submit').click(function (e) {
-        var form = $("#module-login-form");
+    $('#btnok-user-login').click(function (e) {
+        var form = $("#form-user-login");
         $.ajax({
             cache: false,
             dataType: "json",
@@ -55,11 +55,11 @@ $(document).ready(function () {
             success: function (data) {
                 if (!data.success) {
                     if (data.retcode === 1001) {
-                        $("#module-login-tips").html('用户或密码错误!');
+                        $("#tips-user-login").html('用户或密码错误!');
                     } else if (data.retcode === 1002) {
-                        $("#module-login-tips").html('用户已被禁用!');
+                        $("#tips-user-login").html('用户已被禁用!');
                     } else {
-                        $("#module-login-tips").html('登陆失败!');
+                        $("#tips-user-login").html('登陆失败!');
                     }
                     return;
                 } else {
@@ -72,13 +72,13 @@ $(document).ready(function () {
         });
     });
     //---------------------------------- 密码修改框 绑定事件 -------------------------------------
-    $('#module-changepwd-dialog').on('show.bs.modal', function () { //
-        $("#module-changepwd-form")[0].reset();
-        $("#module-changepwd-tips").html('');
+    $('#dialog-user-changepwd').on('show.bs.modal', function () { //
+        $("#form-user-changepwd")[0].reset();
+        $("#tips-user-changepwd").html('');
     });
     //
-    $('#module-changepwd-submit').click(function (e) {
-        var form = $("#module-changepwd-form");
+    $('#btnok-user-changepwd').click(function (e) {
+        var form = $("#form-user-changepwd");
         var json = form.serializeJson("data");
         if (json.newpwd !== json.newpwd2) {
             alert("两次新密码输入不一致");
@@ -99,15 +99,15 @@ $(document).ready(function () {
             success: function (data) {
                 if (!data.success) {
                     if (data.retcode === 1010021) {
-                        $("#module-changepwd-tips").html('新密码未加密!');
+                        $("#tips-user-changepwd").html('新密码未加密!');
                     } else if (data.retcode === 1010020) {
-                        $("#module-changepwd-tips").html('旧密码错误!');
+                        $("#tips-user-changepwd").html('旧密码错误!');
                     } else {
-                        $("#module-changepwd-tips").html('密码修改失败!');
+                        $("#tips-user-changepwd").html('密码修改失败!');
                     }
                     return;
                 }
-                $("#module-changepwd-dialog").modal('hide');
+                $("#dialog-user-changepwd").modal('hide');
             }
         });
     });
@@ -125,7 +125,7 @@ $(document).ready(function () {
                                     <span>' + system_memberinfo.chname + '<br><em>' + system_memberinfo.account + '</em></span>    \
                                 </a> \
                                 <ul class="dropdown-menu profile-drop"> \
-                                    <li><a data-toggle="modal" data-target="#module-changepwd-dialog">设 置</a></li> \
+                                    <li><a data-toggle="modal" data-target="#dialog-user-changepwd">设 置</a></li> \
                                     <li><a id="user-logout-btn" href="/pipes/user/logout">注 销</a></li> \
                                 </ul>');
     }
@@ -180,6 +180,6 @@ $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
     });
     if (!window['system_memberinfo'] || !system_memberinfo.userid) {
-        $('#module-login-dialog').modal('show');
+        $('#dialog-user-login').modal('show');
     }
 });
