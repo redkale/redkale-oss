@@ -17,7 +17,7 @@ $(document).ready(function () {
                                     <span>' + system_memberinfo.chname + '<br><em>' + system_memberinfo.account + '</em></span>    \
                                 </a> \
                                 <ul class="dropdown-menu profile-drop"> \
-                                    <li><a href="javascript:void(0);">设 置</a></li> \
+                                    <li><a data-toggle="modal" data-target="#module-changepwd-dialog">设 置</a></li> \
                                     <li><a href="javascript:void(0);">注 销</a></li> \
                                 </ul>');
     }    
