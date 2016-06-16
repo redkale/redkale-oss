@@ -11,13 +11,10 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/modernizr.js"></script> \
  \
         <script src="/boot/js/jquery.min.js"></script> \
-        <script src="/boot/js/bootstrap.min.js"></script> \
-        <script src="/boot/js/jquery.slimscroll.min.js"></script> \
+        <script src="/boot/js/jquery.md5.js"></script> \
         <script src="/boot/js/jquery.form.js"></script> \
-        <script src="/boot/js/metisMenu.min.js"></script> \
-        <script src="/boot/js/moment.min.js"></script>   \
-        <script src="/boot/js/bootstrap-modalmanager.js"></script> \
-        <script src="/boot/js/bootstrap-modal.js"></script> \\n\
+        <script src="/boot/js/jquery.slimscroll.min.js"></script> \
+        <script src="/boot/js/jquery.dataTables.min.js"></script>  \
 \
         <script src="/boot/js/jquery.sparkline.min.js"></script> \
         <script src="/boot/js/jquery.flot.min.js"></script> \
@@ -28,13 +25,19 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/jquery.flot.selection.min.js"></script> \
         <script src="/boot/js/jquery.flot.stack.min.js"></script> \
         <script src="/boot/js/jquery.flot.crosshair.min.js"></script> \
- \
-        <script src="/boot/js/jquery.dataTables.min.js"></script>         \
+\
+        <script src="/boot/js/bootstrap.min.js"></script> \
+        <script src="/boot/js/bootstrap-modalmanager.js"></script> \
+        <script src="/boot/js/bootstrap-modal.js"></script> \
+        <script src="/boot/js/bootstrap.validator.min.js"></script> \
+\
         <script src="/boot/js/dataTables.bootstrap.min.js"></script>         \
         <script src="/boot/js/dataTables.buttons.min.js"></script> \
-        <script src="/boot/js/buttons.bootstrap.min.js"></script> \
+        <script src="/boot/js/dataTables.buttons.bootstrap.min.js"></script> \
         <script src="/boot/js/dataTables.select.min.js"></script> \
  \
+        <script src="/boot/js/metisMenu.min.js"></script> \
+        <script src="/boot/js/moment.min.js"></script>   \
         <script src="/boot/js/raphael.min.js"></script> \
         <script src="/boot/js/morris.min.js"></script> \
         <script src="/boot/js/Chart.min.js"></script> \

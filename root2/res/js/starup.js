@@ -10,8 +10,8 @@ $(document).ready(function () {
     footerhtml.push('    </div>  ');
     footerhtml.push('    <div class="modal-body">  ');
     footerhtml.push('        <form id="form-user-login" class="m-t" role="form" >  ');
-    footerhtml.push('            <div class="form-group"><input name="data.account" type="text" class="form-control" placeholder="用户名" required=""></div>  ');
-    footerhtml.push('            <div class="form-group"><input name="data.password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  ');
+    footerhtml.push('            <div class="form-group"><input name="account" type="text" class="form-control" placeholder="用户名" required=""></div>  ');
+    footerhtml.push('            <div class="form-group"><input name="password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  ');
     footerhtml.push('            <button id="btnok-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  ');
     footerhtml.push('        </form>  ');
     footerhtml.push('    </div>  ');
@@ -25,9 +25,9 @@ $(document).ready(function () {
     footerhtml.push('    </div> ');
     footerhtml.push('    <div class="modal-body"> ');
     footerhtml.push('        <form id="form-user-changepwd" class="m-t" role="form"> ');
-    footerhtml.push('            <div class="form-group"><input name="data.oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> ');
-    footerhtml.push('            <div class="form-group"><input name="data.newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> ');
-    footerhtml.push('            <div class="form-group"><input name="data.newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> ');
+    footerhtml.push('            <div class="form-group"><input name="oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> ');
+    footerhtml.push('            <div class="form-group"><input name="newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> ');
+    footerhtml.push('            <div class="form-group"><input name="newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> ');
     footerhtml.push('            <button id="btnok-user-changepwd" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> ');
     footerhtml.push('        </form> ');
     footerhtml.push('    </div> ');
@@ -46,7 +46,7 @@ $(document).ready(function () {
             cache: false,
             dataType: "json",
             data: {
-                "bean": form.serializeJsonString("data"),
+                "bean": form.serializeJsonString(),
             },
             url: '/pipes/user/login',
             error: function () {//请求失败处理函数
@@ -79,13 +79,12 @@ $(document).ready(function () {
     //
     $('#btnok-user-changepwd').click(function (e) {
         var form = $("#form-user-changepwd");
-        var json = form.serializeJson("data");
+        var json = form.serializeJson();
         if (json.newpwd !== json.newpwd2) {
             alert("两次新密码输入不一致");
             return;
         }
         $.ajax({
-            async: false,
             cache: false,
             dataType: "json",
             data: {
