@@ -13,6 +13,7 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/jquery.min.js"></script> \
         <script src="/boot/js/bootstrap.min.js"></script> \
         <script src="/boot/js/jquery.slimscroll.min.js"></script> \
+        <script src="/boot/js/jquery.form.js"></script> \
         <script src="/boot/js/metisMenu.min.js"></script> \
         <script src="/boot/js/moment.min.js"></script>   \
         <script src="/boot/js/bootstrap-modalmanager.js"></script> \
