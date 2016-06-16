@@ -36,7 +36,7 @@ $(document).ready(function () {
         var submenu = system_sysmenus[i];
         menuhtml.push('<li><a href="' + (submenu.url || 'javascript:void(0);') + '"><i class="fa ' + submenu.iconCls + '"></i> <span>' + submenu.text + '</span><span class="fa arrow"></span></a>');
         if (submenu.children && submenu.children.length) {
-            menuhtml.push('    <ul class="nav nav-second-level ' + (submenu.state == 'open' ? '' : 'collapse') + '">');
+            menuhtml.push('    <ul class="nav nav-second-level collapse">');
             for (var j = 0; j < submenu.children.length; j++) {
                 var child = submenu.children[j];
                 menuhtml.push('    <li><a href="' + child.url + '">' + (child.iconCls ? ('<i class="fa ' + child.iconCls + '"></i>  ') : '') + child.text + '</a></li>');
