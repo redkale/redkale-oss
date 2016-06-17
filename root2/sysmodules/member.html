@@ -107,7 +107,7 @@
                     $('#dtitle-user-update').html("新增用户");
                     $("#tips-user-update").html('');
                     
-                    $("#form-user-update")[0].reset();
+                    $("#form-user-update").form('reset');
                     $('#dialog-user-update').modal('show');
                     //mtable.api(true).draw(false);
                 });
@@ -116,7 +116,8 @@
                     $('#dtitle-user-update').html("修改用户");
                     $("#tips-user-update").html('');
                     
-                    $("#form-user-update")[0].reset();
+                    $("#form-user-update").form('reset');
+                    $("#form-user-update").form('load', {});
                     $('#dialog-user-update').modal('show');
                 });
 

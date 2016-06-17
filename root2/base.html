@@ -30,7 +30,7 @@
 <script>
     //---------------------------------- 用户登录框 绑定事件 -------------------------------------
     $('#dialog-user-login').on('show.bs.modal', function () { //
-        $("#form-user-login")[0].reset();
+        $("#form-user-login").form('reset');
         $("#tips-user-login").html('');
     });
     //
@@ -67,7 +67,7 @@
     });
     //---------------------------------- 密码修改框 绑定事件 -------------------------------------
     $('#dialog-user-changepwd').on('show.bs.modal', function () { //
-        $("#form-user-changepwd")[0].reset();
+        $("#form-user-changepwd").form('reset');
         $("#tips-user-changepwd").html('');
     });
     //
