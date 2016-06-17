@@ -8,7 +8,6 @@ package org.redkale.oss.sys;
 import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 import org.redkale.source.DistributeGenerator;
-import org.redkale.util.AutoLoad;
 
 /**
  * CREATE TABLE `sys_moduleinfo` (
@@ -20,7 +19,6 @@ import org.redkale.util.AutoLoad;
  * @author zhangjx
  */
 @Entity
-@AutoLoad
 @Cacheable
 @Table(name = "sys_moduleinfo")
 public class ModuleInfo extends BaseEntity {

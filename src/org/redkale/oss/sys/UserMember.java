@@ -33,7 +33,6 @@ import org.redkale.util.*;
  * @author zhangjx
  */
 @Entity
-@AutoLoad
 @Cacheable
 @Table(name = "sys_usermember")
 public class UserMember extends BaseEntity {

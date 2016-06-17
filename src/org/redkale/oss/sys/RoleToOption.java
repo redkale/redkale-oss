@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 import org.redkale.source.FilterBean;
-import org.redkale.util.AutoLoad;
 
 /**
  * CREATE TABLE `sys_roletooption` (
@@ -25,7 +24,6 @@ import org.redkale.util.AutoLoad;
  * @author zhangjx
  */
 @Entity
-@AutoLoad
 @Cacheable
 @Table(name = "sys_roletooption")
 public class RoleToOption extends BaseEntity implements FilterBean, Serializable {
