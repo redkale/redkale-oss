@@ -5,7 +5,7 @@
  */
 package org.redkale.oss.base;
 
-
+import java.util.Arrays;
 import javax.persistence.*;
 import org.redkale.convert.ConvertColumn;
 
@@ -72,7 +72,7 @@ public class MemberInfo extends BaseEntity {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" + "userid=" + userid + ", account=" + account
-                + ", chname=" + chname + ", password=" + password + ", type=" + type + ", status=" + status + '}';
+            + ", chname=" + chname + ", password=" + password + ", options=" + (options == null ? "[]" : Arrays.toString(options)) + ", type=" + type + ", status=" + status + '}';
     }
 
     public boolean checkAuth(int moduleid, int actionid) {
