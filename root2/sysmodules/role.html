@@ -1,264 +1,215 @@
-
-<table class="module-table" />
-<div class="module-dialog-role" style="display:none;">
-    <form class="module-form-role" >
-        <table class="datagrid-cell-rownumber">
-            <tr style="height: 15px;">
-                <th></th>
-                <td><input name="roleid" style="display:none;" /></td>
-            </tr>
-            <tr>
-                <th>角色名称<font color="red"> *</font></th>
-                <td><input name="rolename" class="easyui-validatebox" data-options="required:true" /></td>
-            </tr>
-            <tr>
-                <th>备注说明</th>
-                <td><textarea class="easyui-validatebox" name="description" style="height:40px;width: 172px;" ></textarea></td>
-            </tr>
+<div class="page-title">
+    <a id="button-role-create" href="javascript:void(0);"><i class="fa fa-plus"></i>新增角色</a>
+    <a id="button-role-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改角色</a>
+    <a id="button-auth-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改权限</a>
+</div>
+<div class="panel-box">    
+    <div class="table-responsive">
+        <table id="table-role-sheet" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>角色ID</th>
+                    <th>角色名称</th>
+                    <th>创建时间</th>
+                    <th>创建人</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </table>
-    </form>
+    </div>
 </div>
-<div class="module-dialog-option" style="display:none;">
-    <form class="module-form-option">
-        <table class="module-table-option" />
-    </form>
+<div id="dialog-role-update" class="modal fade" tabindex="-1" data-width="500" style="display: none;"> 
+    <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+        <h4 id="dtitle-role-update" class="modal-title">修改角色</h4> 
+    </div>
+    <div class="modal-body"> 
+        <form id="form-role-update" class="m-t form-horizontal" role="form"> 
+            <input  name="roleid" type="hidden">
+            <div class="form-group">
+                <label class="col-lg-2 control-label">角色名称</label>
+                <div class="col-lg-10"><input  name="rolename" placeholder="" class="form-control" required=""></div>
+            </div>           
+            <div class="form-group">
+                <label class="col-lg-2 control-label">备注说明</label>
+                <div class="col-lg-10"><textarea name="description" placeholder="" style="height: 8rem;" class="form-control"></textarea></div>
+            </div>
+            <br>
+            <button id="formbtn-role-update" type="button" class="btn btn-theme btn-lg btn-block ">提 交</button><br> 
+        </form> 
+    </div> 
+    <div id="tips-role-update" class="module-alert-tips"></div><br>  
 </div>
-<script type="text/javascript">
 
-    (function () {
-        //加载表格
-        var moduleTab = $('#moduleTab');
-        var dataTable = moduleTab.find(".module-table").first();
-        var windialogrole = moduleTab.find(".module-dialog-role").first();
-        var windialogoption = moduleTab.find(".module-dialog-option").first();
-        var filterform = moduleTab.find(".module-filter-role").first();
-        var formrole = moduleTab.find(".module-form-role").first();
-
-        var formoption = moduleTab.find(".module-form-option").first();
-        var optionTable = moduleTab.find(".module-table-option").first();
-
-        var createQueryParams = function () {//查询条件
-            return  {bean: {}};
-        };
-        moduleTab.find(".module-filter-button-role").first().click(function () {
-            dataTable.datagrid('load', createQueryParams());
+<div id="dialog-auth-update" class="modal fade" tabindex="-1" data-width="600" style="display: none;"> 
+    <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+        <h4 id="dtitle-auth-update" class="modal-title">修改权限</h4> 
+    </div>
+    <div class="modal-body"> 
+        <form id="form-auth-update" class="m-t form-horizontal" role="form"> 
+            <div class="table-responsive">
+                <table id="table-auth-sheet" class="table table-hover" style="width: 100%;"></table>
+            </div>
+            <button id="formbtn-auth-update" type="button" class="btn btn-theme btn-lg btn-block ">提 交</button><br> 
+        </form> 
+    </div> 
+    <div id="tips-auth-update" class="module-alert-tips"></div><br>  
+</div>
+<script>
+    {
+        //----------------------------------------------------
+        var mtable = $('#table-role-sheet').dataTable({
+            ajax: "/pipes/role/query",
+            columnDefs: [{
+                    className: 'select-checkbox',
+                    targets: 0
+                }],
+            columns: [
+                {"data": ""},
+                {"data": "roleid"},
+                {"data": "rolename"},
+                {"data": "createtime", render: Date.DateFormatter},
+                {"data": "creator"},
+                {"data": "description"}
+            ]
         });
-        dataTable.datagrid({
-            collapsible: true,
-            title: '',
-            iconCls: '',
-            url: '/pipes/role/query',
-            pageSize : 50,
-            columns: [[
-                    {field: 'ck', checkbox: true, width: 30, align: 'center'},
-                    {field: 'roleid', title: '角色ID', width: 40, align: 'center'},
-                    {field: 'rolename', title: '角色名称', width: 100, align: 'left'},
-                    {field: 'createtime', title: '创建时间', width: 80, align: 'center', formatter: Platform.DateFormatter},
-                    {field: 'creator', title: '创建人', width: 60, align: 'left'},
-                    {field: 'description', title: '描述', width: 200, align: 'left'}
-                ]],
-            queryParams: createQueryParams(),
-            toolbar: [{//正上方工具栏
-                    text: '新增角色',
-                    iconCls: 'icon-add',
-                    handler: function () {
-                        formrole.form('reset');
-                        var dialog = windialogrole.show().dialog({
-                            title: '新增角色',
-                            iconCls: 'ext-icon-user',
-                            width: 350,
-                            height: 200,
-                            shadow: true,
-                            modal: true,
-                            buttons: [{
-                                    text: '新 增',
-                                    iconCls: 'ext-icon-new',
-                                    handler: function () {
-                                        if (!formrole.form('validate'))
-                                            return;
-                                        $.ajax({
-                                            async: false,
-                                            cache: false,
-                                            dataType: "json",
-                                            data: {
-                                                "data": formrole.serializeJsonString()
-                                            },
-                                            url: '/pipes/role/create',
-                                            error: function () {//请求失败处理函数
-                                                alert('请求失败');
-                                            }, success: function (data) {
-                                                dataTable.datagrid('reload', createQueryParams());
-                                                dialog.dialog("close");
-                                            }
-                                        });
-                                    }
-                                }]
+        //--------------------------- 初始化按钮 -----------------------------
+        $('#button-role-create').click(function () {
+            $('#form-gfield-password').show();
+            $('#dtitle-role-update').html("新增角色");
+            $("#tips-role-update").html('');
 
-                        });
-                    }
-                }, {
-                    text: '修改角色',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        var row = dataTable.datagrid('getSelected');
-                        if (!row)
-                            return;
-                        formrole.form('load', row);
-                        var dialog = windialogrole.show().dialog({
-                            title: '修改角色',
-                            iconCls: 'ext-icon-user',
-                            width: 350,
-                            height: 200,
-                            shadow: true,
-                            modal: true,
-                            buttons: [{
-                                    text: '修 改',
-                                    iconCls: 'ext-icon-edit',
-                                    handler: function () {
-                                        if (!formrole.form('validate'))
-                                            return;
-                                        $.ajax({
-                                            async: false,
-                                            cache: false,
-                                            dataType: "json",
-                                            data: {
-                                                "data": formrole.serializeJsonString()
-                                            },
-                                            url: '/pipes/role/update',
-                                            error: function () {//请求失败处理函数
-                                                alert('请求失败');
-                                            }, success: function (data) {
-                                                dataTable.datagrid('reload', createQueryParams());
-                                                dialog.dialog("close");
-                                            }
-                                        });
-                                    }
-                                }]
+            $("#form-role-update").form('reset');
+            $('#dialog-role-update').modal('show');
+        });
+        $('#button-role-update').click(function () {
+            var data = mtable.api(true).row({selected: true}).data();
+            if (!data || !data.roleid) {
+                alert("请选择一条记录！");
+                return;
+            }
+            $('#dtitle-role-update').html("修改角色");
+            $("#tips-role-update").html('');
+            $("#form-role-update").form('reset');
+            $("#form-role-update").form('load', data);
+            $('#dialog-role-update').modal('show');
+        });
 
-                        });
+        //------------------------ 新增&修改角色 -----------------------------                
+        $('#formbtn-role-update').click(function (e) {
+            var form = $("#form-role-update");
+            if (!form.form('validate')) return;
+            var json = form.serializeJson();
+            $.ajax({
+                cache: false,
+                dataType: "json",
+                type: "POST",
+                data: {
+                    "data": $.objectToString(json),
+                },
+                url: json.roleid ? '/pipes/role/update' : '/pipes/role/create',
+                error: function () {//请求失败处理函数
+                    alert('请求失败');
+                },
+                success: function (data) {
+                    $("#dialog-role-update").modal('hide');
+                    mtable.api(true).draw(false);
+                }
+            });
+        });
+
+        var atable = null;
+        //------------------------ 修改权限 -----------------------------    
+        $('#button-auth-update').click(function () {
+            var rolerow = mtable.api(true).row({selected: true}).data();
+            if (!rolerow || !rolerow.roleid) {
+                alert("请选择一条记录！");
+                return;
+            }
+            $.ajax({
+                dataType: "json",
+                data: {
+                    "bean": "{'roleid':" + rolerow.roleid + "}"
+                },
+                url: '/pipes/role/qryoption',
+                error: function () {//请求失败处理函数
+                    alert('获取权限信息失败');
+                },
+                success: function (olddata) {
+                    var optionobj = {};
+                    for (var i = 0; i < olddata.length; i++) {
+                        var moduleid = Math.floor(olddata[i].optionid / 10000);
+                        optionobj["" + moduleid] = -1;
+                        optionobj["" + olddata[i].optionid] = olddata[i].seqid;
                     }
-                }, {
-                    text: '修改权限',
-                    iconCls: 'icon-edit',
-                    handler: function () {
-                        var rolerow = dataTable.datagrid('getSelected');
-                        if (!rolerow)
-                            return;
+                    var columns = [];
+                    var dataset = [];
+                    columns.push({title: '模块名称'});
+                    for (var i = 0; i < system_actiones.length; i++) {
+                        columns.push({title: system_actiones[i].actionname});
+                    }
+                    for (var i = 0; i < system_rmodules.length; i++) {
+                        var module = system_rmodules[i];
+                        var suboptions = [];
+                        suboptions.push(module.modulename);
+                        for (var j = 0; j < system_actiones.length; j++) {
+                            var optionid = module.moduleid * 10000 + system_actiones[j].actionid;
+                            var cked = !!(optionobj["" + optionid]);
+                            suboptions.push('<input type="checkbox" name="' + optionid + '" value="' + optionid + '" ' + (cked ? ' checked="checked"' : '') + '>');
+                        }
+                        dataset.push(suboptions);
+                    }
+                    $('#dtitle-auth-update').html("修改【" + rolerow.rolename + "】权限");
+                    $('#dialog-auth-update').modal('show');
+
+                    if (atable) atable.api(true).destroy(false);
+                    atable = $('#table-auth-sheet').dataTable({
+                        serverSide: false,
+                        select: false,
+                        bPaginate: false,
+                        paging: false,
+                        data: dataset,
+                        columns: columns
+                    });
+
+                    $('#formbtn-auth-update').click(function (e) {
+                        var editobj = $('#form-auth-update').serializeJson();
+                        var delseqids = [];
+                        for (var p in optionobj) {
+                            var seqid = optionobj[p];
+                            if (seqid < 0) continue;
+                            if (!editobj[p]) delseqids.push(seqid);
+                        }
+                        $.unique(delseqids);
+
+                        var newoptions = [];
+                        for (var p in editobj) {
+                            if (optionobj[p]) continue;
+                            newoptions.push({roleid: rolerow.roleid, optionid: parseInt(p)});
+                        }
                         $.ajax({
-                            async: false,
-                            cache: false,
                             dataType: "json",
+                            type: "POST",
                             data: {
-                                "bean": "{'roleid':" + rolerow.roleid + "}"
+                                "delseqids": "[" + delseqids.join(",") + "]",
+                                "data": $.objectToString(newoptions)
                             },
-                            url: '/pipes/role/qryoption',
+                            url: '/pipes/role/updoption',
                             error: function () {//请求失败处理函数
-                                alert('获取权限信息失败');
-                            }, success: function (olddata) {
-                                var optionobj = {};
-                                for (var i = 0; i < olddata.length; i++) {
-                                    var moduleid = Math.floor(olddata[i].optionid / 10000);
-                                    optionobj["" + moduleid] = -1;
-                                    optionobj["" + olddata[i].optionid] = olddata[i].seqid;
-                                }
-                                var columns = [];
-                                columns.push({field: 'modulename', title: '模块名称', width: 200, align: 'left'});
-                                for (var i = 0; i < system_actiones.length; i++) {
-                                    var action = system_actiones[i];
-                                    var aid = action.actionid;
-                                    columns.push({field: '' + action.actionid, title: action.actionname, width: 60, align: 'center',
-                                        formatter: function (value, rec, rowIndex) {
-                                            var optionid = rec.moduleid * 10000 + parseInt(this.field);
-                                            return '<input type="checkbox" name="' + optionid + '" value="' + optionid + '" ' + (value ? 'checked' : '') + '>';
-                                        }});
-                                }
-                                var optionsdata = [];
-                                for (var i = 0; i < system_rmodules.length; i++) {
-                                    var module = system_rmodules[i];
-                                    var mv = {
-                                        moduleid: module.moduleid,
-                                        modulename: module.modulename
-                                    };
-                                    for (var j = 0; j < system_actiones.length; j++) {
-                                        var actionid = system_actiones[j].actionid;
-                                        mv['' + actionid] = !!optionobj["" + (module.moduleid * 10000 + actionid)];
-                                    }
-                                    optionsdata.push(mv);
-                                }
-                                optionTable.datagrid({
-                                    checkOnSelect: false,
-                                    selectOnCheck: false,
-                                    pagination: false,
-                                    title: '',
-                                    iconCls: '',
-                                    columns: [columns],
-                                    data: optionsdata
-                                });
-                                var dialog = windialogoption.show().dialog({
-                                    title: '修改权限',
-                                    iconCls: 'ext-icon-user',
-                                    width: 650,
-                                    height: 400,
-                                    shadow: true,
-                                    modal: true,
-                                    buttons: [{
-                                            text: '修 改',
-                                            iconCls: 'ext-icon-edit',
-                                            handler: function () {
-                                                var editobj = formoption.serializeJson();
-                                                var delseqids = [];
-                                                for (var p in optionobj) {
-                                                    var seqid = optionobj[p];
-                                                    if (seqid < 0)
-                                                        continue;
-                                                    if (!editobj[p])
-                                                        delseqids.push(seqid);
-                                                }
-                                                $.unique(delseqids);
-
-                                                var newoptions = [];
-                                                for (var p in editobj) {
-                                                    if (optionobj[p])
-                                                        continue;
-                                                    newoptions.push({
-                                                        roleid: rolerow.roleid,
-                                                        optionid: parseInt(p)
-                                                    });
-                                                }
-
-                                                $.ajax({
-                                                    async: false,
-                                                    cache: false,
-                                                    dataType: "json",
-                                                    data: {
-                                                        "delseqids": "[" + delseqids.join(",") + "]",
-                                                        "data": $.objectToString(newoptions)
-                                                    },
-                                                    url: '/pipes/role/updoption',
-                                                    error: function () {//请求失败处理函数
-                                                        alert('请求失败');
-                                                    }, success: function (data) {
-                                                        dialog.dialog("close");
-                                                    }
-                                                });
-                                            }
-                                        }]
-
-                                });
+                                alert('请求失败');
+                            },
+                            success: function (data) {
+                                $("#dialog-auth-update").modal('hide');
+                                mtable.api(true).draw(false);
                             }
                         });
+                    });
 
-
-                    }
-                }],
-            onLoadError: function () {
-                //alert('数据加载失败!');
-            },
-            onLoadSuccess: function () {
-                var value = dataTable.datagrid('getData')['errorMsg'];
-                if (value)
-                    alert("错误消息:" + value);
-            }
+                }
+            });
         });
-    })();
+    }
 </script>

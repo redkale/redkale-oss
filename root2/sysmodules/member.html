@@ -61,101 +61,102 @@
     <div id="tips-user-update" class="module-alert-tips"></div><br>  
 </div>
 <script>
-
-    if (system_memberinfo && system_memberinfo.userid) {
-        $.ajax({
-            dataType: "json",
-            url: '/pipes/role/query',
-            success: function (sheetdata) {
-                var rows = sheetdata.rows || [];
-                var allroledata = {};
-                for (var i = 0; i < rows.length; i++) {
-                    allroledata["" + rows[i].roleid] = rows[i].rolename;
-                }
-                //----------------------------------------------------
-                var mtable = $('#table-user-sheet').dataTable({
-                    ajax: "/pipes/user/query",
-                    columnDefs: [{
-                            className: 'select-checkbox',
-                            targets: 0
-                        }],
-                    columns: [
-                        {"data": ""},
-                        {"data": "userid"},
-                        {"data": "account"},
-                        {"data": "chname"},
-                        {"data": "status", render: function (value, type, full) {
-                                if (value === 10) return "正常";
-                                if (value === 20) return "<font color=red>禁用</font>";
-                                return "<font color=#FF00FF>未知</font>";
-                            }},
-                        {"data": "roleids", render: function (value, type, full) {
-                                if (!value || !value.length) return "";
-                                var a = [];
-                                for (var i = 0; i < value.length; i++) {
-                                    var n = allroledata["" + value[i]];
-                                    a.push(n ? n : value[i]);
-                                }
-                                return a.join("  ");
-                            }},
-                        {"data": "createtime", render: Date.DateFormatter},
-                        {"data": "remark"}
-                    ]
-                });
-                //--------------------------- 初始化按钮 -----------------------------
-                $('#button-user-create').click(function () {
-                    $('#form-gfield-password').show();
-                    $('#dtitle-user-update').html("新增用户");
-                    $("#tips-user-update").html('');
-
-                    $("#form-user-update").form('reset');
-                    $('#dialog-user-update').modal('show');
-                });
-                $('#button-user-update').click(function () {
-                    var data = mtable.api(true).row({selected: true}).data();
-                    if (!data || !data.userid) {
-                        alert("请选择一条记录！");
-                        return;
+    {
+        if (system_memberinfo && system_memberinfo.userid) {
+            $.ajax({
+                dataType: "json",
+                url: '/pipes/role/query',
+                success: function (sheetdata) {
+                    var rows = sheetdata.rows || [];
+                    var allroledata = {};
+                    for (var i = 0; i < rows.length; i++) {
+                        allroledata["" + rows[i].roleid] = rows[i].rolename;
                     }
-                    if (data.type == system_adminpid) {
-                        alert("不允许修改管理员账号");
-                        return;
-                    }
-                    $('#form-gfield-password').hide();
-                    $('#dtitle-user-update').html("修改用户");
-                    $("#tips-user-update").html('');
-                    $("#form-user-update").form('reset');
-                    $("#form-user-update").form('load', data);
-                    $('#dialog-user-update').modal('show');
-                });
-
-                //------------------------ 新增&修改用户 -----------------------------                
-                $('#formbtn-user-update').click(function (e) {
-                    var form = $("#form-user-update");
-                    if (!form.form('validate')) return;
-                    var json = form.serializeJson();
-                    $.ajax({
-                        cache: false,
-                        dataType: "json",
-                        type: "POST",
-                        data: {
-                            "data": $.objectToString(json),
-                        },
-                        url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
-                        error: function () {//请求失败处理函数
-                            alert('请求失败');
-                        },
-                        success: function (data) {
-                            $("#dialog-user-update").modal('hide');
-                            mtable.api(true).draw(false);
-                        }
+                    //----------------------------------------------------
+                    var mtable = $('#table-user-sheet').dataTable({
+                        ajax: "/pipes/user/query",
+                        columnDefs: [{
+                                className: 'select-checkbox',
+                                targets: 0
+                            }],
+                        columns: [
+                            {"data": ""},
+                            {"data": "userid"},
+                            {"data": "account"},
+                            {"data": "chname"},
+                            {"data": "status", render: function (value, type, full) {
+                                    if (value === 10) return "正常";
+                                    if (value === 20) return "<font color=red>禁用</font>";
+                                    return "<font color=#FF00FF>未知</font>";
+                                }},
+                            {"data": "roleids", render: function (value, type, full) {
+                                    if (!value || !value.length) return "";
+                                    var a = [];
+                                    for (var i = 0; i < value.length; i++) {
+                                        var n = allroledata["" + value[i]];
+                                        a.push(n ? n : value[i]);
+                                    }
+                                    return a.join("  ");
+                                }},
+                            {"data": "createtime", render: Date.DateFormatter},
+                            {"data": "remark"}
+                        ]
                     });
-                });
-                //--------------------------------------------------------------------------
-            },
-            error: function () {
-                alert('获取角色信息失败');
-            }
-        });
+                    //--------------------------- 初始化按钮 -----------------------------
+                    $('#button-user-create').click(function () {
+                        $('#form-gfield-password').show();
+                        $('#dtitle-user-update').html("新增用户");
+                        $("#tips-user-update").html('');
+
+                        $("#form-user-update").form('reset');
+                        $('#dialog-user-update').modal('show');
+                    });
+                    $('#button-user-update').click(function () {
+                        var data = mtable.api(true).row({selected: true}).data();
+                        if (!data || !data.userid) {
+                            alert("请选择一条记录！");
+                            return;
+                        }
+                        if (data.type == system_adminpid) {
+                            alert("不允许修改管理员账号");
+                            return;
+                        }
+                        $('#form-gfield-password').hide();
+                        $('#dtitle-user-update').html("修改用户");
+                        $("#tips-user-update").html('');
+                        $("#form-user-update").form('reset');
+                        $("#form-user-update").form('load', data);
+                        $('#dialog-user-update').modal('show');
+                    });
+
+                    //------------------------ 新增&修改用户 -----------------------------                
+                    $('#formbtn-user-update').click(function (e) {
+                        var form = $("#form-user-update");
+                        if (!form.form('validate')) return;
+                        var json = form.serializeJson();
+                        $.ajax({
+                            cache: false,
+                            dataType: "json",
+                            type: "POST",
+                            data: {
+                                "data": $.objectToString(json),
+                            },
+                            url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
+                            error: function () {//请求失败处理函数
+                                alert('请求失败');
+                            },
+                            success: function (data) {
+                                $("#dialog-user-update").modal('hide');
+                                mtable.api(true).draw(false);
+                            }
+                        });
+                    });
+                    //--------------------------------------------------------------------------
+                },
+                error: function () {
+                    alert('获取角色信息失败');
+                }
+            });
+        }
     }
 </script>
