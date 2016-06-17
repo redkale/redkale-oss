@@ -139,6 +139,7 @@ public class RoleService extends BaseService {
         if (admin != null) {
             long now = System.currentTimeMillis();
             for (UserToRole info : infos) {
+                if (info.getUserid()< 1 || info.getRoleid()< 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
                 info.setCreator(admin.getChname());
             }
