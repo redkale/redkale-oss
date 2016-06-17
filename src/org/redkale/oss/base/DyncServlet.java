@@ -8,9 +8,10 @@ package org.redkale.oss.base;
 import java.io.*;
 import java.util.*;
 import javax.annotation.Resource;
+import org.redkale.convert.*;
 import org.redkale.convert.json.JsonFactory;
 import org.redkale.net.http.*;
-import org.redkale.oss.sys.RoleService;
+import org.redkale.oss.sys.*;
 import org.redkale.util.*;
 
 /**
@@ -120,7 +121,12 @@ public final class DyncServlet extends BaseServlet {
 
     public DyncServlet() {
         try {
+            Encodeable encoder1 = JsonFactory.root().loadEncoder(MemberInfo.class);
+            Encodeable encoder2 = JsonFactory.root().loadEncoder(UserMember.class);
             JsonFactory.root().registerSkipAllIgnore(true);
+            //屏蔽掉 password 字段
+            JsonFactory.root().register(MemberInfo.class, encoder1); 
+            JsonFactory.root().register(UserMember.class, encoder2); 
             //-------------------------------------------------------------------------------
             String path = "/" + DyncServlet.class.getPackage().getName().replace('.', '/') + "/sysmenus.json";
             ByteArrayOutputStream out = new ByteArrayOutputStream();
