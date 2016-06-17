@@ -1,6 +1,6 @@
 
 $.extend($.fn.dataTableExt, {
-    errMode: "none"
+    errMode: "none" //禁止alert错误信息
 });
 
 $.extend($.fn.dataTable.defaults, {
@@ -8,6 +8,7 @@ $.extend($.fn.dataTable.defaults, {
     bFilter: false,
     processing: true,
     serverSide: true,
+    select : true,
     bLengthChange: false,
     iDisplayLength: 20,
     aLengthMenu: [20],

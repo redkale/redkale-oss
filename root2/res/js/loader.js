@@ -3,11 +3,12 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <link href="/boot/css/metisMenu.min.css" rel="stylesheet"> \
         <link href="/boot/css/morris.css" rel="stylesheet"> \
         <link href="/boot/css/font-family.css" rel="stylesheet"> \
-        <link href="/boot/css/style.css" rel="stylesheet"> \
         <link href="/boot/css/bootstrap-modal-bs3patch.css" rel="stylesheet"> \
         <link href="/boot/css/bootstrap-modal.css" rel="stylesheet"> \
         <link href="/boot/css/dataTables.bootstrap.min.css" rel="stylesheet"> \
         <link href="/boot/css/dataTables.colVis.css" rel="stylesheet"> \
+        <link href="/boot/css/select.dataTables.min.css" rel="stylesheet"> \
+        <link href="/boot/css/style.css" rel="stylesheet"> \
         <script src="/boot/js/modernizr.js"></script> \
  \
         <script src="/boot/js/jquery.min.js"></script> \

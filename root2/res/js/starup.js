@@ -37,6 +37,7 @@ $(document).ready(function () {
     //menu data
     var winhref = '' + window.location.href;
     var hasactived = false;
+    var currmenu = null;
     var recursmenu = function (menuhtml, onemenu, index) {
         if (onemenu.active) hasactived = true;
         if (onemenu.children && onemenu.children.length) {
@@ -46,7 +47,7 @@ $(document).ready(function () {
                 subhref |= recursmenu(subminhtml, onemenu.children[j], index + 1);
             }
             if (subhref) onemenu.active = true;
-
+            
             menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
             menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
             menuhtml.push(subminhtml.join(''));
@@ -54,8 +55,11 @@ $(document).ready(function () {
             menuhtml.push('</li>');
             return subhref;
         } else {
-            var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0);
-            if (rs) onemenu.active = true;
+            var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0) || winhref.indexOf('?' + onemenu.moduleid) >= 0;
+            if (rs) {
+                onemenu.active = true;
+                currmenu = onemenu;
+            }
             menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
             return rs;
         }
@@ -94,4 +98,7 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
     });
+
+    if(currmenu) openModule(currmenu.url);
+    
 });

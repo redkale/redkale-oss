@@ -1,8 +1,10 @@
 <div class="panel-box">
+    <button id="button" value="选择">选择</button>
     <div class="table-responsive">
-        <table id="table-user-sheet" class="table">
+        <table id="table-user-sheet" class="table table-hover">
             <thead>
                 <tr>
+                    <th></th>
                     <th>用户ID</th>
                     <th>用户账号</th>
                     <th>用户名称</th>
@@ -29,9 +31,18 @@
                     allroledata["" + rows[i].roleid] = rows[i].rolename;
                 }
                 //----------------------------------------------------
-                $('#table-user-sheet').dataTable({
+                var mtable = $('#table-user-sheet').dataTable({
                     ajax: "/pipes/user/query",
+                    select: {
+                        style: 'os',
+                        selector: 'td:first-child'
+                    },
+                    columnDefs: [{
+                            className: 'select-checkbox',
+                            targets: 0
+                        }],
                     columns: [
+                        {"data": ""},
                         {"data": "userid"},
                         {"data": "account"},
                         {"data": "chname"},
@@ -52,6 +63,12 @@
                         {"data": "createtime", render: Date.DateFormatter},
                         {"data": "remark"}
                     ]
+                });
+                $('#table-user-sheet tbody').on('click', 'tr', function () {
+                    $(this).toggleClass('selected');
+                });
+                $('#button').click(function () {
+                    alert(mtable.rows('.selected').data().length + ' row(s) selected');
                 });
             },
             error: function () {
