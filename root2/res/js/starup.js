@@ -1,115 +1,15 @@
 $(document).ready(function () {
 
-    var footerhtml = [];
-    footerhtml.push('<span>Copyright &copy; 2016. Redkale.</span>');
-    //------------------------- 用户登录框 ------------------------------------------------------
-    footerhtml.push('<div id="dialog-user-login" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> ');
-    footerhtml.push('    <div class="modal-header">  ');
-    footerhtml.push('        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  ');
-    footerhtml.push('        <h4 class="modal-title">用户登录</h4>  ');
-    footerhtml.push('    </div>  ');
-    footerhtml.push('    <div class="modal-body">  ');
-    footerhtml.push('        <form id="form-user-login" class="m-t" role="form" >  ');
-    footerhtml.push('            <div class="form-group"><input name="account" type="text" class="form-control" placeholder="用户名" required=""></div>  ');
-    footerhtml.push('            <div class="form-group"><input name="password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  ');
-    footerhtml.push('            <button id="btnok-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  ');
-    footerhtml.push('        </form>  ');
-    footerhtml.push('    </div>  ');
-    footerhtml.push('    <div id="tips-user-login" class="module-alert-tips"></div><br>  ');
-    footerhtml.push('</div>');
-    //------------------------- 密码修改框 ------------------------------------------------------
-    footerhtml.push('<div id="dialog-user-changepwd" class="modal fade" tabindex="-1" data-width="500" style="display: none;"> ');
-    footerhtml.push('    <div class="modal-header"> ');
-    footerhtml.push('        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> ');
-    footerhtml.push('        <h4 class="modal-title">密码修改</h4> ');
-    footerhtml.push('    </div> ');
-    footerhtml.push('    <div class="modal-body"> ');
-    footerhtml.push('        <form id="form-user-changepwd" class="m-t" role="form"> ');
-    footerhtml.push('            <div class="form-group"><input name="oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> ');
-    footerhtml.push('            <div class="form-group"><input name="newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> ');
-    footerhtml.push('            <div class="form-group"><input name="newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> ');
-    footerhtml.push('            <button id="btnok-user-changepwd" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> ');
-    footerhtml.push('        </form> ');
-    footerhtml.push('    </div> ');
-    footerhtml.push('    <div id="tips-user-changepwd" class="module-alert-tips"></div><br>  ');
-    footerhtml.push('</div>');
-    document.getElementById("footer").innerHTML = footerhtml.join('');
-    //---------------------------------- 用户登录框 绑定事件 -------------------------------------
-    $('#dialog-user-login').on('show.bs.modal', function () { //
-        $("#form-user-login")[0].reset();
-        $("#tips-user-login").html('');
+    $.get("/base.html", {}, function (data) {
+        $("#footer").html('<span>Copyright &copy; 2016. Redkale.</span>' + data);
     });
-    //
-    $('#btnok-user-login').click(function (e) {
-        var form = $("#form-user-login");
-        $.ajax({
-            cache: false,
-            dataType: "json",
-            data: {
-                "bean": form.serializeJsonString(),
-            },
-            url: '/pipes/user/login',
-            error: function () {//请求失败处理函数
-                alert('请求失败');
-            },
-            success: function (data) {
-                if (!data.success) {
-                    if (data.retcode === 1001) {
-                        $("#tips-user-login").html('用户或密码错误!');
-                    } else if (data.retcode === 1002) {
-                        $("#tips-user-login").html('用户已被禁用!');
-                    } else {
-                        $("#tips-user-login").html('登陆失败!');
-                    }
-                    return;
-                } else {
-                    if (window.localStorage) {
-                        window.localStorage['glogin_account'] = $('#glogin_account').val();
-                    }
-                }
-                window.location.reload();
-            }
+    var maincontainer = $('#maincontainer');
+    window.openModule = function (url) {
+        if (!url) return;
+        $.get(url, {}, function (data) {
+            maincontainer.html(data);
         });
-    });
-    //---------------------------------- 密码修改框 绑定事件 -------------------------------------
-    $('#dialog-user-changepwd').on('show.bs.modal', function () { //
-        $("#form-user-changepwd")[0].reset();
-        $("#tips-user-changepwd").html('');
-    });
-    //
-    $('#btnok-user-changepwd').click(function (e) {
-        var form = $("#form-user-changepwd");
-        var json = form.serializeJson();
-        if (json.newpwd !== json.newpwd2) {
-            alert("两次新密码输入不一致");
-            return;
-        }
-        $.ajax({
-            cache: false,
-            dataType: "json",
-            data: {
-                "oldpwd": $.md5(json.oldpwd),
-                "newpwd": $.md5(json.newpwd),
-            },
-            url: '/pipes/user/changepwd',
-            error: function () {//请求失败处理函数
-                alert('请求失败');
-            },
-            success: function (data) {
-                if (!data.success) {
-                    if (data.retcode === 1010021) {
-                        $("#tips-user-changepwd").html('新密码未加密!');
-                    } else if (data.retcode === 1010020) {
-                        $("#tips-user-changepwd").html('旧密码错误!');
-                    } else {
-                        $("#tips-user-changepwd").html('密码修改失败!');
-                    }
-                    return;
-                }
-                $("#dialog-user-changepwd").modal('hide');
-            }
-        });
-    });
+    }
     //-------------------------- topbar ----------------------------------------------------------
     var topbarhtml = [];
     topbarhtml.push('<div class="topbar-left"><div class="text-center"><a href="/index.html" class="logo">工作平台</a></div></div>');
@@ -147,7 +47,7 @@ $(document).ready(function () {
             }
             if (subhref) onemenu.active = true;
 
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="' + (onemenu.url || 'javascript:void(0);') + '"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
             menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
             menuhtml.push(subminhtml.join(''));
             menuhtml.push('    </ul>');
@@ -156,7 +56,7 @@ $(document).ready(function () {
         } else {
             var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0);
             if (rs) onemenu.active = true;
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="' + (onemenu.url || 'javascript:void(0);') + '"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
             return rs;
         }
     };
@@ -194,7 +94,4 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
     });
-    if (!window['system_memberinfo'] || !system_memberinfo.userid) {
-        $('#dialog-user-login').modal('show');
-    }
 });
