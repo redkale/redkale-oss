@@ -61,6 +61,28 @@
     </div> 
     <div id="tips-user-update" class="module-alert-tips"></div><br>  
 </div>
+
+<div id="dialog-user-torole" class="modal fade" tabindex="-1" data-width="400" style="display: none;"> 
+    <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+        <h4 id="dtitle-user-torole" class="modal-title">修改角色</h4> 
+    </div>
+    <div class="modal-body"> 
+        <form id="form-user-torole" class="m-t form-horizontal" role="form"> 
+            <input  name="userid" type="hidden">
+            <input  name="oldroleids" type="hidden">
+            <div id="fdiv-user-roleboxes">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="xxxx_20160225" style="margin-top: -5px;width: 50%;">普通角色</label><input id="xxxx_20160225" type="checkbox" name="roleid_1001" value="1001"/>
+                </div>
+            </div>
+            <br>
+            <button id="formbtn-user-torole" type="button" class="btn btn-theme btn-lg btn-block ">提 交</button><br> 
+        </form> 
+    </div> 
+    <div id="tips-user-torole" class="module-alert-tips"></div><br>  
+</div>
+
 <script>
     {
         if (system_memberinfo && system_memberinfo.userid) {
@@ -68,11 +90,20 @@
                 dataType: "json",
                 url: '/pipes/role/query',
                 success: function (sheetdata) {
-                    var rows = sheetdata.rows || [];
+                    var rolerows = sheetdata.rows || [];
                     var allroledata = {};
-                    for (var i = 0; i < rows.length; i++) {
-                        allroledata["" + rows[i].roleid] = rows[i].rolename;
+                    var divroleboxhtml = [];
+                    var roleprefix = "role_" + new Date().getTime() + "_";
+                    for (var i = 0; i < rolerows.length; i++) {
+                        var role = rolerows[i];
+                        allroledata["" + role.roleid] = rolerows[i].rolename;
+                        var elrid = roleprefix + role.roleid;
+                        divroleboxhtml.push('<div class="form-group">');
+                        divroleboxhtml.push('   <label class="col-lg-2 control-label" for="' + elrid + '" style="margin-top: -5px;width: 50%;">' + role.rolename + '</label>');
+                        divroleboxhtml.push('   <input name="roleid_' + role.roleid + '" id="' + elrid + '" type="checkbox" value="' + role.roleid + '"/>');
+                        divroleboxhtml.push('</div>');
                     }
+                    $('#fdiv-user-roleboxes').html(divroleboxhtml.join(''));
                     //----------------------------------------------------
                     var mtable = $('#table-user-sheet').dataTable({
                         ajax: "/pipes/user/query",
@@ -103,7 +134,7 @@
                             {"data": "remark"}
                         ]
                     });
-                    //--------------------------- 初始化按钮 -----------------------------
+                    //--------------------------- 初始化修改用户 -----------------------------
                     $('#button-user-create').bind("click", function () {
                         $('#form-gfield-password').show();
                         $('#dtitle-user-update').html("新增用户");
@@ -129,7 +160,6 @@
                         $("#form-user-update").form('load', data);
                         $('#dialog-user-update').modal('show');
                     });
-
                     //------------------------ 新增&修改用户 -----------------------------                
                     $('#formbtn-user-update').bind("click", function (e) {
                         var form = $("#form-user-update");
@@ -139,15 +169,84 @@
                             cache: false,
                             dataType: "json",
                             type: "POST",
+                            url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
                             data: {
                                 "data": $.objectToString(json),
                             },
-                            url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
                             error: function () {//请求失败处理函数
                                 alert('请求失败');
                             },
                             success: function (data) {
                                 $("#dialog-user-update").modal('hide');
+                                mtable.api(true).draw(false);
+                            }
+                        });
+                    });
+
+                    //------------------------ 修改角色列表 ----------------------------- 
+                    $('#button-user-torole').bind("click", function () {
+                        var data = mtable.api(true).row({selected: true}).data();
+                        if (!data || !data.userid) {
+                            alert("请选择一条记录！");
+                            return;
+                        }
+                        if (data.type == system_adminpid) {
+                            alert("不允许修改管理员账号");
+                            return;
+                        }
+                        $("#tips-user-torole").html('');
+                        $("#form-user-torole").form('reset');
+                        $("#form-user-torole").form('load', {userid: data.userid, oldroleids: (data.roleids || []).join(',')});
+                        var roleidstr = ',' + (data.roleids || []).join(',') + ',';
+                        for (var i = 0; i < rolerows.length; i++) {
+                            var role = rolerows[i];
+                            var elrid = roleprefix + role.roleid;
+                            document.getElementById(elrid).checked = roleidstr.indexOf(',' + role.roleid + ',') >= 0;
+                        }
+                        $('#dialog-user-torole').modal('show');
+                    });
+                    //------------------------- 修改角色 -------------------------------                
+                    $('#formbtn-user-torole').bind("click", function (e) {
+                        var form = $("#form-user-torole");
+                        if (!form.form('validate')) return;
+                        var json = form.serializeJson();
+
+                        var oldobjs = {};
+                        if (json.oldroleids) {
+                            $.each(json.oldroleids.split(','), function (i, v) {
+                                if (v) oldobjs['' + v] = 1;
+                            });
+                        }
+
+                        var delroleids = [];
+                        var newuseroles = [];
+                        for (var p in json) {
+                            if (p.indexOf("roleid_") < 0) continue;
+                            if (oldobjs[json[p]]) {
+                                delete oldobjs[json[p]];
+                                continue;
+                            }
+                            newuseroles.push({userid: json.userid, roleid: json[p]});
+                        }
+                        for (var k in oldobjs) {
+                            delroleids.push(k);
+                        }
+
+                        $.ajax({
+                            cache: false,
+                            dataType: "json",
+                            type: "POST",
+                            url: '/pipes/role/upduserole',
+                            data: {
+                                "deluserid": delroleids.length ? json.userid : 0,
+                                "delroleids": $.objectToString(delroleids),
+                                "data": $.objectToString(newuseroles),
+                            },
+                            error: function () {//请求失败处理函数
+                                alert('请求失败');
+                            },
+                            success: function (data) {
+                                $("#dialog-user-torole").modal('hide');
                                 mtable.api(true).draw(false);
                             }
                         });
