@@ -18,7 +18,8 @@ import org.redkale.source.FilterBean;
  * `optionid` int(11) NOT NULL DEFAULT '0' COMMENT 'optionid = moduleid * 10000 + actionid',
  * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
  * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
- * PRIMARY KEY (`seqid`)
+ * PRIMARY KEY (`seqid`),
+ * UNIQUE KEY `unique` (`roleid`,`optionid`)
  * ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx

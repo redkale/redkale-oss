@@ -15,7 +15,8 @@ import org.redkale.oss.base.BaseEntity;
  * `userid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
  * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
  * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
- * PRIMARY KEY (`seqid`)
+ * PRIMARY KEY (`seqid`),
+ * UNIQUE KEY `unique` (`roleid`,`userid`)
  * ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
