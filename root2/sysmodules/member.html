@@ -1,6 +1,6 @@
 <div class="page-title">
-    <a id="btn-user-create" href="javascript:void(0);"><i class="fa fa-plus"></i>新增用户</a>
-    <a id="btn-user-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改用户</a>
+    <a id="button-user-create" href="javascript:void(0);"><i class="fa fa-plus"></i>新增用户</a>
+    <a id="button-user-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改用户</a>
 </div>
 <div class="panel-box">    
     <div class="table-responsive">
@@ -21,7 +21,46 @@
         </table>
     </div>
 </div>
+<div id="dialog-user-update" class="modal fade" tabindex="-1" data-width="550" data-backdrop="static" data-keyboard="false" style="display: none;"> 
+    <div class="modal-header"> 
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
+        <h4 id="dtitle-user-update" class="modal-title">修改用户</h4> 
+    </div>
+    <div class="modal-body"> 
+        <form id="form-user-update" class="m-t form-horizontal" role="form"> 
+            <div class="form-group">
+                <label class="col-lg-2 control-label">用户账号</label>
+                <div class="col-lg-10"><input  name="account" placeholder="用户账号" class="form-control" required=""></div>
+            </div>
+            <div id="form-gfield-password" class="form-group">
+                <label class="col-lg-2 control-label">用户密码</label>
+                <div class="col-lg-10"><input name="password" type="password" placeholder="用户密码" class="form-control" required=""></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">用户名称</label>
+                <div class="col-lg-10"><input name="chname" placeholder="用户名称" class="form-control" required=""></div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">手 机</label>
+                <div class="col-lg-10"><input name="mobile" type="tel" placeholder="手 机" class="form-control"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">邮 箱</label>
+                <div class="col-lg-10"><input name="email" type="email" placeholder="邮 箱" class="form-control"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">备注说明</label>
+                <div class="col-lg-10"><textarea name="chname" placeholder="备注说明" style="height: 8rem;" class="form-control"></textarea></div>
+            </div>
+            <br>
+            <button id="formbtn-user-update" type="button" class="btn btn-theme btn-lg btn-block ">提 交</button><br> 
+        </form> 
+    </div> 
+    <div id="tips-user-update" class="module-alert-tips"></div><br>  
+</div>
 <script>
+
     if (system_memberinfo && system_memberinfo.userid) {
         $.ajax({
             dataType: "json",
@@ -62,9 +101,58 @@
                         {"data": "remark"}
                     ]
                 });
-                $('#btn-user-update').click(function () {
-                    mtable.api(true).draw(false);
+                //--------------------------- 初始化按钮 -----------------------------
+                $('#button-user-create').click(function () {
+                    $('#form-gfield-password').show();
+                    $('#dtitle-user-update').html("新增用户");
+                    $("#tips-user-update").html('');
+                    
+                    $("#form-user-update")[0].reset();
+                    $('#dialog-user-update').modal('show');
+                    //mtable.api(true).draw(false);
                 });
+                $('#button-user-update').click(function () {
+                    $('#form-gfield-password').hide();
+                    $('#dtitle-user-update').html("修改用户");
+                    $("#tips-user-update").html('');
+                    
+                    $("#form-user-update")[0].reset();
+                    $('#dialog-user-update').modal('show');
+                });
+
+                //------------------------ 新增&修改用户 -----------------------------                
+                $('#formbtn-user-update').click(function (e) {
+                    var form = $("#form-user-update");
+                    $.ajax({
+                        cache: false,
+                        dataType: "json",
+                        data: {
+                            "bean": form.serializeJsonString(),
+                        },
+                        url: '/pipes/user/login',
+                        error: function () {//请求失败处理函数
+                            alert('请求失败');
+                        },
+                        success: function (data) {
+                            if (!data.success) {
+                                if (data.retcode === 1001) {
+                                    $("#tips-user-create").html('用户或密码错误!');
+                                } else if (data.retcode === 1002) {
+                                    $("#tips-user-create").html('用户已被禁用!');
+                                } else {
+                                    $("#tips-user-create").html('登陆失败!');
+                                }
+                                return;
+                            } else {
+                                if (window.localStorage) {
+                                    window.localStorage['glogin_account'] = $('#glogin_account').val();
+                                }
+                            }
+                            window.location.reload();
+                        }
+                    });
+                });
+                //--------------------------------------------------------------------------
             },
             error: function () {
                 alert('获取角色信息失败');
