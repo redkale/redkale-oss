@@ -14,6 +14,7 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/jquery.min.js"></script> \
         <script src="/boot/js/jquery.md5.js"></script> \
         <script src="/boot/js/jquery.parser.js"></script> \
+        <script src="/boot/js/jquery.validatebox.js"></script> \
         <script src="/boot/js/jquery.form.js"></script> \
         <script src="/boot/js/jquery.slimscroll.min.js"></script> \
         <script src="/boot/js/jquery.dataTables.min.js"></script>  \

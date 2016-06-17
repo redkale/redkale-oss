@@ -39,6 +39,7 @@
         $.ajax({
             cache: false,
             dataType: "json",
+            type: "POST",
             data: {
                 "bean": form.serializeJsonString(),
             },
@@ -81,6 +82,7 @@
         $.ajax({
             cache: false,
             dataType: "json",
+            type: "POST",
             data: {
                 "oldpwd": $.md5(json.oldpwd),
                 "newpwd": $.md5(json.newpwd),
@@ -105,7 +107,7 @@
         });
     });
     //--------------------------------------------------------------------------------------------
-    
+
     if (!window['system_memberinfo'] || !system_memberinfo.userid) {
         $('#dialog-user-login').modal('show');
     }
