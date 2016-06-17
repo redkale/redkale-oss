@@ -335,7 +335,8 @@ body.fixed-left .side-menu.left {
     padding: 20px 5px 60px 5px;
     padding-top: 80px;
 }
-.footer {
+.footer {    
+    display: none; /** cover link under bottom */
     background-color: transparent;
     bottom: 0px;
     height: 50px !important;

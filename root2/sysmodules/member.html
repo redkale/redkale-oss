@@ -1,8 +1,8 @@
-<div class="panel-box">
-    <div class="page-title">
-        <a id="btn-user-create" href="javascript:void(0);"><i class="fa fa-plus"></i>新增用户</a>
-        <a id="btn-user-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改用户</a>
-    </div>
+<div class="page-title">
+    <a id="btn-user-create" href="javascript:void(0);"><i class="fa fa-plus"></i>新增用户</a>
+    <a id="btn-user-update" href="javascript:void(0);"><i class="fa fa-pencil-square-o"></i>修改用户</a>
+</div>
+<div class="panel-box">    
     <div class="table-responsive">
         <table id="table-user-sheet" class="table table-hover">
             <thead>
@@ -24,7 +24,6 @@
 <script>
     if (system_memberinfo && system_memberinfo.userid) {
         $.ajax({
-            cache: false,
             dataType: "json",
             url: '/pipes/role/query',
             success: function (sheetdata) {
@@ -64,7 +63,7 @@
                     ]
                 });
                 $('#btn-user-update').click(function () {
-                    alert(mtable.select());
+                    mtable.api(true).draw(false);
                 });
             },
             error: function () {
