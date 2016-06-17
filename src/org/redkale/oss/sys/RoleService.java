@@ -118,6 +118,7 @@ public class RoleService extends BaseService {
         if (admin != null) {
             long now = System.currentTimeMillis();
             for (RoleToOption info : infos) {
+                if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
                 info.setCreator(admin.getChname());
             }
