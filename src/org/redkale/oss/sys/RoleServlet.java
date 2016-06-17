@@ -26,7 +26,8 @@ public final class RoleServlet extends BaseServlet {
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/upduserole")
     public void upduserole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.updateUserToRole(currentUser(req), req.getJsonParameter(int[].class, "delseqids"), req.getJsonParameter(UserToRole[].class, "data")));
+        int[] delroleids = req.getJsonParameter(int[].class, "delroleids");
+        resp.finishJson(service.updateUserToRole(currentUser(req), req.getIntParameter("deluserid", 0), delroleids, req.getJsonParameter(UserToRole[].class, "data")));
     }
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/qryuserole")

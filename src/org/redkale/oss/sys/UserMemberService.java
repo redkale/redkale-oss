@@ -141,11 +141,10 @@ public class UserMemberService extends BaseService {
         return time;
     }
 
-    public Sheet<UserMember> queryUser(Flipper flipper, UserFilterBean bean) {
+    public Sheet<UserMember> queryUser(Flipper flipper, final UserFilterBean bean) {
         Sheet<UserMember> sheet = source.querySheet(UserMember.class, flipper, bean);
-        if (sheet.getRows() == null) return sheet;
+        if (sheet.isEmpty()) return sheet;
         int olduserid = bean == null ? 0 : bean.getUserid();
-        if (bean == null) bean = new UserFilterBean();
         for (UserMember detail : sheet.getRows()) {
             detail.setRoleids(roleService.queryRoleidByUserid(detail.getUserid()));
         }

@@ -111,14 +111,14 @@ public class RoleService extends BaseService {
         return source.querySheet(UserToRole.class, flipper, bean);
     }
 
-    public int[] updateRoleToOption(MemberInfo admin, int[] delseqids, RoleToOption... infos) {
-        final boolean deled = delseqids != null && delseqids.length > 0;
-        if (deled) source.delete(RoleToOption.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
+    public int[] updateUserToRole(MemberInfo admin, int deluserid, int[] delroleids, UserToRole... infos) {
+        final boolean deled = deluserid > 0 && delroleids != null && delroleids.length > 0;
+        if (deled) source.delete(UserToRole.class, FilterNode.create("roleid", FilterExpress.IN, delroleids).and("userid", deluserid));
         if (infos.length == 0) return new int[0];
         if (admin != null) {
             long now = System.currentTimeMillis();
-            for (RoleToOption info : infos) {
-                if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
+            for (UserToRole info : infos) {
+                if (info.getUserid() < 1 || info.getRoleid() < 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
                 info.setCreator(admin.getChname());
             }
@@ -132,14 +132,14 @@ public class RoleService extends BaseService {
         return rs;
     }
 
-    public int[] updateUserToRole(MemberInfo admin, int[] delseqids, UserToRole... infos) {
+    public int[] updateRoleToOption(MemberInfo admin, int[] delseqids, RoleToOption... infos) {
         final boolean deled = delseqids != null && delseqids.length > 0;
-        if (deled) source.delete(UserToRole.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
+        if (deled) source.delete(RoleToOption.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
         if (infos.length == 0) return new int[0];
         if (admin != null) {
             long now = System.currentTimeMillis();
-            for (UserToRole info : infos) {
-                if (info.getUserid()< 1 || info.getRoleid()< 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
+            for (RoleToOption info : infos) {
+                if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
                 info.setCreator(admin.getChname());
             }
