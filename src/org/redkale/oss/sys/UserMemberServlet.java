@@ -13,6 +13,7 @@ import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 import org.redkale.oss.base.BaseServlet;
 import org.redkale.plugins.weixin.WeiXinQYService;
+import org.redkale.source.Flipper;
 
 /**
  *
@@ -91,8 +92,10 @@ public class UserMemberServlet extends BaseServlet {
 
     @WebAction(url = "/user/query")
     public void query(HttpRequest req, HttpResponse resp) throws IOException {
+        Flipper flipper = findFlipper(req);
+        flipper.putSortIfEmpty("userid DESC");
         UserFilterBean bean = req.getJsonParameter(UserFilterBean.class, "bean");
-        resp.finishJson(service.queryUser(findFlipper(req), bean));
+        resp.finishJson(service.queryUser(flipper, bean));
     }
 
     @WebAction(url = "/user/create")
