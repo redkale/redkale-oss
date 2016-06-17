@@ -103,7 +103,7 @@
                         ]
                     });
                     //--------------------------- 初始化按钮 -----------------------------
-                    $('#button-user-create').click(function () {
+                    $('#button-user-create').bind("click", function () {
                         $('#form-gfield-password').show();
                         $('#dtitle-user-update').html("新增用户");
                         $("#tips-user-update").html('');
@@ -111,7 +111,7 @@
                         $("#form-user-update").form('reset');
                         $('#dialog-user-update').modal('show');
                     });
-                    $('#button-user-update').click(function () {
+                    $('#button-user-update').bind("click", function () {
                         var data = mtable.api(true).row({selected: true}).data();
                         if (!data || !data.userid) {
                             alert("请选择一条记录！");
@@ -130,7 +130,7 @@
                     });
 
                     //------------------------ 新增&修改用户 -----------------------------                
-                    $('#formbtn-user-update').click(function (e) {
+                    $('#formbtn-user-update').bind("click", function (e) {
                         var form = $("#form-user-update");
                         if (!form.form('validate')) return;
                         var json = form.serializeJson();

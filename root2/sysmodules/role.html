@@ -50,6 +50,7 @@
     </div>
     <div class="modal-body"> 
         <form id="form-auth-update" class="m-t form-horizontal" role="form"> 
+            <input name="roleid" type="hidden">
             <div class="table-responsive">
                 <table id="table-auth-sheet" class="table table-hover" style="width: 100%;"></table>
             </div>
@@ -77,7 +78,7 @@
             ]
         });
         //--------------------------- 初始化按钮 -----------------------------
-        $('#button-role-create').click(function () {
+        $('#button-role-create').bind("click", function () {
             $('#form-gfield-password').show();
             $('#dtitle-role-update').html("新增角色");
             $("#tips-role-update").html('');
@@ -85,7 +86,7 @@
             $("#form-role-update").form('reset');
             $('#dialog-role-update').modal('show');
         });
-        $('#button-role-update').click(function () {
+        $('#button-role-update').bind("click", function () {
             var data = mtable.api(true).row({selected: true}).data();
             if (!data || !data.roleid) {
                 alert("请选择一条记录！");
@@ -99,7 +100,7 @@
         });
 
         //------------------------ 新增&修改角色 -----------------------------                
-        $('#formbtn-role-update').click(function (e) {
+        $('#formbtn-role-update').bind("click", function (e) {
             var form = $("#form-role-update");
             if (!form.form('validate')) return;
             var json = form.serializeJson();
@@ -122,13 +123,50 @@
         });
 
         var atable = null;
+        var optionobj = null;
+
+        $('#formbtn-auth-update').bind("click", function (e) {
+            var editobj = $('#form-auth-update').serializeJson();
+            var roleid = editobj.roleid;
+            alert(JSON.stringify(editobj));
+            var delseqids = [];
+            for (var p in optionobj) {
+                var seqid = optionobj[p];
+                if (seqid < 0) continue;
+                if (!editobj[p]) delseqids.push(seqid);
+            }
+            $.unique(delseqids);
+
+            var newoptions = [];
+            for (var p in editobj) {
+                if (optionobj[p]) continue;
+                newoptions.push({roleid: roleid, optionid: parseInt(p)});
+            }
+            $.ajax({
+                dataType: "json",
+                type: "POST",
+                data: {
+                    "delseqids": "[" + delseqids.join(",") + "]",
+                    "data": $.objectToString(newoptions)
+                },
+                url: '/pipes/role/updoption',
+                error: function () {//请求失败处理函数
+                    alert('请求失败');
+                },
+                success: function (data) {
+                    $("#dialog-auth-update").modal('hide');
+                    mtable.api(true).draw(false);
+                }
+            });
+        });
         //------------------------ 修改权限 -----------------------------    
-        $('#button-auth-update').click(function () {
+        $('#button-auth-update').bind("click", function () {
             var rolerow = mtable.api(true).row({selected: true}).data();
             if (!rolerow || !rolerow.roleid) {
                 alert("请选择一条记录！");
                 return;
-            }
+            }            
+            $("#form-auth-update").form('load', rolerow); // 给roleid赋值
             $.ajax({
                 dataType: "json",
                 data: {
@@ -139,7 +177,7 @@
                     alert('获取权限信息失败');
                 },
                 success: function (olddata) {
-                    var optionobj = {};
+                    optionobj = {};
                     for (var i = 0; i < olddata.length; i++) {
                         var moduleid = Math.floor(olddata[i].optionid / 10000);
                         optionobj["" + moduleid] = -1;
@@ -174,40 +212,6 @@
                         data: dataset,
                         columns: columns
                     });
-
-                    $('#formbtn-auth-update').click(function (e) {
-                        var editobj = $('#form-auth-update').serializeJson();
-                        var delseqids = [];
-                        for (var p in optionobj) {
-                            var seqid = optionobj[p];
-                            if (seqid < 0) continue;
-                            if (!editobj[p]) delseqids.push(seqid);
-                        }
-                        $.unique(delseqids);
-
-                        var newoptions = [];
-                        for (var p in editobj) {
-                            if (optionobj[p]) continue;
-                            newoptions.push({roleid: rolerow.roleid, optionid: parseInt(p)});
-                        }
-                        $.ajax({
-                            dataType: "json",
-                            type: "POST",
-                            data: {
-                                "delseqids": "[" + delseqids.join(",") + "]",
-                                "data": $.objectToString(newoptions)
-                            },
-                            url: '/pipes/role/updoption',
-                            error: function () {//请求失败处理函数
-                                alert('请求失败');
-                            },
-                            success: function (data) {
-                                $("#dialog-auth-update").modal('hide');
-                                mtable.api(true).draw(false);
-                            }
-                        });
-                    });
-
                 }
             });
         });

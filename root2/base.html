@@ -34,7 +34,7 @@
         $("#tips-user-login").html('');
     });
     //
-    $('#formbtn-user-login').click(function (e) {
+    $('#formbtn-user-login').bind("click", function (e) {
         var form = $("#form-user-login");
         $.ajax({
             cache: false,
@@ -72,7 +72,7 @@
         $("#tips-user-changepwd").html('');
     });
     //
-    $('#formbtn-user-changepwd').click(function (e) {
+    $('#formbtn-user-changepwd').bind("click", function (e) {
         var form = $("#form-user-changepwd");
         var json = form.serializeJson();
         if (json.newpwd !== json.newpwd2) {

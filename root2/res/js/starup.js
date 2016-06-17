@@ -79,10 +79,10 @@ $(document).ready(function () {
     menuhtml.push('    <a href="javascript:void(0);" style="border-right: 0px;"><i class="fa fa-phone"></i></a>');
     menuhtml.push('</div>');
     $("#side-menu").html(menuhtml.join('').replace('first_active', hasactived ? '' : 'active'));
-    $("#sidebar-toggle").click(function () {
+    $("#sidebar-toggle").bind("click", function () {
         $(".sidebar").toggleClass("active");
     });
-    $(".menu-toggle").click(function () {
+    $(".menu-toggle").bind("click", function () {
         $("body").toggleClass("widescreen");
     });
     //slim

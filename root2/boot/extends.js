@@ -8,7 +8,7 @@ $.extend($.fn.dataTable.defaults, {
     bFilter: false,
     processing: true,
     serverSide: true,
-    select : true,
+    select: true,
     bLengthChange: false,
     iDisplayLength: 20,
     aLengthMenu: [20],
@@ -16,9 +16,10 @@ $.extend($.fn.dataTable.defaults, {
     sServerMethod: 'POST',
     language: {
         sLengthMenu: "每页显示 _MENU_ 条记录",
-        sZeroRecords: "没有检索到数据",
+        sZeroRecords: "对不起, 没有数据",
+        sEmptyTable: "对不起, 没有数据",
         sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
-        sInfoEmtpy: "没有数据",
+        sInfoEmpty: "",
         sProcessing: '正在加载数据...',
         paginate: {
             sFirst: "首页",
@@ -34,20 +35,13 @@ $.extend($.fn.dataTable.defaults, {
         });
         $(settings.nTable).on('xhr.dt', function (e, settings, json) {
             if (json) {
-                if (json.rows) json.data = json.rows;
-                if (json.total) json.recordsTotal = json.total;
+                json.data = json.rows || [];
+                if (json.total < 0) json.total = 0;
+                json.recordsTotal = json.total;
                 json.recordsFiltered = json.recordsTotal;
                 json.draw = new Date().getTime();
             }
         });
-    },
-    initComplete: function (settings, json) {
-        if (json) {
-            if (json.rows) json.data = json.rows;
-            if (json.total) json.recordsTotal = json.total;
-            json.recordsFiltered = json.recordsTotal;
-            json.draw = new Date().getTime();
-        }
     }
 });
 
