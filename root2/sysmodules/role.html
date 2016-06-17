@@ -108,10 +108,10 @@
                 cache: false,
                 dataType: "json",
                 type: "POST",
+                url: json.roleid ? '/pipes/role/update' : '/pipes/role/create',
                 data: {
                     "data": $.objectToString(json),
                 },
-                url: json.roleid ? '/pipes/role/update' : '/pipes/role/create',
                 error: function () {//请求失败处理函数
                     alert('请求失败');
                 },
@@ -123,12 +123,14 @@
         });
 
         var atable = null;
-        var optionobj = null;
+        var optionobj = {};
 
+        //------------------------ 修改权限 -----------------------------  
         $('#formbtn-auth-update').bind("click", function (e) {
             var editobj = $('#form-auth-update').serializeJson();
             var roleid = editobj.roleid;
-            alert(JSON.stringify(editobj));
+            delete editobj.roleid;
+            
             var delseqids = [];
             for (var p in optionobj) {
                 var seqid = optionobj[p];
@@ -145,11 +147,11 @@
             $.ajax({
                 dataType: "json",
                 type: "POST",
+                url: '/pipes/role/updoption',
                 data: {
                     "delseqids": "[" + delseqids.join(",") + "]",
                     "data": $.objectToString(newoptions)
                 },
-                url: '/pipes/role/updoption',
                 error: function () {//请求失败处理函数
                     alert('请求失败');
                 },
@@ -159,25 +161,27 @@
                 }
             });
         });
-        //------------------------ 修改权限 -----------------------------    
+        //------------------------ 显示权限列表 -----------------------------    
         $('#button-auth-update').bind("click", function () {
             var rolerow = mtable.api(true).row({selected: true}).data();
             if (!rolerow || !rolerow.roleid) {
                 alert("请选择一条记录！");
                 return;
-            }            
+            }
             $("#form-auth-update").form('load', rolerow); // 给roleid赋值
             $.ajax({
                 dataType: "json",
+                url: '/pipes/role/qryoption',
                 data: {
                     "bean": "{'roleid':" + rolerow.roleid + "}"
                 },
-                url: '/pipes/role/qryoption',
                 error: function () {//请求失败处理函数
                     alert('获取权限信息失败');
                 },
                 success: function (olddata) {
-                    optionobj = {};
+                    for (var p in optionobj) {
+                        delete optionobj[p];
+                    }
                     for (var i = 0; i < olddata.length; i++) {
                         var moduleid = Math.floor(olddata[i].optionid / 10000);
                         optionobj["" + moduleid] = -1;
