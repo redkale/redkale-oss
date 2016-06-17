@@ -417,7 +417,7 @@ body.widescreen.fixed-left .footer{
 
 }
 .page-title{
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 .page-title h3{
     display: inline-block;
@@ -429,6 +429,7 @@ body.widescreen.fixed-left .footer{
     padding: 5px 10px;
     color:#7b777a;
     border-radius: 2px;
+    margin-right: 16px;
 }
 .page-title a:hover{
     border-color:  #f7b03e;
