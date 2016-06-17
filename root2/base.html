@@ -1,13 +1,13 @@
 <div id="dialog-user-login" class="modal fade" tabindex="-1" data-width="500" data-backdrop="static" data-keyboard="false" style="display: none;"> 
     <div class="modal-header">  
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>  
-        <h4 class="modal-title">用户登录</h4>  
+        <h4 id="dtitle-user-login" class="modal-title">用户登录</h4>  
     </div>  
     <div class="modal-body">  
         <form id="form-user-login" class="m-t" role="form" >  
             <div class="form-group"><input name="account" type="text" class="form-control" placeholder="用户名" required=""></div>  
             <div class="form-group"><input name="password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  
-            <button id="btnok-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  
+            <button id="formbtn-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  
         </form>  
     </div>  
     <div id="tips-user-login" class="module-alert-tips"></div><br>  
@@ -15,14 +15,14 @@
 <div id="dialog-user-changepwd" class="modal fade" tabindex="-1" data-width="500" style="display: none;"> 
     <div class="modal-header"> 
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> 
-        <h4 class="modal-title">密码修改</h4> 
+        <h4 id="dtitle-user-changepwd" class="modal-title">密码修改</h4> 
     </div> 
     <div class="modal-body"> 
         <form id="form-user-changepwd" class="m-t" role="form"> 
             <div class="form-group"><input name="oldpwd" type="password" class="form-control" placeholder="旧密码" required=""></div> 
             <div class="form-group"><input name="newpwd" type="password" class="form-control" placeholder="新密码" required=""></div> 
             <div class="form-group"><input name="newpwd2" type="password" class="form-control" placeholder="确认密码" required=""></div><br> 
-            <button id="btnok-user-changepwd" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> 
+            <button id="formbtn-user-changepwd" type="button" class="btn btn-theme btn-lg btn-block ">密码修改</button><br> 
         </form> 
     </div> 
     <div id="tips-user-changepwd" class="module-alert-tips"></div><br>  
@@ -34,7 +34,7 @@
         $("#tips-user-login").html('');
     });
     //
-    $('#btnok-user-login').click(function (e) {
+    $('#formbtn-user-login').click(function (e) {
         var form = $("#form-user-login");
         $.ajax({
             cache: false,
@@ -71,7 +71,7 @@
         $("#tips-user-changepwd").html('');
     });
     //
-    $('#btnok-user-changepwd').click(function (e) {
+    $('#formbtn-user-changepwd').click(function (e) {
         var form = $("#form-user-changepwd");
         var json = form.serializeJson();
         if (json.newpwd !== json.newpwd2) {
