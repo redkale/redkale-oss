@@ -3,6 +3,10 @@ $.extend($.fn.dataTableExt, {
     errMode: "none" //禁止alert错误信息
 });
 
+$.defrender = function (value, type, full) {
+    return value ? value : "";
+};
+
 $.extend($.fn.dataTable.defaults, {
     bSort: false,
     bFilter: false,

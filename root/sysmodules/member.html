@@ -5,7 +5,7 @@
 </div>
 <div class="panel-box">    
     <div class="table-responsive">
-        <table id="table-user-sheet" class="table table-hover">
+        <table id="table-user-sheet" class="table table-hover" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th></th>
@@ -112,10 +112,10 @@
                                 targets: 0
                             }],
                         columns: [
-                            {"data": ""},
-                            {"data": "userid"},
-                            {"data": "account"},
-                            {"data": "chname"},
+                            {"data": "", render: $.defrender},
+                            {"data": "userid", render: $.defrender},
+                            {"data": "account", render: $.defrender},
+                            {"data": "chname", render: $.defrender},
                             {"data": "status", render: function (value, type, full) {
                                     if (value === 10) return "正常";
                                     if (value === 20) return "<font color=red>禁用</font>";
@@ -131,7 +131,7 @@
                                     return a.join("  ");
                                 }},
                             {"data": "createtime", render: Date.DateFormatter},
-                            {"data": "remark"}
+                            {"data": "remark", render: $.defrender}
                         ]
                     });
                     //--------------------------- 初始化修改用户 -----------------------------

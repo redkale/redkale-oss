@@ -5,7 +5,7 @@
 </div>
 <div class="panel-box">    
     <div class="table-responsive">
-        <table id="table-role-sheet" class="table table-hover">
+        <table id="table-role-sheet" class="table table-hover" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th></th>
@@ -69,12 +69,12 @@
                     targets: 0
                 }],
             columns: [
-                {"data": ""},
+                {"data": "", render: $.defrender},
                 {"data": "roleid"},
-                {"data": "rolename"},
+                {"data": "rolename", render: $.defrender},
                 {"data": "createtime", render: Date.DateFormatter},
-                {"data": "creator"},
-                {"data": "description"}
+                {"data": "creator", render: $.defrender},
+                {"data": "description", render: $.defrender}
             ]
         });
         //--------------------------- 初始化按钮 -----------------------------
