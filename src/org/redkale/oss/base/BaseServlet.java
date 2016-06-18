@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.redkale.convert.json.JsonConvert;
 import org.redkale.net.http.*;
 import org.redkale.oss.sys.UserMemberService;
+import org.redkale.service.RetResult;
 import org.redkale.source.Flipper;
 
 /**
@@ -21,9 +22,11 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
-    protected final boolean finest = logger.isLoggable(Level.FINEST);
-
     protected final boolean fine = logger.isLoggable(Level.FINE);
+
+    protected final boolean finer = logger.isLoggable(Level.FINER);
+
+    protected final boolean finest = logger.isLoggable(Level.FINEST);
 
     @Resource
     protected JsonConvert convert;
@@ -32,17 +35,16 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     private UserMemberService service;
 
     @Override
-    public boolean authenticate(int moduleid, int actionid, HttpRequest request, HttpResponse response) throws IOException {
+    public boolean authenticate(int module, int actionid, HttpRequest request, HttpResponse response) throws IOException {
         MemberInfo info = currentUser(request);
         if (info == null) {
-            response.addHeader("RetCode", "1001");
-            response.addHeader("RetMessage", "Not Login");
+            response.addHeader("retcode", RetCodes.RET_USER_UNLOGIN);
+            response.addHeader("retmessage", "Not Login");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'Not Login'}");
-            return false;
-        } else if (!info.checkAuth(moduleid, actionid)) {
-            response.addHeader("RetCode", "2001");
-            response.addHeader("RetMessage", "No Authority");
+        } else if (!info.checkAuth(module, actionid)) {
+            response.addHeader("retcode", RetCodes.RET_USER_AUTH_ILLEGAL);
+            response.addHeader("retmessage", "No Authority");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'No Authority'}");
         }
@@ -52,30 +54,54 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     protected final MemberInfo currentUser(HttpRequest req) throws IOException {
         final String sessionid = req.getSessionid(false);
         if (sessionid == null) return null;
-        MemberInfo user = (MemberInfo) req.getAttribute("CurrentMemberInfo");
+        MemberInfo user = (MemberInfo) req.getAttribute("$_CURRENT_MEMBER");
         if (user == null) {
             user = service.current(sessionid);
-            req.setAttribute("CurrentMemberInfo", user);
+            req.setAttribute("$_CURRENT_MEMBER", user);
         }
         return user;
     }
 
-    protected Flipper findFlipper(HttpRequest request) {  //easyUI
-        int pageSize = request.getIntParameter("rows", request.getIntParameter("length", Flipper.DEFAULT_PAGESIZE));
-        int pageNo = request.getIntParameter("page", request.getIntParameter("start", 0) / pageSize + 1);
+    protected Flipper findFlipper(HttpRequest request) {  //bootstrap datatable
+        int pageSize = request.getIntParameter("length", Flipper.DEFAULT_PAGESIZE);
+        int pageNo = (request.getIntParameter("start", 0) / pageSize) + 1;
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
         String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
         return new Flipper(pageSize, pageNo, sortColumn);
     }
 
+    /**
+     * 将对象以js方式输出
+     *
+     * @param resp   HTTP响应对象
+     * @param var    对象名
+     * @param result 对象
+     */
     protected void sendJsResult(HttpResponse resp, String var, Object result) {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var " + var + " = " + convert.convertTo(result) + ";");
     }
 
-    protected void sendJsResult(HttpResponse resp, JsonConvert jsonConvert, String var, Object result) {
-        resp.setContentType("application/javascript; charset=utf-8");
-        resp.finish("var " + var + " = " + jsonConvert.convertTo(result) + ";");
+    /**
+     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
+     *
+     * @param resp HTTP响应对象
+     * @param ret  结果对象
+     */
+    protected void sendRetResult(HttpResponse resp, RetResult ret) {
+        if (!ret.isSuccess()) resp.addHeader("retcode", ret.getRetcode());
+        resp.finishJson(ret);
+    }
+
+    /**
+     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
+     *
+     * @param resp    HTTP响应对象
+     * @param retcode 结果码
+     */
+    protected void sendRetcode(HttpResponse resp, int retcode) {
+        if (retcode != 0) resp.addHeader("retcode", retcode);
+        resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
     }
 }

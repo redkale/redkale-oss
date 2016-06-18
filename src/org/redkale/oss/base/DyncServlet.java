@@ -129,15 +129,9 @@ public final class DyncServlet extends BaseServlet {
             JsonFactory.root().register(UserMember.class, encoder2); 
             //-------------------------------------------------------------------------------
             String path = "/" + DyncServlet.class.getPackage().getName().replace('.', '/') + "/sysmenus.json";
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
             try (InputStream in = DyncServlet.class.getResourceAsStream(path)) {
-                byte[] bytes = new byte[1024];
-                int pos;
-                while ((pos = in.read(bytes)) > -1) {
-                    out.write(bytes, 0, pos);
-                }
                 List<Menu> list = JsonFactory.root().getConvert().convertFrom(new TypeToken<List<Menu>>() {
-                }.getType(), out.toString("utf-8"));
+                }.getType(), Utility.read(in));
                 menus.addAll(list);
             }
         } catch (Exception ex) {
@@ -151,15 +145,9 @@ public final class DyncServlet extends BaseServlet {
             File file = new File(home, "conf/menus.json");
             //-------------------------------------------------------------------------------
             if (file.isFile() && file.canRead()) {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
                 try (InputStream in = new FileInputStream(file)) {
-                    byte[] bytes = new byte[1024];
-                    int pos;
-                    while ((pos = in.read(bytes)) > -1) {
-                        out.write(bytes, 0, pos);
-                    }
                     List<Menu> list = JsonFactory.root().getConvert().convertFrom(new TypeToken<List<Menu>>() {
-                    }.getType(), out.toString("utf-8"));
+                    }.getType(), Utility.read(in)); 
                     menus.addAll(list);
                 }
             }
@@ -187,7 +175,7 @@ public final class DyncServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/dync/mydata")
+    @WebAction(url = "/dync/js/mydata")
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript");
         StringBuilder sb = new StringBuilder();
