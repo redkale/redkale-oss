@@ -95,20 +95,20 @@ public class UserMemberServlet extends BaseServlet {
         Flipper flipper = findFlipper(req);
         flipper.putSortIfEmpty("userid DESC");
         UserFilterBean bean = req.getJsonParameter(UserFilterBean.class, "bean");
-        resp.finishJson(service.queryUser(flipper, bean));
+        resp.finishJson(service.queryMember(flipper, bean));
     }
 
     @WebAction(url = "/user/create")
     public void create(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "data");
-        service.createUser(user);
+        service.createMember(user);
         resp.finish("{\"retcode\":0,\"success\":true}");
     }
 
     @WebAction(url = "/user/update")
     public void update(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "data");
-        service.updateUser(user);
+        service.updateMember(user);
         resp.finish("{\"retcode\":0,\"success\":true}");
     }
 

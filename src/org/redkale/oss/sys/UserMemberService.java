@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.redkale.oss.base.Services;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.oss.base.MemberInfo;
+import static org.redkale.oss.base.RetCodes.*;
 import org.redkale.source.*;
 import org.redkale.util.AnyValue;
 import org.redkale.util.Sheet;
@@ -49,7 +50,7 @@ public class UserMemberService extends BaseService {
         if (!bean.isWxlogin()) bean.setPassword(UserMember.md5IfNeed(bean.getPassword()));
         UserMember detail = source.find(UserMember.class, "account", bean.getAccount());
         if (detail == null || (!bean.isWxlogin() && !Objects.equals(detail.getPassword(), bean.getPassword()))) {
-            result.setRetcode(1001);
+            result.setRetcode(RET_USER_ACCOUNT_PWD_ILLEGAL);
             super.log(null, optionid, "用户账号或密码错误，登录失败.");
             return result;
         }
@@ -57,7 +58,7 @@ public class UserMemberService extends BaseService {
         result.setSessionid(bean.getSessionid());
         MemberInfo user = detail.createMemberInfo();
         if (user.isStatusFreeze()) {
-            result.setRetcode(1002);
+            result.setRetcode(RET_USER_FREEZED);
             super.log(user, optionid, "用户被禁用，登录失败.");
             return result;
         }
@@ -70,9 +71,9 @@ public class UserMemberService extends BaseService {
 
     public int updatePwd(String sessionid, String newpwd, String oldpwd) {
         MemberInfo user = sessionid == null ? null : current(sessionid);
-        if (user == null) return 1010021;
-        if (newpwd == null || newpwd.length() < 30) return 1010021;
-        if (!Objects.equals(user.getPassword(), oldpwd)) return 1010020;
+        if (user == null) return RET_USER_NOTEXISTS;
+        if (newpwd == null || newpwd.length() < 30) return RET_USER_PASSWORD_ILLEGAL;
+        if (!Objects.equals(user.getPassword(), oldpwd)) return RET_USER_PASSWORD_ILLEGAL;
         source.updateColumn(UserMember.class, user.getUserid(), "password", newpwd);
         user.setPassword(newpwd);
         return 0;
@@ -83,7 +84,7 @@ public class UserMemberService extends BaseService {
         return true;
     }
 
-    public Sheet<UserMember> queryUser(Flipper flipper, final UserFilterBean bean) {
+    public Sheet<UserMember> queryMember(Flipper flipper, final UserFilterBean bean) {
         Sheet<UserMember> sheet = source.querySheet(UserMember.class, flipper, bean);
         if (sheet.isEmpty()) return sheet;
         int olduserid = bean == null ? 0 : bean.getUserid();
@@ -94,11 +95,11 @@ public class UserMemberService extends BaseService {
         return sheet;
     }
 
-    public UserMember findUser(int userid) {
+    public UserMember findMember(int userid) {
         return source.find(UserMember.class, userid);
     }
 
-    public void createUser(UserMember user) {
+    public void createMember(UserMember user) {
         if (user != null) {
             user.setCreatetime(System.currentTimeMillis());
             user.setPassword(user.passwordForMD5());
@@ -107,12 +108,12 @@ public class UserMemberService extends BaseService {
         source.insert(user);
     }
 
-    public void updateUser(UserMember user) {
+    public void updateMember(UserMember user) {
         user.setUpdatetime(System.currentTimeMillis());
         source.update(user);
     }
 
-    public void deleteUser(UserMember user) {
+    public void deleteMember(UserMember user) {
         source.delete(user);
     }
 
