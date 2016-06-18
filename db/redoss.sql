@@ -84,6 +84,7 @@ CREATE TABLE `sys_usermember` (
   `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50:隐藏;60:关闭;70:过期;80:删除;',
   `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
   `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
+  `weixin` varchar(128) NOT NULL DEFAULT '' COMMENT '微信账号',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',

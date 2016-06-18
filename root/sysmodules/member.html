@@ -13,9 +13,12 @@
                     <th>用户账号</th>
                     <th>用户名称</th>
                     <th>状 态</th>
-                    <th>角色</th>
+                    <th>角 色</th>
+                    <th>手机号码</th>
+                    <th>邮箱地址</th>
+                    <th>微信账号</th>
                     <th>创建时间</th>
-                    <th>描述</th>
+                    <th>备注描述</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -50,6 +53,10 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">邮 箱</label>
                 <div class="col-lg-10"><input name="email" type="email" placeholder="邮 箱" class="form-control"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">微信账号</label>
+                <div class="col-lg-10"><input name="weixin" placeholder="微信账号" class="form-control"></div>
             </div>
             <div class="form-group">
                 <label class="col-lg-2 control-label">备注说明</label>
@@ -130,6 +137,9 @@
                                     }
                                     return a.join("  ");
                                 }},
+                            {"data": "mobile", render: $.defrender},
+                            {"data": "email", render: $.defrender},
+                            {"data": "weixin", render: $.defrender},
                             {"data": "createtime", render: Date.DateFormatter},
                             {"data": "remark", render: $.defrender}
                         ]

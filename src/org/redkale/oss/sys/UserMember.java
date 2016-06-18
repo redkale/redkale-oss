@@ -23,6 +23,7 @@ import org.redkale.util.*;
  * `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50：隐藏;60:过期;70:关闭;80:删除;',
  * `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
  * `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
+ * `weixin` varchar(128) NOT NULL DEFAULT '' COMMENT '微信账号',
  * `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
  * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
  * `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -70,6 +71,8 @@ public class UserMember extends BaseEntity {
     private String mobile = "";
 
     private String email = "";
+    
+    private String weixin = "";
 
     @Column(updatable = false)
     private long createtime;
@@ -181,6 +184,14 @@ public class UserMember extends BaseEntity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getWeixin() {
+        return weixin;
+    }
+
+    public void setWeixin(String weixin) {
+        this.weixin = weixin;
     }
 
     public long getCreatetime() {
