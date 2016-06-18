@@ -99,6 +99,11 @@ public class UserMemberService extends BaseService {
         return source.find(UserMember.class, userid);
     }
 
+    public UserMember findMemberByWeixin(String weixin) {
+        if (weixin == null || weixin.isEmpty()) return null;
+        return source.find(UserMember.class, FilterNode.create("weixin", weixin));
+    }
+
     public void createMember(UserMember user) {
         if (user != null) {
             user.setCreatetime(System.currentTimeMillis());
