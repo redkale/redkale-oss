@@ -27,7 +27,7 @@ public final class RoleServlet extends BaseServlet {
     @WebAction(actionid = ACTION_UPDATE, url = "/role/upduserole")
     public void upduserole(HttpRequest req, HttpResponse resp) throws IOException {
         int[] delroleids = req.getJsonParameter(int[].class, "delroleids");
-        resp.finishJson(service.updateUserToRole(currentUser(req), req.getIntParameter("deluserid", 0), delroleids, req.getJsonParameter(UserToRole[].class, "data")));
+        resp.finishJson(service.updateUserToRole(currentMember(req), req.getIntParameter("deluserid", 0), delroleids, req.getJsonParameter(UserToRole[].class, "data")));
     }
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/qryuserole")
@@ -37,7 +37,7 @@ public final class RoleServlet extends BaseServlet {
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/updoption")
     public void updoption(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.updateRoleToOption(currentUser(req), req.getJsonParameter(int[].class, "delseqids"), req.getJsonParameter(RoleToOption[].class, "data")));
+        resp.finishJson(service.updateRoleToOption(currentMember(req), req.getJsonParameter(int[].class, "delseqids"), req.getJsonParameter(RoleToOption[].class, "data")));
     }
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/qryoption")
@@ -52,7 +52,7 @@ public final class RoleServlet extends BaseServlet {
 
     @WebAction(actionid = ACTION_CREATE, url = "/role/create")
     public void crtrole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.createRoleInfo(currentUser(req), req.getJsonParameter(RoleInfo.class, "data")));
+        resp.finishJson(service.createRoleInfo(currentMember(req), req.getJsonParameter(RoleInfo.class, "data")));
     }
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/update")

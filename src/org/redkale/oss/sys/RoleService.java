@@ -96,7 +96,7 @@ public class RoleService extends BaseService {
             info.setCreator(admin.getChname());
         }
         source.insert(info);
-        userService.updateCache(info.getUserid());
+        //userService.updateCache(info.getUserid());
         return 0;
     }
 
@@ -104,7 +104,7 @@ public class RoleService extends BaseService {
         UserToRole utr = source.find(UserToRole.class, seqid);
         if (utr == null) return;
         source.delete(utr);
-        userService.updateCache(utr.getUserid());
+        //userService.updateCache(utr.getUserid());
     }
 
     public Sheet<UserToRole> queryUserToRole(Flipper flipper, FilterBean bean) {
@@ -128,7 +128,7 @@ public class RoleService extends BaseService {
         for (int i = 0; i < rs.length; i++) {
             rs[i] = infos[i].getSeqid();
         }
-        if (rs.length > 0 || deled) userService.updateCache();
+        //if (rs.length > 0 || deled) userService.updateCache();
         return rs;
     }
 
@@ -149,7 +149,7 @@ public class RoleService extends BaseService {
         for (int i = 0; i < rs.length; i++) {
             rs[i] = infos[i].getSeqid();
         }
-        if (rs.length > 0 || deled) userService.updateCache();
+        //if (rs.length > 0 || deled) userService.updateCache();
         return rs;
     }
 
@@ -164,7 +164,7 @@ public class RoleService extends BaseService {
         for (int i = 0; i < userids.length; i++) {
             userids[++index] = utrs.get(index).getUserid();
         }
-        userService.updateCache(userids);
+        //userService.updateCache(userids);
     }
 
     public List<RoleToOption> queryRoleToOption(FilterBean bean) {

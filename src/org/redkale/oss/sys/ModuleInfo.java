@@ -7,7 +7,6 @@ package org.redkale.oss.sys;
 
 import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
-import org.redkale.source.DistributeGenerator;
 
 /**
  * CREATE TABLE `sys_moduleinfo` (
@@ -25,7 +24,7 @@ public class ModuleInfo extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @DistributeGenerator(initialValue = 201, allocationSize = 1)
+    //@DistributeGenerator(initialValue = 201, allocationSize = 1)
     private int moduleid;
 
     private String modulename;

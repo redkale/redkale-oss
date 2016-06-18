@@ -125,8 +125,8 @@ public final class DyncServlet extends BaseServlet {
             Encodeable encoder2 = JsonFactory.root().loadEncoder(UserMember.class);
             JsonFactory.root().registerSkipAllIgnore(true);
             //屏蔽掉 password 字段
-            JsonFactory.root().register(MemberInfo.class, encoder1); 
-            JsonFactory.root().register(UserMember.class, encoder2); 
+            JsonFactory.root().register(MemberInfo.class, encoder1);
+            JsonFactory.root().register(UserMember.class, encoder2);
             //-------------------------------------------------------------------------------
             String path = "/" + DyncServlet.class.getPackage().getName().replace('.', '/') + "/sysmenus.json";
             try (InputStream in = DyncServlet.class.getResourceAsStream(path)) {
@@ -147,7 +147,7 @@ public final class DyncServlet extends BaseServlet {
             if (file.isFile() && file.canRead()) {
                 try (InputStream in = new FileInputStream(file)) {
                     List<Menu> list = JsonFactory.root().getConvert().convertFrom(new TypeToken<List<Menu>>() {
-                    }.getType(), Utility.read(in)); 
+                    }.getType(), Utility.read(in));
                     menus.addAll(list);
                 }
             }
@@ -157,29 +157,11 @@ public final class DyncServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/dync/myjsinfo")
-    public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
-        long s = System.currentTimeMillis();
-        resp.setContentType("text/javascript");
-        MemberInfo user = currentUser(req);
-        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxXXXXXXX&response_type=code&scope=snsapi_base&redirect_uri=http%3A%2F%2Foa.redkale.org%2Fpipes%2Fwx%2Flogin%3Fagentid%3D2%26url%3D%2Fyyy%2Fxxx.html#wechat_redirect
-        if (user == null) {
-            //String url = URLEncoder.encode("http://oa.redkale.org/pipes/wx/login?agentid=" + req.getParameter("agentid") + "&url=" + req.getHeader("Referer", "/"), "utf-8");
-            //resp.finish("window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxXXXXXXX&response_type=code&scope=snsapi_base&redirect_uri=" + url + "#wechat_redirect';");
-            resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
-        } else {
-            resp.finish("var system_memberinfo = " + convert.convertTo(user) + ";");
-        }
-        long e = System.currentTimeMillis() - s;
-        //logger.finest("/dync/myjsinfo in " + e + " ms"); 
-    }
-
-    @AuthIgnore
     @WebAction(url = "/dync/js/mydata")
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript");
         StringBuilder sb = new StringBuilder();
-        MemberInfo user = currentUser(req);
+        MemberInfo user = currentMember(req);
         String userjson;
         String menujson;
         if (user == null) {

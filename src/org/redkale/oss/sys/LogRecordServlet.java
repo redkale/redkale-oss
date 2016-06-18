@@ -5,10 +5,19 @@
  */
 package org.redkale.oss.sys;
 
+import javax.annotation.Resource;
+import org.redkale.net.http.WebServlet;
+import org.redkale.oss.base.BaseServlet;
+import org.redkale.util.AutoLoad;
+
 /**
  *
  * @author zhangjx
  */
-public class LogRecordServlet {
-    
+@AutoLoad(false)
+@WebServlet({"/log/*"})
+public class LogRecordServlet extends BaseServlet {
+
+    @Resource
+    private LogRecordService service;
 }

@@ -6,13 +6,11 @@
 package org.redkale.oss.sys;
 
 import java.util.*;
-import java.util.concurrent.*;
-import java.util.stream.*;
 import javax.annotation.Resource;
 import org.redkale.oss.base.Services;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.oss.base.MemberInfo;
-import org.redkale.source.Flipper;
+import org.redkale.source.*;
 import org.redkale.util.AnyValue;
 import org.redkale.util.Sheet;
 
@@ -22,57 +20,16 @@ import org.redkale.util.Sheet;
  */
 public class UserMemberService extends BaseService {
 
-    protected static final class UserSessionEntry {
+    private final int sessionExpireSeconds = 30 * 60;
 
-        public String sessionid;
-
-        public long creationTime; //登陆时间
-
-        public long lastAccessed; //最后刷新时间
-
-        public MemberInfo info;
-
-        public UserSessionEntry(String sessionid, MemberInfo info) {
-            this.sessionid = sessionid;
-            this.info = info;
-            this.creationTime = System.currentTimeMillis();
-            this.lastAccessed = this.creationTime;
-        }
-
-        @Override
-        public String toString() {
-            return "UserSessionEntry{" + "sessionid=" + sessionid + ", info=" + info + '}';
-        }
-
-    }
-
-    private final ScheduledThreadPoolExecutor sessionExpirerExecutor = new ScheduledThreadPoolExecutor(1, (Runnable r) -> {
-        final Thread t = new Thread(r, "Session-Expirer");
-        t.setDaemon(true);
-        return t;
-    });
-
-    protected final Map<String, UserSessionEntry> sessions = new ConcurrentHashMap<>();
+    @Resource(name = "membersessions")
+    protected CacheSource<String, Integer> sessions;
 
     @Resource
     private RoleService roleService;
 
-    public UserMemberService() {
-        final long timeout = 60 * 60 * 1000L; //60分钟
-        sessionExpirerExecutor.scheduleAtFixedRate(() -> {
-            long expireTime = System.currentTimeMillis() - timeout;
-            Iterator<Map.Entry<String, UserSessionEntry>> iterator = sessions.entrySet().iterator();
-            while (iterator.hasNext()) {
-                if (iterator.next().getValue().lastAccessed < expireTime) {
-                    iterator.remove();
-                }
-            }
-        }, 10, 10, TimeUnit.SECONDS);
-    }
-
     @Override
     public void destroy(AnyValue conf) {
-        sessionExpirerExecutor.shutdownNow();
     }
 
     public MemberInfo findMemberInfo(int userid) {
@@ -81,9 +38,8 @@ public class UserMemberService extends BaseService {
     }
 
     public MemberInfo current(String sessionid) {
-        UserSessionEntry entry = sessions.get(sessionid);
-        if (entry != null) entry.lastAccessed = System.currentTimeMillis();
-        return entry == null ? null : entry.info;
+        Integer userid = sessions.getAndRefresh(sessionid, sessionExpireSeconds);
+        return userid == null ? null : findMemberInfo(userid);
     }
 
     public LoginResult login(LoginBean bean) {
@@ -108,7 +64,7 @@ public class UserMemberService extends BaseService {
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByUserid(user.getUserid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
-        this.sessions.put(result.getSessionid(), new UserSessionEntry(result.getSessionid(), result.getUser()));
+        this.sessions.set(sessionExpireSeconds, bean.getSessionid(), result.getUser().getUserid());
         return result;
     }
 
@@ -122,23 +78,9 @@ public class UserMemberService extends BaseService {
         return 0;
     }
 
-    public void updateCache(int... userids) {
-        Stream<UserSessionEntry> stream = this.sessions.values().stream();
-        if (userids.length > 0) stream = stream.filter(x -> Arrays.binarySearch(userids, x.info.getUserid()) >= 0);
-        stream.forEach(x -> x.info.setOptions(roleService.queryOptionidsByUserid(x.info.getUserid())));
-    }
-
     public boolean logout(String sessionid) {
         sessions.remove(sessionid);
         return true;
-    }
-
-    public long fresh(String sessionid) {
-        UserSessionEntry entry = sessions.get(sessionid);
-        if (entry == null) return 0L;
-        long time = System.currentTimeMillis();
-        entry.lastAccessed = time;
-        return time;
     }
 
     public Sheet<UserMember> queryUser(Flipper flipper, final UserFilterBean bean) {

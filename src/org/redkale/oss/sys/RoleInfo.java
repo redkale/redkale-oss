@@ -7,7 +7,6 @@ package org.redkale.oss.sys;
 
 import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
-import org.redkale.source.DistributeGenerator;
 
 /**
  * CREATE TABLE `sys_roleinfo` (
@@ -28,7 +27,7 @@ public class RoleInfo extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @DistributeGenerator(initialValue = 2001, allocationSize = 1)
+    //@DistributeGenerator(initialValue = 2001, allocationSize = 1)
     private int roleid;
 
     private String rolename;

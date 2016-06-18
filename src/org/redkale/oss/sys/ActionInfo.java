@@ -23,7 +23,7 @@ import org.redkale.oss.base.BaseEntity;
 public class ActionInfo extends BaseEntity{
 
     @Id
-    //@DistributeGenerator(initialValue = 200, allocationSize = 1)
+    //@DistributeGenerator(initialValue = 2001, allocationSize = 1)
     private int actionid;
 
     private String actionname;

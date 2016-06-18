@@ -38,21 +38,21 @@ public class UserMemberServlet extends BaseServlet {
     @AuthIgnore
     @WebAction(url = "/user/myinfo")
     public void myinfo(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(currentUser(req));
+        resp.finishJson(currentMember(req));
     }
 
     @AuthIgnore
     @WebAction(url = "/user/js/myinfo")
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
-        resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
+        resp.finish("var userself = " + convert.convertTo(currentMember(req)) + ";");
     }
 
     @AuthIgnore
     @WebAction(url = "/user/wxlogin")
     public void wxlogin(HttpRequest req, HttpResponse resp) throws IOException {
         if (finest) logger.finest(req.toString());
-        if (currentUser(req) == null) {
+        if (currentMember(req) == null) {
             Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
             logger.finest("user.wxlogin : " + map);
             LoginBean bean = new LoginBean();
