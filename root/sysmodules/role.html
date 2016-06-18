@@ -130,7 +130,7 @@
             var editobj = $('#form-auth-update').serializeJson();
             var roleid = editobj.roleid;
             delete editobj.roleid;
-            
+
             var delseqids = [];
             for (var p in optionobj) {
                 var seqid = optionobj[p];
@@ -211,8 +211,8 @@
                     atable = $('#table-auth-sheet').dataTable({
                         serverSide: false,
                         select: false,
-                        bPaginate: false,
                         paging: false,
+                        info: false,
                         data: dataset,
                         columns: columns
                     });
