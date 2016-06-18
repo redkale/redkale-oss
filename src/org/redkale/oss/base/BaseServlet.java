@@ -42,11 +42,13 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
             response.addHeader("retmessage", "Not Login");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'Not Login'}");
+            return false;
         } else if (!info.checkAuth(module, actionid)) {
             response.addHeader("retcode", RetCodes.RET_USER_AUTH_ILLEGAL);
             response.addHeader("retmessage", "No Authority");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'No Authority'}");
+            return false;
         }
         return true;
     }
