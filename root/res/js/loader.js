@@ -49,4 +49,4 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/formstone.equalize.js"></script> \
  \
         <script src="/boot/extends.js"></script> \
-        <script src="/pipes/dync/mydata"></script>');
+        <script src="/pipes/dync/js/mydata"></script>');
