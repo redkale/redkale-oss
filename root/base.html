@@ -31,17 +31,21 @@
     //---------------------------------- 用户登录框 绑定事件 -------------------------------------
     $('#dialog-user-login').on('show.bs.modal', function () { //
         $("#form-user-login").form('reset');
+        if (window.localStorage && window.localStorage['glogin_account']) {
+            $("#form-user-login").form('load', {account: window.localStorage['glogin_account']});
+        }
         $("#tips-user-login").html('');
     });
     //
     $('#formbtn-user-login').bind("click", function (e) {
         var form = $("#form-user-login");
+        var json = form.serializeJson();
         $.ajax({
             cache: false,
             dataType: "json",
             type: "POST",
             data: {
-                "bean": form.serializeJsonString(),
+                "bean": $.objectToString(json)
             },
             url: '/pipes/user/login',
             error: function () {//请求失败处理函数
@@ -59,7 +63,7 @@
                     return;
                 } else {
                     if (window.localStorage) {
-                        window.localStorage['glogin_account'] = $('#glogin_account').val();
+                        window.localStorage['glogin_account'] = json['account'];
                     }
                 }
                 window.location.reload();
