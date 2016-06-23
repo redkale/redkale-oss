@@ -104,16 +104,16 @@ h1,h2,h3,h4,h5,h6{
     font-size: 25px;
     line-height: 50px;
 }
-.app-search{
+.filter-search{
     height: 57px;
     position: relative;
 }
-.app-search i{
+.filter-search i{
     position: absolute;
     right: 10px;
     font-size: 20px;
 }
-.app-search .form-control{
+.filter-search .form-control{
     height: 57px;
     border: 0px;
     box-shadow: none;
