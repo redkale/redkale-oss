@@ -93,7 +93,6 @@ public class UserMemberServlet extends BaseServlet {
     @WebAction(url = "/user/query")
     public void query(HttpRequest req, HttpResponse resp) throws IOException {
         Flipper flipper = findFlipper(req);
-        flipper.putSortIfEmpty("userid DESC");
         UserMemberBean bean = req.getJsonParameter(UserMemberBean.class, "bean");
         resp.finishJson(service.queryMember(flipper, bean));
     }
