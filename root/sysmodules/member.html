@@ -139,11 +139,7 @@
                             {"data": "userid", render: $.defrender},
                             {"data": "account", render: $.defrender},
                             {"data": "chname", render: $.defrender},
-                            {"data": "status", render: function (value, type, full) {
-                                    if (value === 10) return "正常";
-                                    if (value === 20) return "<font color=red>禁用</font>";
-                                    return "<font color=#FF00FF>未知</font>";
-                                }},
+                            {"data": "status", render: defStatusRender},
                             {"data": "roleids", render: function (value, type, full) {
                                     if (!value || !value.length) return "";
                                     var a = [];

@@ -10,6 +10,17 @@ $(document).ready(function () {
             maincontainer.html(data);
         });
     }
+    //-------------------------- status ----------------------------------------------------------
+    window.defStatusRender = function (value, type, full) {
+        if (value === 10) return "<font color=green>正常</font>";
+        if (value === 20) return "<font color=#FF00FF>待审批</font>";
+        if (value === 40) return "冻结";
+        if (value === 50) return "隐藏";
+        if (value === 60) return "关闭";
+        if (value === 70) return "<font color=red>过期</font>";
+        if (value === 80) return "<font color=red>删除</font>";
+        return "<font color=red>未知</font>";
+    };
     //-------------------------- topbar ----------------------------------------------------------
     var topbarhtml = [];
     topbarhtml.push('<div class="topbar-left"><div class="text-center"><a href="/index.html" class="logo">工作平台</a></div></div>');
@@ -47,7 +58,7 @@ $(document).ready(function () {
                 subhref |= recursmenu(subminhtml, onemenu.children[j], index + 1);
             }
             if (subhref) onemenu.active = true;
-            
+
             menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
             menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
             menuhtml.push(subminhtml.join(''));
@@ -99,6 +110,6 @@ $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
     });
 
-    if(currmenu) openModule(currmenu.url);
-    
+    if (currmenu) openModule(currmenu.url);
+
 });
