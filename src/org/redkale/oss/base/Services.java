@@ -33,6 +33,9 @@ public class Services {
 
     @ActionName("登录")
     public static final int ACTION_LOGIN = 1010;
+    
+    @ActionName("同步")
+    public static final int ACTION_SYNC = 1020;
 
     //----------------------------------------------模块ID  注意: @ModuleName名称尽量控制在5个汉字以内-----------------------------------------------------------
     @ModuleName("用户管理")
