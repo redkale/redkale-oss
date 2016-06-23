@@ -12,6 +12,7 @@ import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 import org.redkale.oss.base.BaseServlet;
+import static org.redkale.oss.base.Services.*;
 import org.redkale.plugins.weixin.WeiXinQYService;
 import org.redkale.source.Flipper;
 
@@ -19,7 +20,7 @@ import org.redkale.source.Flipper;
  *
  * @author zhangjx
  */
-@WebServlet({"/user/*"})
+@WebServlet(value = {"/user/*"}, moduleid = MODULE_USER)
 public class UserMemberServlet extends BaseServlet {
 
     @Resource
@@ -90,27 +91,6 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish(message);
     }
 
-    @WebAction(url = "/user/query")
-    public void query(HttpRequest req, HttpResponse resp) throws IOException {
-        Flipper flipper = findFlipper(req);
-        UserMemberBean bean = req.getJsonParameter(UserMemberBean.class, "bean");
-        resp.finishJson(service.queryMember(flipper, bean));
-    }
-
-    @WebAction(url = "/user/create")
-    public void create(HttpRequest req, HttpResponse resp) throws IOException {
-        UserMember user = req.getJsonParameter(UserMember.class, "bean");
-        service.createMember(user);
-        resp.finish("{\"retcode\":0,\"success\":true}");
-    }
-
-    @WebAction(url = "/user/update")
-    public void update(HttpRequest req, HttpResponse resp) throws IOException {
-        UserMember user = req.getJsonParameter(UserMember.class, "bean");
-        service.updateMember(user);
-        resp.finish("{\"retcode\":0,\"success\":true}");
-    }
-
     @WebAction(url = "/user/changepwd")
     public void changePwd(HttpRequest req, HttpResponse resp) throws IOException {
         String oldpwd = req.getParameter("oldpwd");
@@ -118,4 +98,26 @@ public class UserMemberServlet extends BaseServlet {
         int retcode = service.updatePwd(req.getSessionid(false), newpwd, oldpwd);
         resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
     }
+
+    @WebAction(url = "/user/query", actionid = ACTION_QUERY)
+    public void query(HttpRequest req, HttpResponse resp) throws IOException {
+        Flipper flipper = findFlipper(req);
+        UserMemberBean bean = req.getJsonParameter(UserMemberBean.class, "bean");
+        resp.finishJson(service.queryMember(flipper, bean));
+    }
+
+    @WebAction(url = "/user/create", actionid = ACTION_CREATE)
+    public void create(HttpRequest req, HttpResponse resp) throws IOException {
+        UserMember user = req.getJsonParameter(UserMember.class, "bean");
+        service.createMember(user);
+        resp.finish("{\"retcode\":0,\"success\":true}");
+    }
+
+    @WebAction(url = "/user/update", actionid = ACTION_UPDATE)
+    public void update(HttpRequest req, HttpResponse resp) throws IOException {
+        UserMember user = req.getJsonParameter(UserMember.class, "bean");
+        service.updateMember(user);
+        resp.finish("{\"retcode\":0,\"success\":true}");
+    }
+
 }

@@ -18,7 +18,7 @@ import org.redkale.service.RetResult;
  *
  * @author zhangjx
  */
-@WebServlet({"/role/*"})
+@WebServlet(value = {"/role/*"}, moduleid = MODULE_ROLE)
 public final class RoleServlet extends BaseServlet {
 
     @Resource
