@@ -96,6 +96,7 @@ public class UserMemberService extends BaseService {
     }
 
     public UserMember findMember(int userid) {
+        if(userid < 1) return null;
         return source.find(UserMember.class, userid);
     }
 
