@@ -5,6 +5,7 @@
     <resources>
         
         <properties>
+            <property name="system.property.convert.json.tiny" value="false"/>
 			<!--
             <property name="files.syncip" value="x.x.x.x"/> 
             <property name="files.syncmd" value="ssh root@{REMOTEIP} 'mkdir -p /usr/local/nginx%2$s;scp -rp root@{LOCALIP}:/usr/local/redkale-oss-server%1$s /usr/local/nginx%2$s'"/> 
@@ -12,9 +13,9 @@
         </properties>
     </resources> 
     <server protocol="HTTP" host="0.0.0.0" port="9292" root="root"> 
-        <services autoload="true">
+        <services autoload="true" excludes="^.*\.platf\..*">
         </services>
-        <servlets path="/pipes" autoload="true" >
+        <servlets path="/pipes" autoload="true" excludes="^.*\.platf\..*">
             <resource-servlet>				
                 <caches  limit="0"/>
                 <rewrite type="location" match="^/([^-]+)(-[^-\.]+)+\.html(.*)" forward="/$1.html"/>
