@@ -111,7 +111,8 @@ h1,h2,h3,h4,h5,h6{
 .filter-search i{
     position: absolute;
     right: 10px;
-    font-size: 20px;
+    font-size: 20px;    
+    cursor: pointer;
 }
 .filter-search .form-control{
     height: 57px;
