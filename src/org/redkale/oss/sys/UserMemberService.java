@@ -84,7 +84,7 @@ public class UserMemberService extends BaseService {
         return true;
     }
 
-    public Sheet<UserMember> queryMember(Flipper flipper, final UserFilterBean bean) {
+    public Sheet<UserMember> queryMember(Flipper flipper, final UserMemberBean bean) {
         Sheet<UserMember> sheet = source.querySheet(UserMember.class, flipper, bean);
         if (sheet.isEmpty()) return sheet;
         int olduserid = bean == null ? 0 : bean.getUserid();

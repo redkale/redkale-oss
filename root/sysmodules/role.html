@@ -110,7 +110,7 @@
                 type: "POST",
                 url: json.roleid ? '/pipes/role/update' : '/pipes/role/create',
                 data: {
-                    "data": $.objectToString(json),
+                    "bean": $.objectToString(json),
                 },
                 error: function () {//请求失败处理函数
                     alert('请求失败');
@@ -150,7 +150,7 @@
                 url: '/pipes/role/updoption',
                 data: {
                     "delseqids": "[" + delseqids.join(",") + "]",
-                    "data": $.objectToString(newoptions)
+                    "bean": $.objectToString(newoptions)
                 },
                 error: function () {//请求失败处理函数
                     alert('请求失败');

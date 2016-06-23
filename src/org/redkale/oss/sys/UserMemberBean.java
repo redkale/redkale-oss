@@ -5,19 +5,23 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.source.FilterBean;
-
-
+import org.redkale.oss.base.BaseBean;
+import org.redkale.source.*;
+import static org.redkale.source.FilterExpress.*;
 
 /**
  *
  * @author zhangjx
  */
-public class UserFilterBean implements FilterBean {
+public class UserMemberBean extends BaseBean implements FilterBean {
 
     private int userid;
 
+    @FilterColumn(express = LIKE)
     private String account;
+
+    @FilterColumn(express = LIKE)
+    private String chname;
 
     public String getAccount() {
         return account;
@@ -33,6 +37,14 @@ public class UserFilterBean implements FilterBean {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getChname() {
+        return chname;
+    }
+
+    public void setChname(String chname) {
+        if (chname != null && !chname.isEmpty()) this.chname = chname;
     }
 
 }

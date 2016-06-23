@@ -6,13 +6,14 @@
 package org.redkale.oss.sys;
 
 import javax.persistence.Transient;
+import org.redkale.oss.base.BaseBean;
 import org.redkale.source.FilterBean;
 
 /**
  *
  * @author zhangjx
  */
-public final class LoginBean implements FilterBean {
+public final class LoginBean extends BaseBean implements FilterBean {
 
     private String account;
 

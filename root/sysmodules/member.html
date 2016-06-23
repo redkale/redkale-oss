@@ -4,6 +4,12 @@
     <a id="button-user-torole" href="javascript:void(0);"><i class="fa fa-users"></i>修改角色</a>
 </div>
 <div class="panel-box">    
+    <div class="page-title">
+        <form class="app-search" style="width: 400px;">
+            <input id="filter_account" type="text" placeholder="账号/用户名" style="width: 350px;">
+            <i id="filter-user-qrybtn" class="fa fa-search"></i>
+        </form>
+    </div>
     <div class="table-responsive">
         <table id="table-user-sheet" class="table table-hover" cellspacing="0" width="100%">
             <thead>
@@ -113,7 +119,15 @@
                     $('#fdiv-user-roleboxes').html(divroleboxhtml.join(''));
                     //----------------------------------------------------
                     var mtable = $('#table-user-sheet').dataTable({
-                        ajax: "/pipes/user/query",
+                        ajax: {
+                            url: "/pipes/user/query",
+                            data: function (f) {
+                                f.bean = JSON.stringify({
+                                    account : $('#filter_account').val().trim(),
+                                    chname : $('#filter_account').val().trim()
+                                });
+                            },
+                        },
                         columnDefs: [{
                                 className: 'select-checkbox',
                                 targets: 0
@@ -143,6 +157,10 @@
                             {"data": "createtime", render: Date.DateFormatter},
                             {"data": "remark", render: $.defrender}
                         ]
+                    });
+                    
+                    $('#filter-user-qrybtn').bind("click", function () {
+                        mtable.api(true).draw(false);
                     });
                     //--------------------------- 初始化修改用户 -----------------------------
                     $('#button-user-create').bind("click", function () {
@@ -181,7 +199,7 @@
                             type: "POST",
                             url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
                             data: {
-                                "data": $.objectToString(json),
+                                "bean": $.objectToString(json),
                             },
                             error: function () {//请求失败处理函数
                                 alert('请求失败');
@@ -250,7 +268,7 @@
                             data: {
                                 "deluserid": delroleids.length ? json.userid : 0,
                                 "delroleids": $.objectToString(delroleids),
-                                "data": $.objectToString(newuseroles),
+                                "bean": $.objectToString(newuseroles),
                             },
                             error: function () {//请求失败处理函数
                                 alert('请求失败');
