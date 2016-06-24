@@ -8,7 +8,11 @@ html,body {
 .modal-title {color: #f7b03e;}
 .module-alert-tips {margin-left: 30px;color: red;font-style: italic;font-size: 2rem;}
 .dataTables_wrapper .dataTables_length {display: none;}
-
+.tabcol40{width:40%;}
+.tabcol50{width:50%;}
+.tabcol60{width:60%;}
+.tabcol70{width:70%;}
+.tabcol80{width:80%;}
 
 body{
     background: #f1f3f6;
@@ -105,13 +109,12 @@ h1,h2,h3,h4,h5,h6{
     line-height: 50px;
 }
 .filter-search{
-    height: 57px;
     position: relative;
 }
 .filter-search i{
     position: absolute;
     right: 10px;
-    font-size: 20px;    
+    font-size: 20px;
     cursor: pointer;
 }
 .filter-search .form-control{
