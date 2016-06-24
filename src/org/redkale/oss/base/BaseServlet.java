@@ -65,8 +65,12 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     }
 
     protected Flipper findFlipper(HttpRequest request) {  //bootstrap datatable
-        int pageSize = request.getIntParameter("length", Flipper.DEFAULT_PAGESIZE);
-        if(pageSize < 1) pageSize = Flipper.DEFAULT_PAGESIZE;
+        return findFlipper(request, Flipper.DEFAULT_PAGESIZE);
+    }
+
+    protected Flipper findFlipper(HttpRequest request, int defaultSize) {  //bootstrap datatable
+        int pageSize = request.getIntParameter("length", defaultSize > 0 ? defaultSize : Flipper.DEFAULT_PAGESIZE);
+        if (pageSize < 1) pageSize = defaultSize > 0 ? defaultSize : Flipper.DEFAULT_PAGESIZE;
         int pageNo = (request.getIntParameter("start", 0) / pageSize) + 1;
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
