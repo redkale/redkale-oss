@@ -8,6 +8,7 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <link href="/boot/css/dataTables.bootstrap.min.css" rel="stylesheet"> \
         <link href="/boot/css/dataTables.colVis.css" rel="stylesheet"> \
         <link href="/boot/css/select.dataTables.min.css" rel="stylesheet"> \
+        <link href="/boot/css/jquery.fileupload.css" rel="stylesheet"> \
         <link href="/boot/css/style.css" rel="stylesheet"> \
         <script src="/boot/js/modernizr.js"></script> \
  \
@@ -16,6 +17,9 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/jquery.parser.js"></script> \
         <script src="/boot/js/jquery.validatebox.js"></script> \
         <script src="/boot/js/jquery.form.js"></script> \
+        <script src="/boot/js/jquery.ui.widget.js"></script> \
+        <script src="/boot/js/jquery.iframe-transport.js"></script> \
+        <script src="/boot/js/jquery.fileupload.js"></script> \
         <script src="/boot/js/jquery.slimscroll.min.js"></script> \
         <script src="/boot/js/jquery.dataTables.min.js"></script>  \
 \
