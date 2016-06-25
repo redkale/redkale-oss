@@ -13,7 +13,7 @@ import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 import org.redkale.oss.base.BaseServlet;
 import static org.redkale.oss.base.Services.*;
-import org.redkale.plugins.weixin.WeiXinQYService;
+import org.redkalex.weixin.WeiXinQYService;
 import org.redkale.source.Flipper;
 
 /**
