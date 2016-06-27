@@ -19,6 +19,7 @@ public abstract class RetCodes {
     private RetCodes() {
     }
 
+    // 20000001 - 29999999 预留给 Redkale的扩展包使用
     //------------------------------------- 通用模块 -----------------------------------------
     @RetInfo("参数无效")
     public static final int RET_PARAMS_ILLEGAL = 30010001;
@@ -47,7 +48,7 @@ public abstract class RetCodes {
 
     @RetInfo("用户被禁用")
     public static final int RET_USER_FREEZED = 40010005;
-    
+
     @RetInfo("用户权限不够")
     public static final int RET_USER_AUTH_ILLEGAL = 40010006;
 
