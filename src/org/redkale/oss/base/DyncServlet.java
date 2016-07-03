@@ -159,7 +159,7 @@ public final class DyncServlet extends BaseServlet {
     @AuthIgnore
     @WebAction(url = "/dync/js/mydata")
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.setContentType("text/javascript");
+        resp.setContentType("text/javascript; charset=utf-8");
         StringBuilder sb = new StringBuilder();
         MemberInfo user = currentMember(req);
         String userjson;
