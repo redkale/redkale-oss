@@ -6,7 +6,7 @@
     <div class="modal-body">  
         <form id="form-user-login" class="m-t" role="form" >  
             <div class="form-group"><input name="account" type="text" class="form-control" placeholder="用户名" required=""></div>  
-            <div class="form-group"><input name="password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  
+            <div class="form-group"><input id="form-user-login-pwd" name="password" type="password" class="form-control" placeholder="密 码" required=""></div><br>  
             <button id="formbtn-user-login" type="button" class="btn btn-theme btn-lg btn-block ">登 录</button><br>  
         </form>  
     </div>  
@@ -35,6 +35,10 @@
             $("#form-user-login").form('load', {account: window.localStorage['glogin_account']});
         }
         $("#tips-user-login").html('');
+    });
+
+    $('#form-user-login-pwd').bind('keypress', function (event) {
+        if (event.keyCode == 13) $('#formbtn-user-login').click();
     });
     //
     $('#formbtn-user-login').bind("click", function (e) {
