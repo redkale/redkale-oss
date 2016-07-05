@@ -59,7 +59,7 @@ public class UserMember extends BaseEntity {
 
     private String chname = "";
 
-    @Column(updatable = false)
+    @ConvertColumn(ignore = true, type = ConvertType.JSON)
     private String password = "";
 
     @Column(updatable = false)
@@ -71,7 +71,7 @@ public class UserMember extends BaseEntity {
     private String mobile = "";
 
     private String email = "";
-    
+
     private String weixin = "";
 
     @Column(updatable = false)
@@ -145,7 +145,6 @@ public class UserMember extends BaseEntity {
         this.chname = chname;
     }
 
-    @ConvertColumn(ignore = true, type = ConvertType.JSON)
     public String getPassword() {
         return password;
     }
