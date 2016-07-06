@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.redkale.oss.base.Services;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.oss.base.MemberInfo;
-import static org.redkale.oss.base.RetCodes.*;
+import static org.redkale.oss.base.OssRetCodes.*;
 import org.redkale.source.*;
 import org.redkale.util.AnyValue;
 import org.redkale.util.Sheet;

@@ -38,13 +38,13 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     public boolean authenticate(int module, int actionid, HttpRequest request, HttpResponse response) throws IOException {
         MemberInfo info = currentMember(request);
         if (info == null) {
-            response.addHeader("retcode", RetCodes.RET_USER_UNLOGIN);
+            response.addHeader("retcode", OssRetCodes.RET_USER_UNLOGIN);
             response.addHeader("retmessage", "Not Login");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'Not Login'}");
             return false;
         } else if (!info.checkAuth(module, actionid)) {
-            response.addHeader("retcode", RetCodes.RET_USER_AUTH_ILLEGAL);
+            response.addHeader("retcode", OssRetCodes.RET_USER_AUTH_ILLEGAL);
             response.addHeader("retmessage", "No Authority");
             response.setStatus(203);
             response.finish("{'success':false, 'message':'No Authority'}");
