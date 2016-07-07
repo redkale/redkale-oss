@@ -13,7 +13,7 @@ import org.redkale.demo.base.RetCodes;
  */
 public abstract class OssRetCodes extends RetCodes {
 
-    private OssRetCodes() {
+    protected OssRetCodes() {
     }
 
     //2000_0001 - 2999_9999 预留给 Redkale的扩展包redkalex使用
