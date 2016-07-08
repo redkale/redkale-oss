@@ -9,6 +9,7 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <link href="/boot/css/dataTables.colVis.css" rel="stylesheet"> \
         <link href="/boot/css/select.dataTables.min.css" rel="stylesheet"> \
         <link href="/boot/css/jquery.fileupload.css" rel="stylesheet"> \
+        <link href="/boot/css/bootstrap-treeview.min.css" rel="stylesheet"> \
         <link href="/boot/css/style.css" rel="stylesheet"> \
         <script src="/boot/js/modernizr.js"></script> \
  \
@@ -37,6 +38,7 @@ document.write('<link href="/boot/css/bootstrap.min.css" rel="stylesheet"> \
         <script src="/boot/js/bootstrap-modalmanager.js"></script> \
         <script src="/boot/js/bootstrap-modal.js"></script> \
         <script src="/boot/js/bootstrap.validator.min.js"></script> \
+        <script src="/boot/js/bootstrap-treeview.min.js"></script> \
 \
         <script src="/boot/js/dataTables.bootstrap.min.js"></script>         \
         <script src="/boot/js/dataTables.buttons.min.js"></script> \
