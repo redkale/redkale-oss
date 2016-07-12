@@ -65,17 +65,17 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     }
 
     protected Flipper findFlipper(HttpRequest request) {  //bootstrap datatable
-        return findFlipper(request, Flipper.DEFAULT_PAGESIZE);
+        return findFlipper(request, Flipper.DEFAULT_LIMIT);
     }
 
-    protected Flipper findFlipper(HttpRequest request, int defaultSize) {  //bootstrap datatable
-        int pageSize = request.getIntParameter("length", defaultSize > 0 ? defaultSize : Flipper.DEFAULT_PAGESIZE);
-        if (pageSize < 1) pageSize = defaultSize > 0 ? defaultSize : Flipper.DEFAULT_PAGESIZE;
-        int startIndex = request.getIntParameter("start", 0) ;
+    protected Flipper findFlipper(HttpRequest request, int defaultLimit) {  //bootstrap datatable
+        int pageSize = request.getIntParameter("length", defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT);
+        if (pageSize < 1) pageSize = defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT;
+        int offset = request.getIntParameter("start", 0) ;
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
         String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
-        return new Flipper(pageSize, startIndex, sortColumn);
+        return new Flipper(pageSize, offset, sortColumn);
     }
 
     /**
