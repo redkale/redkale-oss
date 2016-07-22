@@ -13,6 +13,10 @@ import org.redkale.demo.base.RetCodes;
  */
 public abstract class OssRetCodes extends RetCodes {
 
+    static {
+        load(OssRetCodes.class);
+    }
+
     protected OssRetCodes() {
     }
 
