@@ -69,13 +69,13 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     }
 
     protected Flipper findFlipper(HttpRequest request, int defaultLimit) {  //bootstrap datatable
-        int limit = request.getIntParameter("length", defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT);
-        if (limit < 1) limit = defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT;
-        int offset = request.getIntParameter("start", 0) ;
+        int pageSize = request.getIntParameter("length", defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT);
+        if (pageSize < 1) pageSize = defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT;
+        int offset = request.getIntParameter("start", 0);
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
         String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
-        return new Flipper(limit, offset, sortColumn);
+        return new Flipper(pageSize, offset, sortColumn);
     }
 
     /**
@@ -91,6 +91,19 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     }
 
     /**
+     * 将对象以js方式输出
+     *
+     * @param resp        HTTP响应对象
+     * @param jsonConvert convert对象
+     * @param var         对象名
+     * @param result      对象
+     */
+    protected void sendJsResult(HttpResponse resp, JsonConvert jsonConvert, String var, Object result) {
+        resp.setContentType("application/javascript; charset=utf-8");
+        resp.finish("var " + var + " = " + jsonConvert.convertTo(result) + ";");
+    }
+
+    /**
      * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
      *
      * @param resp HTTP响应对象
@@ -102,6 +115,21 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
             resp.addHeader("retinfo", ret.getRetinfo());
         }
         resp.finishJson(ret);
+    }
+
+    /**
+     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
+     *
+     * @param resp        HTTP响应对象
+     * @param jsonConvert convert对象
+     * @param ret         结果对象
+     */
+    protected void sendRetResult(HttpResponse resp, JsonConvert jsonConvert, RetResult ret) {
+        if (!ret.isSuccess()) {
+            resp.addHeader("retcode", ret.getRetcode());
+            resp.addHeader("retinfo", ret.getRetinfo());
+        }
+        resp.finishJson(jsonConvert, ret);
     }
 
     /**
