@@ -58,6 +58,6 @@ public final class RoleServlet extends BaseServlet {
     @WebAction(actionid = ACTION_UPDATE, url = "/role/update")
     public void updrole(HttpRequest req, HttpResponse resp) throws IOException {
         service.updateRoleInfo(req.getJsonParameter(RoleInfo.class, "bean"));
-        resp.finishJson(RetResult.SUCCESS);
+        resp.finishJson(RetResult.success());
     }
 }
