@@ -28,9 +28,9 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
 
     protected final boolean finest = logger.isLoggable(Level.FINEST);
 
-    protected static final RetResult RET_UNLOGIN = RetCodes.retResult(RetCodes.RET_USER_UNLOGIN);
+    protected static final RetResult RET_UNLOGIN = OssRetCodes.retResult(OssRetCodes.RET_USER_UNLOGIN);
 
-    protected static final RetResult RET_AUTHILLEGAL = RetCodes.retResult(RetCodes.RET_USER_AUTH_ILLEGAL);
+    protected static final RetResult RET_AUTHILLEGAL = OssRetCodes.retResult(OssRetCodes.RET_USER_AUTH_ILLEGAL);
     
     @Resource
     protected JsonConvert convert;
