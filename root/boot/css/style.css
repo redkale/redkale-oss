@@ -334,11 +334,11 @@ body.fixed-left .side-menu.left {
 .content-page > .content {
     min-height: 100vh;
     margin-top: 0px;
-    padding: 20px 5px 60px 5px;
+    padding: 20px 5px 30px 5px;
     padding-top: 80px;
 }
 .footer {    
-    display: none; /** cover link under bottom */
+    display: block; /** cover link under bottom */
     background-color: transparent;
     bottom: 0px;
     height: 50px !important;

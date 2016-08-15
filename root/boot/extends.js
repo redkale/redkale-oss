@@ -46,6 +46,9 @@ $.extend($.fn.dataTable.defaults, {
                 json.draw = new Date().getTime();
             }
         });
+    },
+    drawCallback: function (settings) {
+        $(window).resize();
     }
 });
 
