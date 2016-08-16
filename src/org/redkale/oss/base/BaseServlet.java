@@ -31,7 +31,7 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     protected static final RetResult RET_UNLOGIN = OssRetCodes.retResult(OssRetCodes.RET_USER_UNLOGIN);
 
     protected static final RetResult RET_AUTHILLEGAL = OssRetCodes.retResult(OssRetCodes.RET_USER_AUTH_ILLEGAL);
-    
+
     @Resource
     protected JsonConvert convert;
 
@@ -42,10 +42,10 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
     public boolean authenticate(int module, int actionid, HttpRequest request, HttpResponse response) throws IOException {
         MemberInfo info = currentMember(request);
         if (info == null) {
-            sendRetResult(response, RET_UNLOGIN);
+            response.finishJson(RET_UNLOGIN);
             return false;
         } else if (!info.checkAuth(module, actionid)) {
-            sendRetResult(response, RET_AUTHILLEGAL);
+            response.finishJson(RET_AUTHILLEGAL);
             return false;
         }
         return true;
@@ -76,81 +76,4 @@ public class BaseServlet extends org.redkale.net.http.BasedHttpServlet {
         return new Flipper(pageSize, offset, sortColumn);
     }
 
-    /**
-     * 将对象以js方式输出
-     *
-     * @param resp   HTTP响应对象
-     * @param var    对象名
-     * @param result 对象
-     */
-    protected void sendJsResult(HttpResponse resp, String var, Object result) {
-        resp.setContentType("application/javascript; charset=utf-8");
-        resp.finish("var " + var + " = " + convert.convertTo(result) + ";");
-    }
-
-    /**
-     * 将对象以js方式输出
-     *
-     * @param resp        HTTP响应对象
-     * @param jsonConvert convert对象
-     * @param var         对象名
-     * @param result      对象
-     */
-    protected void sendJsResult(HttpResponse resp, JsonConvert jsonConvert, String var, Object result) {
-        resp.setContentType("application/javascript; charset=utf-8");
-        resp.finish("var " + var + " = " + jsonConvert.convertTo(result) + ";");
-    }
-
-    /**
-     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
-     *
-     * @param resp HTTP响应对象
-     * @param ret  结果对象
-     */
-    protected void sendRetResult(HttpResponse resp, RetResult ret) {
-        if (!ret.isSuccess()) {
-            resp.addHeader("retcode", ret.getRetcode());
-            resp.addHeader("retinfo", ret.getRetinfo());
-        }
-        resp.finishJson(ret);
-    }
-
-    /**
-     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
-     *
-     * @param resp        HTTP响应对象
-     * @param jsonConvert convert对象
-     * @param ret         结果对象
-     */
-    protected void sendRetResult(HttpResponse resp, JsonConvert jsonConvert, RetResult ret) {
-        if (!ret.isSuccess()) {
-            resp.addHeader("retcode", ret.getRetcode());
-            resp.addHeader("retinfo", ret.getRetinfo());
-        }
-        resp.finishJson(jsonConvert, ret);
-    }
-
-    /**
-     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
-     *
-     * @param resp    HTTP响应对象
-     * @param retcode 结果码
-     */
-    protected void sendRetcode(HttpResponse resp, int retcode) {
-        if (retcode != 0) resp.addHeader("retcode", retcode);
-        resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
-    }
-
-    /**
-     * 将结果对象输出， 异常的结果在HTTP的header添加retcode值
-     *
-     * @param resp    HTTP响应对象
-     * @param retcode 结果码
-     * @param retinfo 结果信息
-     */
-    protected void sendRetcode(HttpResponse resp, int retcode, String retinfo) {
-        if (retcode != 0) resp.addHeader("retcode", retcode);
-        if (retinfo != null && !retinfo.isEmpty()) resp.addHeader("retinfo", retinfo);
-        resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
-    }
 }
