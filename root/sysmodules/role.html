@@ -196,7 +196,7 @@
                     for (var i = 0; i < system_rmodules.length; i++) {
                         var module = system_rmodules[i];
                         var suboptions = [];
-                        suboptions.push(module.modulename);
+                        suboptions.push("<a style='color:#999;font-weight:bold;' href='javascript:selectRoleModuleCheckbox(" + module.moduleid + ")'>" + module.modulename + "</a>");
                         for (var j = 0; j < system_actiones.length; j++) {
                             var optionid = module.moduleid * 10000 + system_actiones[j].actionid;
                             var cked = !!(optionobj["" + optionid]);
@@ -216,6 +216,15 @@
                         data: dataset,
                         columns: columns
                     });
+                    window.selectRoleModuleCheckbox = function (moduleid) {
+                        var f = 0;
+                        $.each(atable.find("input[type=checkbox]"), function (index, el) {
+                            if (el.value.indexOf("" + moduleid) === 0) {
+                                if (f < 1) f = el.checked ? 2 : 1;
+                                el.checked = !(f - 1);
+                            }
+                        });
+                    };
                 }
             });
         });
