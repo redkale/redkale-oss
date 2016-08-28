@@ -40,7 +40,10 @@ public class UserMemberService extends BaseService {
 
     public MemberInfo current(String sessionid) {
         Integer memberid = sessions.getAndRefresh(sessionid, sessionExpireSeconds);
-        return memberid == null ? null : findMemberInfo(memberid);
+        MemberInfo user = memberid == null ? null : findMemberInfo(memberid);
+        if (user == null) return null;
+        if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
+        return user;
     }
 
     public LoginResult login(LoginBean bean) {
