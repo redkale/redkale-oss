@@ -15,13 +15,13 @@ import static org.redkale.source.FilterExpress.*;
  */
 public class UserMemberBean extends BaseBean implements FilterBean {
 
-    private int userid;
+    private int memberid;
 
     @FilterColumn(express = LIKE)
     private String account;
 
     @FilterColumn(express = LIKE)
-    private String chname;
+    private String membername;
 
     public String getAccount() {
         return account;
@@ -31,20 +31,20 @@ public class UserMemberBean extends BaseBean implements FilterBean {
         if (account != null && !account.isEmpty()) this.account = account;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getMemberid() {
+        return memberid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setMemberid(int memberid) {
+        this.memberid = memberid;
     }
 
-    public String getChname() {
-        return chname;
+    public String getMembername() {
+        return membername;
     }
 
-    public void setChname(String chname) {
-        if (chname != null && !chname.isEmpty()) this.chname = chname;
+    public void setMembername(String membername) {
+        if (membername != null && !membername.isEmpty()) this.membername = membername;
     }
 
 }

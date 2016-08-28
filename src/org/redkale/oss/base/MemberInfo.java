@@ -43,11 +43,11 @@ public class MemberInfo extends BaseEntity {
     //删除
     public static final short STATUS_DELTED = 80;
 
-    protected int userid;
+    protected int memberid;
 
     protected String account;
 
-    protected String chname;
+    protected String membername;
 
     protected String password;
 
@@ -60,19 +60,19 @@ public class MemberInfo extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.userid;
+        return this.memberid;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass()) return false;
-        return this.userid == ((MemberInfo) obj).userid;
+        return this.memberid == ((MemberInfo) obj).memberid;
     }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{" + "userid=" + userid + ", account=" + account
-            + ", chname=" + chname + ", password=" + password + ", options=" + (options == null ? "[]" : Arrays.toString(options)) + ", type=" + type + ", status=" + status + '}';
+        return this.getClass().getSimpleName() + "{" + "memberid=" + memberid + ", account=" + account
+            + ", membername=" + membername + ", password=" + password + ", options=" + (options == null ? "[]" : Arrays.toString(options)) + ", type=" + type + ", status=" + status + '}';
     }
 
     public boolean checkAuth(int moduleid, int actionid) {
@@ -101,12 +101,12 @@ public class MemberInfo extends BaseEntity {
         return (this.type & TYPE_ADMIN) > 0;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getMemberid() {
+        return memberid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setMemberid(int memberid) {
+        this.memberid = memberid;
     }
 
     public String getAccount() {
@@ -117,12 +117,12 @@ public class MemberInfo extends BaseEntity {
         this.account = account;
     }
 
-    public String getChname() {
-        return chname;
+    public String getMembername() {
+        return membername;
     }
 
-    public void setChname(String chname) {
-        this.chname = chname;
+    public void setMembername(String membername) {
+        this.membername = membername;
     }
 
     @ConvertColumn(ignore = true)

@@ -10,14 +10,14 @@ import org.redkale.oss.base.BaseEntity;
 
 /**
  * CREATE TABLE `sys_usertorole` (
- * `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
- * `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
- * `userid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
- * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
- * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
- * PRIMARY KEY (`seqid`),
- * UNIQUE KEY `unique` (`roleid`,`userid`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
+ `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
+ `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
+ `memberid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
+ `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+ `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
+ PRIMARY KEY (`seqid`),
+ UNIQUE KEY `unique` (`roleid`,`memberid`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
@@ -34,7 +34,7 @@ public class UserToRole extends BaseEntity {
     private int roleid;
 
     @Column(updatable = false)
-    private int userid;
+    private int memberid;
 
     @Column(updatable = false)
     private long createtime;
@@ -74,11 +74,11 @@ public class UserToRole extends BaseEntity {
         this.roleid = roleid;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getMemberid() {
+        return memberid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setMemberid(int memberid) {
+        this.memberid = memberid;
     }
 }

@@ -20,9 +20,9 @@ public class LogRecord extends BaseEntity {
     @GeneratedValue
     private long logid;
 
-    private int userid;//操作用户ID',
+    private int memberid;//操作用户ID',
 
-    private String chname;// '操作用户姓名', 
+    private String membername;// '操作用户姓名', 
 
     private int moduleid;// '模块ID',
 
@@ -51,20 +51,20 @@ public class LogRecord extends BaseEntity {
         this.logid = logid;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getMemberid() {
+        return memberid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setMemberid(int memberid) {
+        this.memberid = memberid;
     }
 
-    public String getChname() {
-        return chname;
+    public String getMembername() {
+        return membername;
     }
 
-    public void setChname(String chname) {
-        this.chname = chname;
+    public void setMembername(String membername) {
+        this.membername = membername;
     }
 
     public int getModuleid() {

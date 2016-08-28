@@ -76,9 +76,9 @@ CREATE TABLE `sys_roletooption` (
 DROP TABLE IF EXISTS `sys_usermember`;
 
 CREATE TABLE `sys_usermember` (
-  `userid` int(10) NOT NULL AUTO_INCREMENT COMMENT '[用户ID]',
+  `memberid` int(10) NOT NULL AUTO_INCREMENT COMMENT '[用户ID]',
   `account` varchar(64) NOT NULL DEFAULT '' COMMENT '[用户账号]',
-  `chname` varchar(255) NOT NULL DEFAULT '' COMMENT '[用户昵称]，通常为员工姓名',
+  `membername` varchar(255) NOT NULL DEFAULT '' COMMENT '[用户昵称]，通常为员工姓名',
   `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
   `type` smallint(5) NOT NULL DEFAULT '0' COMMENT '[类型]；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32',
   `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '[状态]: 10:正常;20:待审批;40:冻结;50:隐藏;60:关闭;70:过期;80:删除;',
@@ -88,13 +88,13 @@ CREATE TABLE `sys_usermember` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '[备注]',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '[创建时间]',
   `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '[更新时间]',
-  PRIMARY KEY (`userid`),
+  PRIMARY KEY (`memberid`),
   UNIQUE KEY `singel` (`account`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000003 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sys_usermember` */
 
-insert  into `sys_usermember`(`userid`,`account`,`chname`,`password`,`type`,`status`,`mobile`,`email`,`remark`,`createtime`,`updatetime`) values (1000001,'admin','管理员','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','','',1450000000000,1450000000000),(1000002,'redkale','Redkale','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','redkale@redkale.org','',1450000000000,0);
+insert  into `sys_usermember`(`memberid`,`account`,`membername`,`password`,`type`,`status`,`mobile`,`email`,`remark`,`createtime`,`updatetime`) values (1000001,'admin','管理员','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','','',1450000000000,1450000000000),(1000002,'redkale','Redkale','81dc9bdb52d04dc20036dbd8313ed055',8192,10,'','redkale@redkale.org','',1450000000000,0);
 
 /*Table structure for table `sys_usertorole` */
 
@@ -103,11 +103,11 @@ DROP TABLE IF EXISTS `sys_usertorole`;
 CREATE TABLE `sys_usertorole` (
   `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
   `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '[角色ID]',
-  `userid` int(11) NOT NULL DEFAULT '0' COMMENT '[用户ID]',
+  `memberid` int(11) NOT NULL DEFAULT '0' COMMENT '[用户ID]',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '[创建时间]',
   `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '[创建人]',
   PRIMARY KEY (`seqid`),
-  UNIQUE KEY `unique` (`roleid`,`userid`)
+  UNIQUE KEY `unique` (`roleid`,`memberid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
 
 /*Data for the table `sys_usertorole` */

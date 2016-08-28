@@ -14,22 +14,22 @@ import org.redkale.util.*;
 
 /**
  * <p>
- * CREATE TABLE `sys_usermember` (
- * `userid` int(10) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
- * `account` varchar(64) NOT NULL DEFAULT '' COMMENT '账号',
- * `chname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称，通常为员工姓名',
- * `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
- * `type` smallint(5) NOT NULL DEFAULT '0' COMMENT '类型；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32',
- * `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50：隐藏;60:过期;70:关闭;80:删除;',
- * `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
- * `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
- * `weixin` varchar(128) NOT NULL DEFAULT '' COMMENT '微信账号',
- * `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
- * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
- * `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',
- * PRIMARY KEY (`userid`),
- * UNIQUE KEY `singel` (`account`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
+ CREATE TABLE `sys_usermember` (
+ `memberid` int(10) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+ `account` varchar(64) NOT NULL DEFAULT '' COMMENT '账号',
+ `membername` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称，通常为员工姓名',
+ `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
+ `type` smallint(5) NOT NULL DEFAULT '0' COMMENT '类型；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32',
+ `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50：隐藏;60:过期;70:关闭;80:删除;',
+ `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
+ `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
+ `weixin` varchar(128) NOT NULL DEFAULT '' COMMENT '微信账号',
+ `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+ `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
+ `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',
+ PRIMARY KEY (`memberid`),
+ UNIQUE KEY `singel` (`account`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
@@ -52,12 +52,12 @@ public class UserMember extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private int userid;
+    private int memberid;
 
     @Column(updatable = false)
     private String account = "";
 
-    private String chname = "";
+    private String membername = "";
 
     @ConvertColumn(ignore = true, type = ConvertType.JSON)
     private String password = "";
@@ -86,24 +86,24 @@ public class UserMember extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return this.userid;
+        return this.memberid;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        return (this.userid != ((UserMember) obj).userid);
+        return (this.memberid != ((UserMember) obj).memberid);
     }
 
     public MemberInfo createMemberInfo() {
         MemberInfo info = new MemberInfo();
         info.setAccount(this.account);
-        info.setChname(this.chname);
+        info.setMembername(this.membername);
         info.setPassword(this.password);
         info.setStatus(this.status);
         info.setType(this.type);
-        info.setUserid(this.userid);
+        info.setMemberid(this.memberid);
         return info;
     }
 
@@ -121,12 +121,12 @@ public class UserMember extends BaseEntity {
         return new String(Utility.binToHex(bytes));
     }
 
-    public int getUserid() {
-        return userid;
+    public int getMemberid() {
+        return memberid;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setMemberid(int memberid) {
+        this.memberid = memberid;
     }
 
     public String getAccount() {
@@ -137,12 +137,12 @@ public class UserMember extends BaseEntity {
         this.account = account;
     }
 
-    public String getChname() {
-        return chname;
+    public String getMembername() {
+        return membername;
     }
 
-    public void setChname(String chname) {
-        this.chname = chname;
+    public void setMembername(String membername) {
+        this.membername = membername;
     }
 
     public String getPassword() {

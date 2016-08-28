@@ -35,7 +35,7 @@ public class RoleService extends BaseService {
     public int createRoleInfo(MemberInfo admin, RoleInfo info) {
         if (admin != null) {
             info.setCreatetime(System.currentTimeMillis());
-            info.setCreator(admin.getChname());
+            info.setCreator(admin.getMembername());
         }
         source.insert(info);
         return 1;
@@ -93,10 +93,10 @@ public class RoleService extends BaseService {
     public int createUserToRole(MemberInfo admin, UserToRole info) {
         if (admin != null) {
             info.setCreatetime(System.currentTimeMillis());
-            info.setCreator(admin.getChname());
+            info.setCreator(admin.getMembername());
         }
         source.insert(info);
-        //userService.updateCache(info.getUserid());
+        //userService.updateCache(info.getMemberid());
         return 0;
     }
 
@@ -104,23 +104,23 @@ public class RoleService extends BaseService {
         UserToRole utr = source.find(UserToRole.class, seqid);
         if (utr == null) return;
         source.delete(utr);
-        //userService.updateCache(utr.getUserid());
+        //userService.updateCache(utr.getMemberid());
     }
 
     public Sheet<UserToRole> queryUserToRole(Flipper flipper, FilterBean bean) {
         return source.querySheet(UserToRole.class, flipper, bean);
     }
 
-    public int[] updateUserToRole(MemberInfo admin, int deluserid, int[] delroleids, UserToRole... infos) {
-        final boolean deled = deluserid > 0 && delroleids != null && delroleids.length > 0;
-        if (deled) source.delete(UserToRole.class, FilterNode.create("roleid", FilterExpress.IN, delroleids).and("userid", deluserid));
+    public int[] updateUserToRole(MemberInfo admin, int delmemberid, int[] delroleids, UserToRole... infos) {
+        final boolean deled = delmemberid > 0 && delroleids != null && delroleids.length > 0;
+        if (deled) source.delete(UserToRole.class, FilterNode.create("roleid", FilterExpress.IN, delroleids).and("memberid", delmemberid));
         if (infos.length == 0) return new int[0];
         if (admin != null) {
             long now = System.currentTimeMillis();
             for (UserToRole info : infos) {
-                if (info.getUserid() < 1 || info.getRoleid() < 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
+                if (info.getMemberid() < 1 || info.getRoleid() < 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
-                info.setCreator(admin.getChname());
+                info.setCreator(admin.getMembername());
             }
         }
         int[] rs = new int[infos.length];
@@ -141,7 +141,7 @@ public class RoleService extends BaseService {
             for (RoleToOption info : infos) {
                 if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
-                info.setCreator(admin.getChname());
+                info.setCreator(admin.getMembername());
             }
         }
         int[] rs = new int[infos.length];
@@ -159,25 +159,25 @@ public class RoleService extends BaseService {
         source.delete(rto);
         List<UserToRole> utrs = source.queryList(UserToRole.class, FilterNode.create("roleid", rto.getRoleid()));
         if (utrs.isEmpty()) return;
-        int[] userids = new int[utrs.size()];
+        int[] memberids = new int[utrs.size()];
         int index = -1;
-        for (int i = 0; i < userids.length; i++) {
-            userids[++index] = utrs.get(index).getUserid();
+        for (int i = 0; i < memberids.length; i++) {
+            memberids[++index] = utrs.get(index).getMemberid();
         }
-        //userService.updateCache(userids);
+        //userService.updateCache(memberids);
     }
 
     public List<RoleToOption> queryRoleToOption(FilterBean bean) {
         return source.queryList(RoleToOption.class, bean);
     }
 
-    public int[] queryOptionidsByUserid(int userid) {
-        Set<Integer> list = source.queryColumnSet("optionid", RoleToOption.class, "roleid", queryRoleidByUserid(userid));
+    public int[] queryOptionidsByMemberid(int memberid) {
+        Set<Integer> list = source.queryColumnSet("optionid", RoleToOption.class, "roleid", queryRoleidByMemberid(memberid));
         return format(list);
     }
 
-    public int[] queryRoleidByUserid(int userid) {
-        List<Integer> list = source.queryColumnList("roleid", UserToRole.class, "userid", userid);
+    public int[] queryRoleidByMemberid(int memberid) {
+        List<Integer> list = source.queryColumnList("roleid", UserToRole.class, "memberid", memberid);
         return format(list);
     }
 

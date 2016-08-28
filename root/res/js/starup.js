@@ -29,10 +29,10 @@ $(document).ready(function () {
     topbarhtml.push('   <li class="dropdown profile-link hidden-xs">');
     topbarhtml.push('       <div class="clearfix" id="curruserel">');
     //userinfo 
-    if (system_memberinfo && system_memberinfo.userid) {
+    if (system_memberinfo && system_memberinfo.memberid) {
         topbarhtml.push('       <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> \
                                     <img src="/res/images/user.png" alt="" class="pull-left" style="width:36px;height:36px;"> \
-                                    <span>' + system_memberinfo.chname + '<br><em>' + system_memberinfo.account + '</em></span>    \
+                                    <span>' + system_memberinfo.membername + '<br><em>' + system_memberinfo.account + '</em></span>    \
                                 </a> \
                                 <ul class="dropdown-menu profile-drop"> \
                                     <li><a data-toggle="modal" data-target="#dialog-user-changepwd">设 置</a></li> \

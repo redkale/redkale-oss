@@ -38,7 +38,7 @@
     </div>
     <div class="modal-body"> 
         <form id="form-user-update" class="m-t form-horizontal" role="form"> 
-            <input  name="userid" type="hidden">
+            <input  name="memberid" type="hidden">
             <div class="form-group">
                 <label class="col-lg-2 control-label">用户账号</label>
                 <div class="col-lg-10"><input  name="account" placeholder="用户账号" class="form-control" required=""></div>
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label class="col-lg-2 control-label">用户名称</label>
-                <div class="col-lg-10"><input name="chname" placeholder="用户名称" class="form-control" required=""></div>
+                <div class="col-lg-10"><input name="membername" placeholder="用户名称" class="form-control" required=""></div>
             </div>
             <br>
             <div class="form-group">
@@ -82,7 +82,7 @@
     </div>
     <div class="modal-body"> 
         <form id="form-user-torole" class="m-t form-horizontal" role="form"> 
-            <input  name="userid" type="hidden">
+            <input  name="memberid" type="hidden">
             <input  name="oldroleids" type="hidden">
             <div id="fdiv-user-roleboxes">
                 <div class="form-group">
@@ -98,7 +98,7 @@
 
 <script>
     {
-        if (system_memberinfo && system_memberinfo.userid) {
+        if (system_memberinfo && system_memberinfo.memberid) {
             $.ajax({
                 dataType: "json",
                 url: '/pipes/role/query',
@@ -124,9 +124,9 @@
                             data: function (f) {
                                 f.bean = JSON.stringify({
                                     account : $('#filter_account').val().trim(),
-                                    chname : $('#filter_account').val().trim()
+                                    membername : $('#filter_account').val().trim()
                                 });
-                                f.sort = 'userid';
+                                f.sort = 'memberid';
                                 f.order = 'DESC';
                             },
                         },
@@ -136,9 +136,9 @@
                             }],
                         columns: [
                             {"data": "", render: $.defrender},
-                            {"data": "userid", render: $.defrender},
+                            {"data": "memberid", render: $.defrender},
                             {"data": "account", render: $.defrender},
-                            {"data": "chname", render: $.defrender},
+                            {"data": "membername", render: $.defrender},
                             {"data": "status", render: defStatusRender},
                             {"data": "roleids", render: function (value, type, full) {
                                     if (!value || !value.length) return "";
@@ -171,7 +171,7 @@
                     });
                     $('#button-user-update').bind("click", function () {
                         var data = mtable.api(true).row({selected: true}).data();
-                        if (!data || !data.userid) {
+                        if (!data || !data.memberid) {
                             alert("请选择一条记录！");
                             return;
                         }
@@ -195,7 +195,7 @@
                             cache: false,
                             dataType: "json",
                             type: "POST",
-                            url: json.userid ? '/pipes/user/update' : '/pipes/user/create',
+                            url: json.memberid ? '/pipes/user/update' : '/pipes/user/create',
                             data: {
                                 "bean": $.objectToString(json),
                             },
@@ -212,7 +212,7 @@
                     //------------------------ 修改角色列表 ----------------------------- 
                     $('#button-user-torole').bind("click", function () {
                         var data = mtable.api(true).row({selected: true}).data();
-                        if (!data || !data.userid) {
+                        if (!data || !data.memberid) {
                             alert("请选择一条记录！");
                             return;
                         }
@@ -222,7 +222,7 @@
                         }
                         $("#tips-user-torole").html('');
                         $("#form-user-torole").form('reset');
-                        $("#form-user-torole").form('load', {userid: data.userid, oldroleids: (data.roleids || []).join(',')});
+                        $("#form-user-torole").form('load', {memberid: data.memberid, oldroleids: (data.roleids || []).join(',')});
                         var roleidstr = ',' + (data.roleids || []).join(',') + ',';
                         for (var i = 0; i < rolerows.length; i++) {
                             var role = rolerows[i];
@@ -252,7 +252,7 @@
                                 delete oldobjs[json[p]];
                                 continue;
                             }
-                            newuseroles.push({userid: json.userid, roleid: json[p]});
+                            newuseroles.push({memberid: json.memberid, roleid: json[p]});
                         }
                         for (var k in oldobjs) {
                             delroleids.push(k);
@@ -264,7 +264,7 @@
                             type: "POST",
                             url: '/pipes/role/upduserole',
                             data: {
-                                "deluserid": delroleids.length ? json.userid : 0,
+                                "delmemberid": delroleids.length ? json.memberid : 0,
                                 "delroleids": $.objectToString(delroleids),
                                 "bean": $.objectToString(newuseroles),
                             },

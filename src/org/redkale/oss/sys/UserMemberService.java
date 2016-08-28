@@ -33,14 +33,14 @@ public class UserMemberService extends BaseService {
     public void destroy(AnyValue conf) {
     }
 
-    public MemberInfo findMemberInfo(int userid) {
-        UserMember detail = source.find(UserMember.class, userid);
+    public MemberInfo findMemberInfo(int memberid) {
+        UserMember detail = source.find(UserMember.class, memberid);
         return detail == null ? null : detail.createMemberInfo();
     }
 
     public MemberInfo current(String sessionid) {
-        Integer userid = sessions.getAndRefresh(sessionid, sessionExpireSeconds);
-        return userid == null ? null : findMemberInfo(userid);
+        Integer memberid = sessions.getAndRefresh(sessionid, sessionExpireSeconds);
+        return memberid == null ? null : findMemberInfo(memberid);
     }
 
     public LoginResult login(LoginBean bean) {
@@ -62,10 +62,10 @@ public class UserMemberService extends BaseService {
             super.log(user, optionid, "用户被禁用，登录失败.");
             return result;
         }
-        if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByUserid(user.getUserid()));
+        if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
-        this.sessions.set(sessionExpireSeconds, bean.getSessionid(), result.getUser().getUserid());
+        this.sessions.set(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
         return result;
     }
 
@@ -74,7 +74,7 @@ public class UserMemberService extends BaseService {
         if (user == null) return RET_USER_NOTEXISTS;
         if (newpwd == null || newpwd.length() < 30) return RET_USER_PASSWORD_ILLEGAL;
         if (!Objects.equals(user.getPassword(), oldpwd)) return RET_USER_PASSWORD_ILLEGAL;
-        source.updateColumn(UserMember.class, user.getUserid(), "password", newpwd);
+        source.updateColumn(UserMember.class, user.getMemberid(), "password", newpwd);
         user.setPassword(newpwd);
         return 0;
     }
@@ -87,17 +87,17 @@ public class UserMemberService extends BaseService {
     public Sheet<UserMember> queryMember(Flipper flipper, final UserMemberBean bean) {
         Sheet<UserMember> sheet = source.querySheet(UserMember.class, flipper, bean);
         if (sheet.isEmpty()) return sheet;
-        int olduserid = bean == null ? 0 : bean.getUserid();
+        int oldmemberid = bean == null ? 0 : bean.getMemberid();
         for (UserMember detail : sheet.getRows()) {
-            detail.setRoleids(roleService.queryRoleidByUserid(detail.getUserid()));
+            detail.setRoleids(roleService.queryRoleidByMemberid(detail.getMemberid()));
         }
-        if (bean != null) bean.setUserid(olduserid);
+        if (bean != null) bean.setMemberid(oldmemberid);
         return sheet;
     }
 
-    public UserMember findMember(int userid) {
-        if(userid < 1) return null;
-        return source.find(UserMember.class, userid);
+    public UserMember findMember(int memberid) {
+        if(memberid < 1) return null;
+        return source.find(UserMember.class, memberid);
     }
 
     public UserMember findMemberByWeixin(String weixin) {
