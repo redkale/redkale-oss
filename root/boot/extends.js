@@ -36,6 +36,11 @@ $.extend($.fn.dataTable.defaults, {
         $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
             delete data.columns;
             delete data.search;
+            if (data.length) {
+                var flipper = {limit: data.length, offset: data.start || 0};
+                if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
+                data.flipper = JSON.stringify(flipper);
+            }
         });
         $(settings.nTable).on('xhr.dt', function (e, settings, json) {
             if (json) {

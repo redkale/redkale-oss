@@ -39,21 +39,21 @@ public class UserMemberServlet extends BaseServlet {
     @AuthIgnore
     @WebAction(url = "/user/myinfo")
     public void myinfo(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(currentMember(req));
+        resp.finishJson(currentUser(req));
     }
 
     @AuthIgnore
     @WebAction(url = "/user/js/myinfo")
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
-        resp.finish("var userself = " + convert.convertTo(currentMember(req)) + ";");
+        resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
     }
 
     @AuthIgnore
     @WebAction(url = "/user/wxlogin")
     public void wxlogin(HttpRequest req, HttpResponse resp) throws IOException {
         if (finest) logger.finest(req.toString());
-        if (currentMember(req) == null) {
+        if (currentUser(req) == null) {
             Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
             logger.finest("user.wxlogin : " + map);
             LoginBean bean = new LoginBean();
@@ -101,7 +101,7 @@ public class UserMemberServlet extends BaseServlet {
 
     @WebAction(url = "/user/query", actionid = ACTION_QUERY)
     public void query(HttpRequest req, HttpResponse resp) throws IOException {
-        Flipper flipper = findFlipper(req);
+        Flipper flipper = req.getFlipper();
         UserMemberBean bean = req.getJsonParameter(UserMemberBean.class, "bean");
         resp.finishJson(service.queryMember(flipper, bean));
     }

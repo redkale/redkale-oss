@@ -27,17 +27,17 @@ public final class RoleServlet extends BaseServlet {
     @WebAction(actionid = ACTION_UPDATE, url = "/role/upduserole")
     public void upduserole(HttpRequest req, HttpResponse resp) throws IOException {
         int[] delroleids = req.getJsonParameter(int[].class, "delroleids");
-        resp.finishJson(service.updateUserToRole(currentMember(req), req.getIntParameter("delmemberid", 0), delroleids, req.getJsonParameter(UserToRole[].class, "bean")));
+        resp.finishJson(service.updateUserToRole(currentUser(req), req.getIntParameter("delmemberid", 0), delroleids, req.getJsonParameter(UserToRole[].class, "bean")));
     }
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/qryuserole")
     public void qryuserole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.queryUserToRole(findFlipper(req), req.getJsonParameter(UserMemberBean.class, "bean")));
+        resp.finishJson(service.queryUserToRole(req.getFlipper(), req.getJsonParameter(UserMemberBean.class, "bean")));
     }
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/updoption")
     public void updoption(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.updateRoleToOption(currentMember(req), req.getJsonParameter(int[].class, "delseqids"), req.getJsonParameter(RoleToOption[].class, "bean")));
+        resp.finishJson(service.updateRoleToOption(currentUser(req), req.getJsonParameter(int[].class, "delseqids"), req.getJsonParameter(RoleToOption[].class, "bean")));
     }
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/qryoption")
@@ -47,12 +47,12 @@ public final class RoleServlet extends BaseServlet {
 
     @WebAction(actionid = ACTION_QUERY, url = "/role/query")
     public void qryrole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.queryRoleInfo(findFlipper(req), null));
+        resp.finishJson(service.queryRoleInfo(req.getFlipper(), null));
     }
 
     @WebAction(actionid = ACTION_CREATE, url = "/role/create")
     public void crtrole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.createRoleInfo(currentMember(req), req.getJsonParameter(RoleInfo.class, "bean")));
+        resp.finishJson(service.createRoleInfo(currentUser(req), req.getJsonParameter(RoleInfo.class, "bean")));
     }
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/update")

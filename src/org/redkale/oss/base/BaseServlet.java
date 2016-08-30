@@ -12,13 +12,40 @@ import org.redkale.convert.json.JsonConvert;
 import org.redkale.net.http.*;
 import org.redkale.oss.sys.UserMemberService;
 import org.redkale.service.RetResult;
-import org.redkale.source.Flipper;
 
 /**
+ * boostrap 中dataTable需要设置才能获取flipper:
+ *
+ * <blockquote><pre>
+ * $.extend($.fn.dataTable.defaults, {
+ *
+ *      preDrawCallback: function (settings) {
+ *          $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
+ *              delete data.columns;
+ *              delete data.search;
+ *              if (data.length) {
+ *                  var flipper = {limit: data.length, offset: data.start || 0};
+ *                  if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
+ *                  data.flipper = JSON.stringify(flipper);
+ *              }
+ *          });
+ *          $(settings.nTable).on('xhr.dt', function (e, settings, json) {
+ *              if (json) {
+ *                  json.data = json.rows || [];
+ *                  if (json.total &lt; 0) json.total = 0;
+ *                  json.recordsTotal = json.total;
+ *                  json.recordsFiltered = json.recordsTotal;
+ *                  json.draw = new Date().getTime();
+ *              }
+ *          });
+ *    }
+ *
+ * }
+ * </pre></blockquote>
  *
  * @author zhangjx
  */
-public class BaseServlet extends org.redkale.net.http.HttpBaseServlet {
+public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo> {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
@@ -40,7 +67,7 @@ public class BaseServlet extends org.redkale.net.http.HttpBaseServlet {
 
     @Override
     public boolean authenticate(int module, int actionid, HttpRequest request, HttpResponse response) throws IOException {
-        MemberInfo info = currentMember(request);
+        MemberInfo info = currentUser(request);
         if (info == null) {
             response.finishJson(RET_UNLOGIN);
             return false;
@@ -51,7 +78,8 @@ public class BaseServlet extends org.redkale.net.http.HttpBaseServlet {
         return true;
     }
 
-    protected final MemberInfo currentMember(HttpRequest req) throws IOException {
+    @Override
+    protected final MemberInfo currentUser(HttpRequest req) throws IOException {
         final String sessionid = req.getSessionid(false);
         if (sessionid == null) return null;
         MemberInfo user = (MemberInfo) req.getAttribute("$_CURRENT_MEMBER");
@@ -61,19 +89,19 @@ public class BaseServlet extends org.redkale.net.http.HttpBaseServlet {
         }
         return user;
     }
-
-    protected Flipper findFlipper(HttpRequest request) {  //bootstrap datatable
-        return findFlipper(request, Flipper.DEFAULT_LIMIT);
-    }
-
-    protected Flipper findFlipper(HttpRequest request, int defaultLimit) {  //bootstrap datatable
-        int pageSize = request.getIntParameter("length", defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT);
-        if (pageSize < 1) pageSize = defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT;
-        int offset = request.getIntParameter("start", 0);
-        String sort = request.getParameter("sort");
-        String order = request.getParameter("order");
-        String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
-        return new Flipper(pageSize, offset, sortColumn);
-    }
+//
+//    protected Flipper findFlipper(HttpRequest request) {  //bootstrap datatable
+//        return findFlipper(request, Flipper.DEFAULT_LIMIT);
+//    }
+//
+//    protected Flipper findFlipper(HttpRequest request, int defaultLimit) {  //bootstrap datatable
+//        int pageSize = request.getIntParameter("length", defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT);
+//        if (pageSize < 1) pageSize = defaultLimit > 0 ? defaultLimit : Flipper.DEFAULT_LIMIT;
+//        int offset = request.getIntParameter("start", 0);
+//        String sort = request.getParameter("sort");
+//        String order = request.getParameter("order");
+//        String sortColumn = (sort == null ? "" : ((order == null ? sort : (sort + " " + order.toUpperCase()))));
+//        return new Flipper(pageSize, offset, sortColumn);
+//    }
 
 }

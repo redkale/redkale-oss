@@ -161,7 +161,7 @@ public final class DyncServlet extends BaseServlet {
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript; charset=utf-8");
         StringBuilder sb = new StringBuilder();
-        MemberInfo user = currentMember(req);
+        MemberInfo user = currentUser(req);
         String userjson;
         String menujson;
         if (user == null) {
