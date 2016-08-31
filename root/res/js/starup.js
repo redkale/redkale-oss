@@ -73,7 +73,7 @@ $(document).ready(function () {
                 onemenu.active = true;
                 currmenu = onemenu;
             }
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\,' + onemenu.moduleid + '); "><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\',' + onemenu.moduleid + '); "><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
             return rs;
         }
     };
