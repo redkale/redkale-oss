@@ -29,7 +29,7 @@ $(document).ready(function () {
     topbarhtml.push('   <li class="dropdown profile-link hidden-xs">');
     topbarhtml.push('       <div class="clearfix" id="curruserel">');
     //userinfo 
-    if (system_memberinfo && system_memberinfo.memberid) {
+    if (window.system_memberinfo && system_memberinfo.memberid) {
         topbarhtml.push('       <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"> \
                                     <img src="/res/images/user.png" alt="" class="pull-left" style="width:36px;height:36px;"> \
                                     <span>' + system_memberinfo.membername + '<br><em>' + system_memberinfo.account + '</em></span>    \
@@ -81,7 +81,7 @@ $(document).ready(function () {
     menuhtml.push('<ul class="metismenu clearfix" id="menu">');
     menuhtml.push('    <li class="first_active"><a href="/index.html"><i class="fa fa-home"></i>  <span>工作台首页</span></a></li>');
 
-    for (var i = 0; system_sysmenus && i < system_sysmenus.length; i++) {
+    for (var i = 0; window.system_sysmenus && i < system_sysmenus.length; i++) {
         hasactived |= recursmenu(menuhtml, system_sysmenus[i], 1);
     }
     menuhtml.push('</ul>');
