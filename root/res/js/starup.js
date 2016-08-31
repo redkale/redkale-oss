@@ -59,7 +59,7 @@ $(document).ready(function () {
             }
             if (subhref) onemenu.active = true;
 
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\',' + onemenu.moduleid + ');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
             menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
             menuhtml.push(subminhtml.join(''));
             menuhtml.push('    </ul>');
@@ -71,8 +71,8 @@ $(document).ready(function () {
                 onemenu.active = true;
                 currmenu = onemenu;
             }
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
-            return rs;
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\,' + onemenu.moduleid + '); "><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
+                    return rs;
         }
     };
     var menuhtml = [];
