@@ -4,7 +4,7 @@ $(document).ready(function () {
         $("#footer").html('<span>Copyright &copy; 2016. Redkale.</span>' + data);
     });
     var maincontainer = $('#maincontainer');
-    window.openModule = function (url) {
+    window.openModule = function (url, moduleid) {
         if (!url) return;
         $.get(url, {}, function (data) {
             maincontainer.html(data);
@@ -66,13 +66,15 @@ $(document).ready(function () {
             menuhtml.push('</li>');
             return subhref;
         } else {
-            var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0) || winhref.indexOf('?' + onemenu.moduleid) >= 0;
+            var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0)
+                    || winhref.indexOf('?' + onemenu.moduleid) >= 0
+                    || winhref.indexOf('#' + onemenu.moduleid) >= 0;
             if (rs) {
                 onemenu.active = true;
                 currmenu = onemenu;
             }
             menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\,' + onemenu.moduleid + '); "><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span></a></li>');
-                    return rs;
+            return rs;
         }
     };
     var menuhtml = [];
