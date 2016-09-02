@@ -13,6 +13,7 @@
         </properties>
     </resources> 
     <server protocol="HTTP" host="0.0.0.0" port="9292" root="root"> 
+        <rest mustsign="false"/>
         <services autoload="true" excludes="^.*\.demo\..*">
         </services>
         <servlets path="/pipes" autoload="true" excludes="^.*\.demo\..*">
