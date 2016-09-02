@@ -41,15 +41,15 @@
             <input  name="memberid" type="hidden">
             <div class="form-group">
                 <label class="col-lg-2 control-label">用户账号</label>
-                <div class="col-lg-10"><input  name="account" placeholder="用户账号" class="form-control" required=""></div>
+                <div class="col-lg-10"><input  name="account" placeholder="用户账号" class="form-control" maxlength="32" required  data-error="用户账号不能为空"><div class="help-block with-errors"></div></div>
             </div>
             <div id="form-gfield-password" class="form-group">
                 <label class="col-lg-2 control-label">用户密码</label>
-                <div class="col-lg-10"><input name="password" type="password" placeholder="用户密码" class="form-control" required=""></div>
+                <div class="col-lg-10"><input name="password" type="password" placeholder="用户密码" class="form-control" pattern="^\w{4,32}$" required  data-error="密码长度不能小于4位"><div class="help-block with-errors"></div></div>
             </div>
             <div class="form-group">
                 <label class="col-lg-2 control-label">用户名称</label>
-                <div class="col-lg-10"><input name="membername" placeholder="用户名称" class="form-control" required=""></div>
+                <div class="col-lg-10"><input name="membername" placeholder="用户名称" class="form-control" maxlength="32" required  data-error="用户名称不能为空"><div class="help-block with-errors"></div></div>
             </div>
             <br>
             <div class="form-group">
@@ -123,8 +123,8 @@
                             url: "/pipes/user/query",
                             data: function (f) {
                                 f.bean = JSON.stringify({
-                                    account : $('#filter_account').val().trim(),
-                                    membername : $('#filter_account').val().trim()
+                                    account: $('#filter_account').val().trim(),
+                                    membername: $('#filter_account').val().trim()
                                 });
                                 f.sort = 'memberid';
                                 f.order = 'DESC';
@@ -156,7 +156,7 @@
                             {"data": "remark", render: $.defrender}
                         ]
                     });
-                    
+
                     $('#filter-user-qrybtn').bind("click", function () {
                         mtable.api(true).draw(false);
                     });
@@ -189,7 +189,7 @@
                     //------------------------ 新增&修改用户 -----------------------------                
                     $('#formbtn-user-update').bind("click", function (e) {
                         var form = $("#form-user-update");
-                        if (!form.form('validate')) return;
+                       
                         var json = form.serializeJson();
                         $.ajax({
                             cache: false,
