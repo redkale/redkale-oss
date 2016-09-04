@@ -22,27 +22,6 @@ public class MemberInfo extends BaseEntity {
     //普通用户
     public static final short TYPE_COMMON = 1;
 
-    //正常
-    public static final short STATUS_NORMAL = 10;
-
-    //待审批
-    public static final short STATUS_PENDING = 20;
-
-    //冻结
-    public static final short STATUS_FREEZE = 40;
-
-    //隐藏
-    public static final short STATUS_HIDDEN = 50;
-
-    //关闭
-    public static final short STATUS_CLOSED = 60;
-
-    //过期
-    public static final short STATUS_EXPIRE = 70;
-
-    //删除
-    public static final short STATUS_DELTED = 80;
-
     protected int memberid;
 
     protected String account;
@@ -57,17 +36,6 @@ public class MemberInfo extends BaseEntity {
 
     @Transient
     protected int[] options;
-
-    @Override
-    public int hashCode() {
-        return this.memberid;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return this.memberid == ((MemberInfo) obj).memberid;
-    }
 
     @Override
     public String toString() {
