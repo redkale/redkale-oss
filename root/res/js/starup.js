@@ -61,7 +61,7 @@ $(document).ready(function () {
             }
             if (subhref) onemenu.active = true;
 
-            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a href="javascript:openModule(\'' + (onemenu.url || '') + '\',' + onemenu.moduleid + ');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
+            menuhtml.push('<li ' + (onemenu.active ? ' class="active"' : '') + '><a ' + (onemenu.active ? ' id="_leftmenu_sublink_active"' : '') + ' href="javascript:openModule(\'' + (onemenu.url || '') + '\',' + onemenu.moduleid + ');"><i class="fa ' + onemenu.iconCls + '"></i> <span>' + onemenu.text + '</span><span class="fa arrow"></span></a>');
             menuhtml.push('    <ul class="nav nav-' + (index + 1) + '-level collapse">');
             menuhtml.push(subminhtml.join(''));
             menuhtml.push('    </ul>');
@@ -109,6 +109,8 @@ $(document).ready(function () {
     //metis menu
     $("#menu").metisMenu();
     $(".content-page,.side-menu").equalize({});
+    
+    $('#_leftmenu_sublink_active').focus();
     //tooltips
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
