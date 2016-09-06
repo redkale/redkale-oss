@@ -52,6 +52,7 @@ $(document).ready(function () {
     var currmenu = null;    
     var oldmoduleid = window.localStorage ? Number(localStorage.getItem("storage_moduleid") || "1") : 1;
     var recursmenu = function (menuhtml, onemenu, index) {
+        if(onemenu.hidden) return;
         if (onemenu.active) hasactived = true;
         if (onemenu.children && onemenu.children.length) {
             var subhref = false;
