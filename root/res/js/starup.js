@@ -8,6 +8,7 @@ $(document).ready(function () {
         if (!url) return;
         $.get(url, {}, function (data) {
             maincontainer.html(data);
+            if(window.localStorage) localStorage.setItem("storage_moduleid", moduleid);
         });
     }
     //-------------------------- status ----------------------------------------------------------
@@ -48,7 +49,8 @@ $(document).ready(function () {
     //menu data
     var winhref = '' + window.location.href;
     var hasactived = false;
-    var currmenu = null;
+    var currmenu = null;    
+    var oldmoduleid = window.localStorage ? Number(localStorage.getItem("storage_moduleid") || "1") : 1;
     var recursmenu = function (menuhtml, onemenu, index) {
         if (onemenu.active) hasactived = true;
         if (onemenu.children && onemenu.children.length) {
@@ -68,7 +70,8 @@ $(document).ready(function () {
         } else {
             var rs = (onemenu.url && winhref.indexOf(onemenu.url) >= 0)
                     || winhref.indexOf('?' + onemenu.moduleid) >= 0
-                    || winhref.indexOf('#' + onemenu.moduleid) >= 0;
+                    || winhref.indexOf('#' + onemenu.moduleid) >= 0
+                    || oldmoduleid == onemenu.moduleid;
             if (rs) {
                 onemenu.active = true;
                 currmenu = onemenu;
