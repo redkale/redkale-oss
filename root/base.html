@@ -93,7 +93,7 @@
             type: "POST",
             data: {
                 "oldpwd": $.md5(json.oldpwd),
-                "newpwd": $.md5(json.newpwd),
+                "newpwd": $.md5(json.newpwd)
             },
             url: '/pipes/user/changepwd',
             error: function () {//请求失败处理函数
