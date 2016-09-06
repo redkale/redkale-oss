@@ -49,6 +49,8 @@ public final class DyncServlet extends BaseServlet {
 
         public String url;
 
+        public boolean hidden;
+        
         public Menu[] children;
 
         public Menu copy() {
@@ -57,6 +59,7 @@ public final class DyncServlet extends BaseServlet {
             menu.text = this.text;
             menu.iconCls = this.iconCls;
             menu.url = this.url;
+            menu.hidden = this.hidden;
             if (this.children != null) {
                 Menu[] nodes = new Menu[this.children.length];
                 for (int i = 0; i < nodes.length; i++) {
@@ -71,7 +74,7 @@ public final class DyncServlet extends BaseServlet {
         @Override
         public String toString() {
             return "Menu{moduleid=" + moduleid + ", text=" + text + ", iconCls=" + iconCls + ", state=" + state
-                + ", url=" + url + ", children=" + (children == null ? null : Arrays.toString(children)) + '}';
+                + ", url=" + url  + ", hidden=" + hidden + ", children=" + (children == null ? null : Arrays.toString(children)) + '}';
         }
 
         public boolean isLeaf() {
