@@ -8,6 +8,7 @@ package org.redkale.oss.sys;
 import java.lang.reflect.*;
 import java.util.*;
 import javax.annotation.Resource;
+import org.redkale.net.http.RestService;
 import org.redkale.oss.base.Services;
 import org.redkale.oss.base.Services.ActionName;
 import org.redkale.oss.base.Services.ModuleName;
@@ -23,6 +24,7 @@ import org.redkale.util.Sheet;
  *
  * @author zhangjx
  */
+@RestService(ignore = true)
 public class RoleService extends BaseService {
 
     @Resource
