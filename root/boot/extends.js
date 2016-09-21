@@ -24,6 +24,7 @@ $.extend($.fn.dataTable.defaults, {
         sEmptyTable: "对不起, 没有数据",
         sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
         sInfoEmpty: "",
+        sInfoFiltered: "",
         sProcessing: '正在加载数据...',
         paginate: {
             sFirst: "首页",
