@@ -6,14 +6,12 @@
 package org.redkale.oss.sys;
 
 import java.io.IOException;
-import java.util.*;
 import javax.annotation.Resource;
 import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
 import org.redkale.oss.base.BaseServlet;
 import static org.redkale.oss.base.Services.*;
-import org.redkalex.weixin.WeiXinQYService;
 import org.redkale.source.Flipper;
 
 /**
@@ -22,9 +20,6 @@ import org.redkale.source.Flipper;
  */
 @WebServlet(value = {"/user/*"}, moduleid = MODULE_USER)
 public class UserMemberServlet extends BaseServlet {
-
-    @Resource
-    private WeiXinQYService wxservice;
 
     @Resource
     private UserMemberService service;
@@ -47,30 +42,6 @@ public class UserMemberServlet extends BaseServlet {
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
-    }
-
-    @AuthIgnore
-    @WebAction(url = "/user/wxlogin")
-    public void wxlogin(HttpRequest req, HttpResponse resp) throws IOException {
-        if (finest) logger.finest(req.toString());
-        if (currentUser(req) == null) {
-            Map<String, String> map = wxservice.getQYUserCode(req.getParameter("code"), req.getParameter("agentid"));
-            logger.finest("user.wxlogin : " + map);
-            LoginBean bean = new LoginBean();
-            bean.setAccount(map.get("UserId"));
-            bean.setSessionid(req.getSessionid(true));
-            bean.setWxlogin(true);
-            service.login(bean);
-        }
-        resp.setHeader("Location", req.getParameter("url", "/"));
-        resp.finish(302, null);
-    }
-
-    @AuthIgnore
-    @WebAction(url = "/user/wxverifyqy")
-    public void verifyqy(HttpRequest req, HttpResponse resp) throws IOException {
-        if (finest) logger.finest(req.toString());
-        resp.finish(wxservice.verifyQYURL(req.getParameter("msg_signature"), req.getParameter("timestamp"), req.getParameter("nonce"), req.getParameter("echostr")));
     }
 
     @AuthIgnore
