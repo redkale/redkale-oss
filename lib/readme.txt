@@ -1,1 +1,1 @@
-需要引用 redkale、redkale-plugin 工程项目
+需要引用 redkale 工程项目
