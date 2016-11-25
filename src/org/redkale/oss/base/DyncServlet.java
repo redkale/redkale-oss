@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 import javax.annotation.Resource;
 import org.redkale.convert.*;
-import org.redkale.convert.json.JsonFactory;
+import org.redkale.convert.json.*;
 import org.redkale.net.http.*;
 import org.redkale.oss.sys.*;
 import org.redkale.util.*;
@@ -133,7 +133,7 @@ public final class DyncServlet extends BaseServlet {
             //-------------------------------------------------------------------------------
             String path = "/" + DyncServlet.class.getPackage().getName().replace('.', '/') + "/sysmenus.json";
             try (InputStream in = DyncServlet.class.getResourceAsStream(path)) {
-                List<Menu> list = JsonFactory.root().getConvert().convertFrom(new TypeToken<List<Menu>>() {
+                List<Menu> list =  JsonConvert.root().convertFrom(new TypeToken<List<Menu>>() {
                 }.getType(), Utility.read(in));
                 menus.addAll(list);
             }
@@ -149,7 +149,7 @@ public final class DyncServlet extends BaseServlet {
             //-------------------------------------------------------------------------------
             if (file.isFile() && file.canRead()) {
                 try (InputStream in = new FileInputStream(file)) {
-                    List<Menu> list = JsonFactory.root().getConvert().convertFrom(new TypeToken<List<Menu>>() {
+                    List<Menu> list = JsonConvert.root().convertFrom(new TypeToken<List<Menu>>() {
                     }.getType(), Utility.read(in));
                     menus.addAll(list);
                 }

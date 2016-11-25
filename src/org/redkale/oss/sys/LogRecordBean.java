@@ -5,7 +5,7 @@
  */
 package org.redkale.oss.sys;
 
-import org.redkale.convert.json.JsonFactory;
+import org.redkale.convert.json.*;
 import org.redkale.oss.base.BaseBean;
 import org.redkale.source.FilterBean;
 
@@ -17,6 +17,6 @@ public class LogRecordBean extends BaseBean implements FilterBean {
 
     @Override
     public String toString() {
-        return JsonFactory.root().getConvert().convertTo(this);
+        return JsonConvert.root().convertTo(this);
     }
 }
