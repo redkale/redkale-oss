@@ -6,57 +6,58 @@ $.extend($.fn.dataTableExt, {
 $.defrender = function (value, type, full) {
     return value ? value : "";
 };
-
-$.extend($.fn.dataTable.defaults, {
-    bSort: false,
-    bFilter: false,
-    processing: true,
-    serverSide: true,
-    select: true,
-    bLengthChange: false,
-    iDisplayLength: 20,
-    aLengthMenu: [20],
-    sPaginationType: "full_numbers",
-    sServerMethod: 'POST',
-    language: {
-        sLengthMenu: "每页显示 _MENU_ 条记录",
-        sZeroRecords: "对不起, 没有数据",
-        sEmptyTable: "对不起, 没有数据",
-        sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
-        sInfoEmpty: "",
-        sInfoFiltered: "",
-        sProcessing: '正在加载数据...',
-        paginate: {
-            sFirst: "首页",
-            sPrevious: "前一页",
-            sNext: "后一页",
-            sLast: "尾页"
+if ($.fn.dataTable) {
+    $.extend($.fn.dataTable.defaults, {
+        bSort: false,
+        bFilter: false,
+        processing: true,
+        serverSide: true,
+        select: true,
+        bLengthChange: false,
+        iDisplayLength: 20,
+        aLengthMenu: [20],
+        sPaginationType: "full_numbers",
+        sServerMethod: 'POST',
+        language: {
+            sLengthMenu: "每页显示 _MENU_ 条记录",
+            sZeroRecords: "对不起, 没有数据",
+            sEmptyTable: "对不起, 没有数据",
+            sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+            sInfoEmpty: "",
+            sInfoFiltered: "",
+            sProcessing: '正在加载数据...',
+            paginate: {
+                sFirst: "首页",
+                sPrevious: "前一页",
+                sNext: "后一页",
+                sLast: "尾页"
+            }
+        },
+        preDrawCallback: function (settings) {
+            $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
+                delete data.columns;
+                delete data.search;
+                if (data.length) {
+                    var flipper = {limit: data.length, offset: data.start || 0};
+                    if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
+                    data.flipper = JSON.stringify(flipper);
+                }
+            });
+            $(settings.nTable).on('xhr.dt', function (e, settings, json) {
+                if (json) {
+                    json.data = json.rows || [];
+                    if (json.total < 0) json.total = 0;
+                    json.recordsTotal = json.total;
+                    json.recordsFiltered = json.recordsTotal;
+                    json.draw = new Date().getTime();
+                }
+            });
+        },
+        drawCallback: function (settings) {
+            $(window).resize();
         }
-    },
-    preDrawCallback: function (settings) {
-        $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
-            delete data.columns;
-            delete data.search;
-            if (data.length) {
-                var flipper = {limit: data.length, offset: data.start || 0};
-                if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
-                data.flipper = JSON.stringify(flipper);
-            }
-        });
-        $(settings.nTable).on('xhr.dt', function (e, settings, json) {
-            if (json) {
-                json.data = json.rows || [];
-                if (json.total < 0) json.total = 0;
-                json.recordsTotal = json.total;
-                json.recordsFiltered = json.recordsTotal;
-                json.draw = new Date().getTime();
-            }
-        });
-    },
-    drawCallback: function (settings) {
-        $(window).resize();
-    }
-});
+    });
+}
 
 if (!window['console'])
     console = {
