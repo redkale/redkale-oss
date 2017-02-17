@@ -99,7 +99,7 @@ public class UserMemberService extends BaseService {
     }
 
     public UserMember findMember(int memberid) {
-        if(memberid < 1) return null;
+        if (memberid < 1) return null;
         return source.find(UserMember.class, memberid);
     }
 
@@ -114,6 +114,8 @@ public class UserMemberService extends BaseService {
             user.setPassword(user.passwordForMD5());
             user.setStatus(MemberInfo.STATUS_NORMAL);
         }
+        int maxid = source.getNumberResult(UserMember.class, FilterFunc.MAX, 1000000, "memberid", (FilterNode) null).intValue();
+        user.setMemberid(maxid + 1);
         source.insert(user);
     }
 

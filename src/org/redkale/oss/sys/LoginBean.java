@@ -5,24 +5,30 @@
  */
 package org.redkale.oss.sys;
 
-import javax.persistence.Transient;
+import javax.persistence.*;
 import org.redkale.oss.base.BaseBean;
 import org.redkale.source.FilterBean;
+import org.redkale.util.Comment;
 
 /**
  *
  * @author zhangjx
  */
+@Comment("员工登录参数类")
 public final class LoginBean extends BaseBean implements FilterBean {
 
+    @Column(length = 64, comment = "用户账号")
     private String account;
 
+    @Column(length = 64, comment = "密码")
     private String password;
 
     @Transient
+    @Comment("是否微信登录")
     private boolean wxlogin = false;
 
     @Transient
+    @Comment("SESSION会话ID")
     private String sessionid = "";
 
     @Override

@@ -38,7 +38,7 @@ public final class RoleServlet extends BaseServlet {
     @WebParam(name = "bean", type = UserMemberBean.class, comment = "过滤条件")
     @WebParam(name = "flipper", type = Flipper.class, comment = "翻页信息")
     public void qryuserole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.queryUserToRole(req.getFlipper(), req.getJsonParameter(UserMemberBean.class, "bean")));
+        resp.finishJson(service.queryUserToRole(req.getJsonParameter(UserMemberBean.class, "bean"), req.getFlipper()));
     }
 
     @WebAction(actionid = ACTION_UPDATE, url = "/role/updoption", comment = "更新角色的操作权限", result = "int[]")
@@ -57,7 +57,7 @@ public final class RoleServlet extends BaseServlet {
     @WebAction(actionid = ACTION_QUERY, url = "/role/query", comment = "查询角色列表", result = "Sheet<RoleInfo>")
     @WebParam(name = "flipper", type = Flipper.class, comment = "翻页信息")
     public void qryrole(HttpRequest req, HttpResponse resp) throws IOException {
-        resp.finishJson(service.queryRoleInfo(req.getFlipper(), null));
+        resp.finishJson(service.queryRoleInfo(null, req.getFlipper()));
     }
 
     @WebAction(actionid = ACTION_CREATE, url = "/role/create", comment = "新增角色", result = "int")

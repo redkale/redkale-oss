@@ -13,29 +13,13 @@ import static org.redkale.oss.base.MemberInfo.STATUS_NORMAL;
 import org.redkale.util.*;
 
 /**
- * <p>
- * CREATE TABLE `sys_usermember` (
- * `memberid` int(10) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
- * `account` varchar(64) NOT NULL DEFAULT '' COMMENT '账号',
- * `membername` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称，通常为员工姓名',
- * `password` varchar(64) NOT NULL DEFAULT '' COMMENT '密码',
- * `type` smallint(5) NOT NULL DEFAULT '0' COMMENT '类型；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32',
- * `status` smallint(5) NOT NULL DEFAULT '0' COMMENT '状态: 10:正常;20:待审批;40:冻结;50：隐藏;60:过期;70:关闭;80:删除;',
- * `mobile` varchar(32) NOT NULL DEFAULT '' COMMENT '手机号码',
- * `email` varchar(128) NOT NULL DEFAULT '' COMMENT '邮箱地址',
- * `weixin` varchar(128) NOT NULL DEFAULT '' COMMENT '微信账号',
- * `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
- * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
- * `updatetime` bigint(20) NOT NULL DEFAULT '0' COMMENT '更新时间',
- * PRIMARY KEY (`memberid`),
- * UNIQUE KEY `singel` (`account`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=1000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @Cacheable
-@Table(name = "sys_usermember")
+@Table(name = "sys_usermember", comment = "员工信息表", uniqueConstraints = {
+    @UniqueConstraint(name = "unique", columnNames = {"account"})})
 public class UserMember extends BaseEntity {
 
     private static final MessageDigest md5;
@@ -51,35 +35,42 @@ public class UserMember extends BaseEntity {
     }
 
     @Id
-    @GeneratedValue
+    @Column(comment = "[用户ID] 值从1000001开始")
     private int memberid;
 
-    @Column(updatable = false)
+    @Column(length = 64, comment = "[用户账号]")
     private String account = "";
 
+    @Column(length = 255, comment = "[用户昵称]，通常为员工姓名")
     private String membername = "";
 
+    @Column(length = 64, comment = "密码")
     @ConvertColumn(ignore = true, type = ConvertType.JSON)
     private String password = "";
 
-    @Column(updatable = false)
+    @Column(comment = "[类型]；8192为管理员；1为普通员工；其他类型值需要按位移值来定义:2/4/8/16/32")
     private short type;
 
-    @Column(updatable = false)
+    @Column(comment = "[状态]: 10:正常;20:待审批;40:冻结;50:隐藏;60:关闭;70:过期;80:删除;")
     private short status = STATUS_NORMAL;
 
+    @Column(length = 32, comment = "[手机号码]")
     private String mobile = "";
 
+    @Column(length = 128, comment = "[邮箱地址]")
     private String email = "";
 
+    @Column(length = 128, comment = "[微信账号]")
     private String weixin = "";
 
-    @Column(updatable = false)
+    @Column(length = 255, comment = "[备注]")
+    private String remark = "";
+
+    @Column(updatable = false, comment = "[创建时间]")
     private long createtime;
 
+    @Column(comment = "[更新时间]")
     private long updatetime;
-
-    private String remark = "";
 
     @Transient
     private int[] roleids;

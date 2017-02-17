@@ -9,35 +9,28 @@ import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 
 /**
- * CREATE TABLE `sys_roleinfo` (
- * `roleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
- * `rolename` varchar(64) NOT NULL DEFAULT '' COMMENT '角色名称',
- * `description` varchar(255) NOT NULL DEFAULT '' COMMENT '角色描述',
- * `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
- * `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
- * PRIMARY KEY (`roleid`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
- *
+ * 
  * @author zhangjx
  */
 @Entity
 @Cacheable
-@Table(name = "sys_roleinfo")
+@Table(name = "sys_roleinfo", comment = "角色信息表")
 public class RoleInfo extends BaseEntity {
 
     @Id
-    @GeneratedValue
-    //@DistributeGenerator(initialValue = 2001, allocationSize = 1)
+    @Column(comment = "[角色ID] 值范围必须是2001-999，1xxx预留给框架")
     private int roleid;
 
+    @Column(length = 64, comment = "[角色名称]")
     private String rolename;
 
+    @Column(length = 255, comment = "[角色描述]")
     private String description = "";
 
-    @Column(updatable = false)
+    @Column(updatable = false, comment = "[创建时间]")
     private long createtime;
 
-    @Column(updatable = false)
+    @Column(length = 255, comment = "[创建人]")
     private String creator = "";
 
     public int getRoleid() {

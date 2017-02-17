@@ -5,22 +5,28 @@
  */
 package org.redkale.oss.sys;
 
+import javax.persistence.Column;
 import org.redkale.oss.base.BaseBean;
 import org.redkale.source.*;
 import static org.redkale.source.FilterExpress.*;
+import org.redkale.util.Comment;
 
 /**
  *
  * @author zhangjx
  */
+@Comment("员工过滤条件类")
 public class UserMemberBean extends BaseBean implements FilterBean {
 
+    @Column(comment ="[用户ID] 值从1000001开始")
     private int memberid;
 
     @FilterColumn(express = LIKE)
+    @Column(length = 64, comment = "用户账号")
     private String account;
 
     @FilterColumn(express = LIKE)
+    @Column(length = 255, comment = "员工姓名")
     private String membername;
 
     public String getAccount() {

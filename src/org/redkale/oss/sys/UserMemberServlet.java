@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.redkale.net.http.HttpRequest;
 import org.redkale.net.http.HttpResponse;
 import org.redkale.net.http.WebServlet;
-import org.redkale.oss.base.BaseServlet;
+import org.redkale.oss.base.*;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.source.Flipper;
 
@@ -32,13 +32,13 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/myinfo", comment = "获取当前用户信息", result = "MemberInfo")
+    @WebAction(url = "/user/myinfo", comment = "获取当前用户信息", result = "MemberInfo", results = {MemberInfo.class})
     public void myinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.finishJson(currentUser(req));
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/js/myinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo")
+    @WebAction(url = "/user/js/myinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
@@ -73,7 +73,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
     }
 
-    @WebAction(url = "/user/query", actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>")
+    @WebAction(url = "/user/query", actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>", results = {UserMember.class})
     @WebParam(name = "bean", type = UserMemberBean.class, comment = "过滤条件")
     @WebParam(name = "flipper", type = Flipper.class, comment = "翻页信息")
     public void query(HttpRequest req, HttpResponse resp) throws IOException {

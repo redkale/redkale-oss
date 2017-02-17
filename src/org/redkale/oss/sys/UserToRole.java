@@ -9,37 +9,29 @@ import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 
 /**
- * CREATE TABLE `sys_usertorole` (
- `seqid` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增长序号',
- `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '角色ID',
- `memberid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
- `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
- `creator` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
- PRIMARY KEY (`seqid`),
- UNIQUE KEY `unique` (`roleid`,`memberid`)
- ) ENGINE=InnoDB AUTO_INCREMENT=10000001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @Cacheable
-@Table(name = "sys_usertorole")
+@Table(name = "sys_usertorole", comment = "员工角色关联表", uniqueConstraints = {
+    @UniqueConstraint(name = "unique", columnNames = {"roleid", "memberid"})})
 public class UserToRole extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @Column(comment = "[记录ID] 值=当前时间秒数(一般不会并发操作)")
     private int seqid;
 
-    @Column(updatable = false)
+    @Column(comment = "[角色ID]")
     private int roleid;
 
-    @Column(updatable = false)
+    @Column(comment = "[用户ID]")
     private int memberid;
 
-    @Column(updatable = false)
+    @Column(updatable = false, comment = "[创建时间]")
     private long createtime;
 
-    @Column(updatable = false)
+    @Column(length = 255, comment = "[创建人]")
     private String creator = "";
 
     public long getCreatetime() {

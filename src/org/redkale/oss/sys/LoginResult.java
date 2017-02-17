@@ -6,17 +6,22 @@
 package org.redkale.oss.sys;
 
 import org.redkale.oss.base.MemberInfo;
+import org.redkale.util.Comment;
 
 /**
  *
  * @author zhangjx
  */
+@Comment("员工登录结果类")
 public class LoginResult {
 
+    @Comment("SESSION会话ID")
     private String sessionid;
 
+    @Comment("员工对象")
     private MemberInfo user;
 
+    @Comment("返回码， 0表示登陆成功")
     private int retcode = -1; //返回码， 0表示登陆成功
 
     @Override

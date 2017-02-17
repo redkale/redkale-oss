@@ -9,23 +9,19 @@ import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 
 /**
- * CREATE TABLE `sys_actioninfo` (
- * `actionid` int(11) NOT NULL AUTO_INCREMENT COMMENT '操作ID，值的范围必须是2001-9999,1xxx为框架预留',
- * `actionname` varchar(64) NOT NULL DEFAULT '' COMMENT '操作名称;系统已经存在的有查询、新增、修改、删除、登录',
- * PRIMARY KEY (`actionid`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=2001 DEFAULT CHARSET=utf8;
  *
  * @author zhangjx
  */
 @Entity
 @Cacheable
-@Table(name = "sys_actioninfo")
-public class ActionInfo extends BaseEntity{
+@Table(name = "sys_actioninfo", comment = "操作信息表")
+public class ActionInfo extends BaseEntity {
 
     @Id
-    //@DistributeGenerator(initialValue = 2001, allocationSize = 1)
+    @Column(comment = "[操作ID] 值的范围必须是2001-9999,1xxx预留给框架")
     private int actionid;
 
+    @Column(length = 64, comment = "[操作名称] 系统已经存在的有查询、新增、修改、删除、登录")
     private String actionname;
 
     public ActionInfo() {

@@ -9,24 +9,18 @@ import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
 
 /**
- * CREATE TABLE `sys_moduleinfo` (
- * `moduleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '模块ID，值范围必须是201-999，1xx为框架预留',
- * `modulename` varchar(64) NOT NULL DEFAULT '' COMMENT '模块名称',
- * PRIMARY KEY (`moduleid`)
- * ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
- *
  * @author zhangjx
  */
 @Entity
 @Cacheable
-@Table(name = "sys_moduleinfo")
+@Table(name = "sys_moduleinfo", comment = "模块信息表")
 public class ModuleInfo extends BaseEntity {
 
     @Id
-    @GeneratedValue
-    //@DistributeGenerator(initialValue = 201, allocationSize = 1)
+    @Column(comment = "[模块ID] 值范围必须是2001-9999，1xx预留给框架")
     private int moduleid;
 
+    @Column(length = 64, comment = "[模块名称]")
     private String modulename;
 
     public ModuleInfo() {
