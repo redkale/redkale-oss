@@ -24,7 +24,7 @@ public class UserMemberServlet extends BaseServlet {
     @Resource
     private UserMemberService service;
 
-    @WebAction(url = "/user/logout", comment = "用户退出登录")
+    @WebMapping(url = "/user/logout", comment = "用户退出登录")
     public void logout(HttpRequest req, HttpResponse resp) throws IOException {
         service.logout(req.getSessionid(false));
         resp.setHeader("Location", "/");
@@ -32,20 +32,20 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/myinfo", comment = "获取当前用户信息", result = "MemberInfo", results = {MemberInfo.class})
+    @WebMapping(url = "/user/myinfo", comment = "获取当前用户信息", result = "MemberInfo", results = {MemberInfo.class})
     public void myinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.finishJson(currentUser(req));
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/js/myinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
+    @WebMapping(url = "/user/js/myinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
     }
 
     @AuthIgnore
-    @WebAction(url = "/user/login", comment = "账号方式登录", result = "RetResult")
+    @WebMapping(url = "/user/login", comment = "账号方式登录", result = "RetResult")
     @WebParam(name = "bean", type = LoginBean.class, comment = "登录对象")
     public void login(HttpRequest req, HttpResponse resp) throws IOException {
         LoginBean bean = req.getJsonParameter(LoginBean.class, "bean");
@@ -63,7 +63,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish(message);
     }
 
-    @WebAction(url = "/user/changepwd", comment = "修改密码", result = "RetResult")
+    @WebMapping(url = "/user/changepwd", comment = "修改密码", result = "RetResult")
     @WebParam(name = "oldpwd", type = String.class, comment = "旧密码md5")
     @WebParam(name = "newpwd", type = String.class, comment = "新密码md5")
     public void changePwd(HttpRequest req, HttpResponse resp) throws IOException {
@@ -73,7 +73,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
     }
 
-    @WebAction(url = "/user/query", actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>", results = {UserMember.class})
+    @WebMapping(url = "/user/query", actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>", results = {UserMember.class})
     @WebParam(name = "bean", type = UserMemberBean.class, comment = "过滤条件")
     @WebParam(name = "flipper", type = Flipper.class, comment = "翻页信息")
     public void query(HttpRequest req, HttpResponse resp) throws IOException {
@@ -82,7 +82,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finishJson(service.queryMember(flipper, bean));
     }
 
-    @WebAction(url = "/user/create", actionid = ACTION_CREATE, comment = "新增员工", result = "RetResult")
+    @WebMapping(url = "/user/create", actionid = ACTION_CREATE, comment = "新增员工", result = "RetResult")
     @WebParam(name = "bean", type = UserMember.class, comment = "员工对象")
     public void create(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "bean");
@@ -90,7 +90,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish("{\"retcode\":0,\"success\":true}");
     }
 
-    @WebAction(url = "/user/update", actionid = ACTION_UPDATE, comment = "修改员工", result = "RetResult")
+    @WebMapping(url = "/user/update", actionid = ACTION_UPDATE, comment = "修改员工", result = "RetResult")
     @WebParam(name = "bean", type = UserMember.class, comment = "员工对象")
     public void update(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "bean");
