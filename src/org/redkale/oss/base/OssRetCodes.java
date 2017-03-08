@@ -5,18 +5,16 @@
  */
 package org.redkale.oss.base;
 
-import java.lang.reflect.*;
-import java.text.MessageFormat;
-import java.util.*;
 import org.redkale.service.*;
 
 /**
  *
  * @author zhangjx
  */
-public abstract class OssRetCodes {
+public abstract class OssRetCodes extends RetLabel.AbstractRetCode {
 
-    protected OssRetCodes() {
+    static {
+        load(OssRetCodes.class);
     }
 
     //2000_0001 - 2999_9999 预留给 Redkale的扩展包redkalex使用
@@ -126,51 +124,4 @@ public abstract class OssRetCodes {
     @RetLabel("用户设备ID无效")
     public static final int RET_USER_APPTOKEN_ILLEGAL = 30020030;
 
-    //-----------------------------------------------------------------------------------------------------------
-    protected static final Map<Integer, String> rets = new HashMap<>();
-
-    static {
-        load(OssRetCodes.class);
-    }
-
-    protected static void load(Class clazz) {
-        for (Field field : clazz.getFields()) {
-            if (!Modifier.isStatic(field.getModifiers())) continue;
-            if (field.getType() != int.class) continue;
-            RetLabel info = field.getAnnotation(RetLabel.class);
-            if (info == null) continue;
-            int value;
-            try {
-                value = field.getInt(null);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                continue;
-            }
-            rets.put(value, info.value());
-        }
-    }
-
-    public static RetResult retResult(int retcode) {
-        if (retcode == 0) return RetResult.success();
-        return new RetResult(retcode, retInfo(retcode));
-    }
-
-    public static RetResult retResult(int retcode, Object... args) {
-        if (retcode == 0) return RetResult.success();
-        if (args == null || args.length < 1) return new RetResult(retcode, retInfo(retcode));
-        String info = MessageFormat.format(retInfo(retcode), args);
-        return new RetResult(retcode, info);
-    }
-
-    public static RetResult set(RetResult result, int retcode, Object... args) {
-        if (retcode == 0) return result.retcode(0).retinfo("");
-        if (args == null || args.length < 1) return result.retcode(retcode).retinfo(retInfo(retcode));
-        String info = MessageFormat.format(retInfo(retcode), args);
-        return result.retcode(retcode).retinfo(info);
-    }
-
-    public static String retInfo(int retcode) {
-        if (retcode == 0) return "成功";
-        return rets.getOrDefault(retcode, "未知错误");
-    }
 }
