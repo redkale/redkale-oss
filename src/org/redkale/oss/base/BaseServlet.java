@@ -66,16 +66,16 @@ public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo
     private UserMemberService service;
 
     @Override
-    public boolean authenticate(int module, int actionid, HttpRequest request, HttpResponse response) throws IOException {
+    public void authenticate(int module, int actionid, HttpRequest request, HttpResponse response, HttpServlet next) throws IOException {
         MemberInfo info = currentUser(request);
         if (info == null) {
             response.finishJson(RET_UNLOGIN);
-            return false;
+            return;
         } else if (!info.checkAuth(module, actionid)) {
             response.finishJson(RET_AUTHILLEGAL);
-            return false;
+            return;
         }
-        return true;
+        next.execute(request, response);
     }
 
     @Override
