@@ -13,7 +13,7 @@
         </properties>
     </resources> 
     <server protocol="HTTP" host="0.0.0.0" port="9292" root="root"> 
-        <rest mustsign="false"/>        
+        <!-- <rest mustsign="false"/>  -->
         <resource-servlet>				
             <caches  limit="0"/>
             <rewrite type="location" match="^/([^-]+)(-[^-\.]+)+\.html(.*)" forward="/$1.html"/>
