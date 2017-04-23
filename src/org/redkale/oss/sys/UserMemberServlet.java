@@ -38,7 +38,7 @@ public class UserMemberServlet extends BaseServlet {
     }
 
     @AuthIgnore
-    @WebMapping(url = "/user/js/myinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
+    @WebMapping(url = "/user/jsmyinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
