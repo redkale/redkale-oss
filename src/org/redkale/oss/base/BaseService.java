@@ -6,7 +6,7 @@
 package org.redkale.oss.base;
 
 import java.util.logging.Logger;
-import org.redkale.service.Service;
+import org.redkale.service.*;
 import org.redkale.util.AutoLoad;
 
 /**
@@ -14,7 +14,7 @@ import org.redkale.util.AutoLoad;
  * @author zhangjx
  */
 @AutoLoad(false)
-public abstract class BaseService implements Service {
+public abstract class BaseService extends AbstractService {
 
     protected static final boolean winos = System.getProperty("os.name").contains("Window");
 
