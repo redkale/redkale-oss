@@ -59,23 +59,23 @@ public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo
 
     protected static final RetResult RET_AUTHILLEGAL = OssRetCodes.retResult(OssRetCodes.RET_USER_AUTH_ILLEGAL);
 
-    @Resource
+    @Resource 
     protected JsonConvert convert;
 
     @Resource
     private UserMemberService service;
 
     @Override
-    public void authenticate(int module, int actionid, HttpRequest request, HttpResponse response, HttpServlet next) throws IOException {
+    public void authenticate(HttpRequest request, HttpResponse response) throws IOException {
         MemberInfo info = currentUser(request);
         if (info == null) {
             response.finishJson(RET_UNLOGIN);
             return;
-        } else if (!info.checkAuth(module, actionid)) {
+        } else if (!info.checkAuth(request.getModuleid(), request.getActionid())) {
             response.finishJson(RET_AUTHILLEGAL);
             return;
         }
-        next.execute(request, response);
+        response.nextEvent();
     }
 
     @Override
