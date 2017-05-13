@@ -50,7 +50,7 @@ public final class DyncServlet extends BaseServlet {
         public String url;
 
         public boolean hidden;
-        
+
         public Menu[] children;
 
         public Menu copy() {
@@ -74,7 +74,7 @@ public final class DyncServlet extends BaseServlet {
         @Override
         public String toString() {
             return "Menu{moduleid=" + moduleid + ", text=" + text + ", iconCls=" + iconCls + ", state=" + state
-                + ", url=" + url  + ", hidden=" + hidden + ", children=" + (children == null ? null : Arrays.toString(children)) + '}';
+                + ", url=" + url + ", hidden=" + hidden + ", children=" + (children == null ? null : Arrays.toString(children)) + '}';
         }
 
         public boolean isLeaf() {
@@ -133,7 +133,7 @@ public final class DyncServlet extends BaseServlet {
             //-------------------------------------------------------------------------------
             String path = "/" + DyncServlet.class.getPackage().getName().replace('.', '/') + "/sysmenus.json";
             try (InputStream in = DyncServlet.class.getResourceAsStream(path)) {
-                List<Menu> list =  JsonConvert.root().convertFrom(new TypeToken<List<Menu>>() {
+                List<Menu> list = JsonConvert.root().convertFrom(new TypeToken<List<Menu>>() {
                 }.getType(), Utility.read(in));
                 menus.addAll(list);
             }
@@ -159,12 +159,11 @@ public final class DyncServlet extends BaseServlet {
         }
     }
 
-    @AuthIgnore
     @HttpMapping(url = "/dync/js/mydata")
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript; charset=utf-8");
         StringBuilder sb = new StringBuilder();
-        MemberInfo user = currentUser(req);
+        MemberInfo user = req.currentUser();
         String userjson;
         String menujson;
         if (user == null) {

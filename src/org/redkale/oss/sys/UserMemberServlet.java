@@ -11,7 +11,6 @@ import org.redkale.net.http.*;
 import org.redkale.oss.base.*;
 import static org.redkale.oss.base.Services.*;
 import org.redkale.source.Flipper;
-import org.redkale.util.AuthIgnore;
 
 /**
  *
@@ -23,27 +22,24 @@ public class UserMemberServlet extends BaseServlet {
     @Resource
     private UserMemberService service;
 
-    @HttpMapping(url = "/user/logout", comment = "用户退出登录")
+    @HttpMapping(url = "/user/logout", auth = true, comment = "用户退出登录")
     public void logout(HttpRequest req, HttpResponse resp) throws IOException {
         service.logout(req.getSessionid(false));
         resp.setHeader("Location", "/");
         resp.finish(302, null);
     }
 
-    @AuthIgnore
     @HttpMapping(url = "/user/myinfo", comment = "获取当前用户信息", result = "MemberInfo", results = {MemberInfo.class})
     public void myinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.finishJson(currentUser(req));
     }
 
-    @AuthIgnore
     @HttpMapping(url = "/user/jsmyinfo", comment = "获取当前用户信息(js格式)", result = "MemberInfo", results = {MemberInfo.class})
     public void myjsinfo(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("application/javascript; charset=utf-8");
         resp.finish("var userself = " + convert.convertTo(currentUser(req)) + ";");
     }
 
-    @AuthIgnore
     @HttpMapping(url = "/user/login", comment = "账号方式登录", result = "RetResult")
     @HttpParam(name = "bean", type = LoginBean.class, comment = "登录对象")
     public void login(HttpRequest req, HttpResponse resp) throws IOException {
@@ -62,7 +58,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish(message);
     }
 
-    @HttpMapping(url = "/user/changepwd", comment = "修改密码", result = "RetResult")
+    @HttpMapping(url = "/user/changepwd", auth = true, comment = "修改密码", result = "RetResult")
     @HttpParam(name = "oldpwd", type = String.class, comment = "旧密码md5")
     @HttpParam(name = "newpwd", type = String.class, comment = "新密码md5")
     public void changePwd(HttpRequest req, HttpResponse resp) throws IOException {
@@ -72,7 +68,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish("{\"retcode\":" + retcode + ", \"success\": " + (retcode == 0) + "}");
     }
 
-    @HttpMapping(url = "/user/query", actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>", results = {UserMember.class})
+    @HttpMapping(url = "/user/query", auth = true, actionid = ACTION_QUERY, comment = "查询员工列表", result = "Sheet<UserMember>", results = {UserMember.class})
     @HttpParam(name = "bean", type = UserMemberBean.class, comment = "过滤条件")
     @HttpParam(name = "flipper", type = Flipper.class, comment = "翻页信息")
     public void query(HttpRequest req, HttpResponse resp) throws IOException {
@@ -81,7 +77,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finishJson(service.queryMember(flipper, bean));
     }
 
-    @HttpMapping(url = "/user/create", actionid = ACTION_CREATE, comment = "新增员工", result = "RetResult")
+    @HttpMapping(url = "/user/create", auth = true, actionid = ACTION_CREATE, comment = "新增员工", result = "RetResult")
     @HttpParam(name = "bean", type = UserMember.class, comment = "员工对象")
     public void create(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "bean");
@@ -89,7 +85,7 @@ public class UserMemberServlet extends BaseServlet {
         resp.finish("{\"retcode\":0,\"success\":true}");
     }
 
-    @HttpMapping(url = "/user/update", actionid = ACTION_UPDATE, comment = "修改员工", result = "RetResult")
+    @HttpMapping(url = "/user/update", auth = true, actionid = ACTION_UPDATE, comment = "修改员工", result = "RetResult")
     @HttpParam(name = "bean", type = UserMember.class, comment = "员工对象")
     public void update(HttpRequest req, HttpResponse resp) throws IOException {
         UserMember user = req.getJsonParameter(UserMember.class, "bean");

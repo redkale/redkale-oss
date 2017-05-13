@@ -45,7 +45,8 @@ import org.redkale.service.RetResult;
  *
  * @author zhangjx
  */
-public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo> {
+@HttpUserType(MemberInfo.class)
+public class BaseServlet extends org.redkale.net.http.HttpServlet {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
@@ -59,7 +60,7 @@ public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo
 
     protected static final RetResult RET_AUTHILLEGAL = OssRetCodes.retResult(OssRetCodes.RET_USER_AUTH_ILLEGAL);
 
-    @Resource 
+    @Resource
     protected JsonConvert convert;
 
     @Resource
@@ -67,7 +68,7 @@ public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo
 
     @Override
     public void authenticate(HttpRequest request, HttpResponse response) throws IOException {
-        MemberInfo info = currentUser(request);
+        MemberInfo info = request.currentUser();
         if (info == null) {
             response.finishJson(RET_UNLOGIN);
             return;
@@ -79,15 +80,12 @@ public class BaseServlet extends org.redkale.net.http.RestHttpServlet<MemberInfo
     }
 
     @Override
-    protected final MemberInfo currentUser(HttpRequest req) throws IOException {
-        final String sessionid = req.getSessionid(false);
-        if (sessionid == null) return null;
-        MemberInfo user = (MemberInfo) req.getAttribute("$_CURRENT_MEMBER");
-        if (user == null) {
-            user = service.current(sessionid);
-            req.setAttribute("$_CURRENT_MEMBER", user);
+    public void preExecute(HttpRequest request, HttpResponse response) throws IOException {
+        final String sessionid = request.getSessionid(false);
+        if (sessionid != null) {
+            request.setCurrentUser(service.current(sessionid));
         }
-        return user;
+        response.nextEvent();
     }
 
 }
