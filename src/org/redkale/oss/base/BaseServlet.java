@@ -67,6 +67,13 @@ public class BaseServlet extends org.redkale.net.http.HttpServlet {
     private UserMemberService service;
 
     @Override
+    public void preExecute(HttpRequest request, HttpResponse response) throws IOException {
+        final String sessionid = request.getSessionid(false);
+        if (sessionid != null) request.setCurrentUser(service.current(sessionid));
+        response.nextEvent();
+    }
+
+    @Override
     public void authenticate(HttpRequest request, HttpResponse response) throws IOException {
         MemberInfo info = request.currentUser();
         if (info == null) {
@@ -75,15 +82,6 @@ public class BaseServlet extends org.redkale.net.http.HttpServlet {
         } else if (!info.checkAuth(request.getModuleid(), request.getActionid())) {
             response.finishJson(RET_AUTHILLEGAL);
             return;
-        }
-        response.nextEvent();
-    }
-
-    @Override
-    public void preExecute(HttpRequest request, HttpResponse response) throws IOException {
-        final String sessionid = request.getSessionid(false);
-        if (sessionid != null) {
-            request.setCurrentUser(service.current(sessionid));
         }
         response.nextEvent();
     }

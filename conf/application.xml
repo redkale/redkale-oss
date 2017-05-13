@@ -13,7 +13,7 @@
         </properties>
     </resources> 
     <server protocol="HTTP" host="0.0.0.0" port="9292" root="root"> 
-        <rest mustsign="true" base="org.redkale.oss.base.BaseServlet"/>
+        <rest base="org.redkale.oss.base.BaseServlet"/>
         <resource-servlet>				
             <caches  limit="0"/>
             <rewrite type="location" match="^/([^-]+)(-[^-\.]+)+\.html(.*)" forward="/$1.html"/>

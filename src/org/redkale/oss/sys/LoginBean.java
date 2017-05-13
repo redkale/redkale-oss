@@ -6,6 +6,7 @@
 package org.redkale.oss.sys;
 
 import javax.persistence.*;
+import org.redkale.net.http.RestSessionid;
 import org.redkale.oss.base.BaseBean;
 import org.redkale.source.FilterBean;
 import org.redkale.util.Comment;
@@ -29,6 +30,7 @@ public final class LoginBean extends BaseBean implements FilterBean {
 
     @Transient
     @Comment("SESSION会话ID")
+    @RestSessionid(create = true)
     private String sessionid = "";
 
     @Override

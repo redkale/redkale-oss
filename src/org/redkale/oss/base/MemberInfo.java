@@ -22,6 +22,7 @@ public class MemberInfo extends BaseEntity {
     //普通用户
     public static final short TYPE_COMMON = 1;
 
+    @Id
     protected int memberid;
 
     protected String account;
