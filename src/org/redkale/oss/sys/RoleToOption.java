@@ -5,21 +5,19 @@
  */
 package org.redkale.oss.sys;
 
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
-import org.redkale.source.FilterBean;
 
 /**
- * 
+ *
  * @author zhangjx
  */
 @Entity
 @Cacheable
 @Table(name = "sys_roletooption", comment = "角色操作关联表", uniqueConstraints = {
     @UniqueConstraint(name = "unique", columnNames = {"roleid", "optionid"})})
-public class RoleToOption extends BaseEntity implements FilterBean, Serializable {
+public class RoleToOption extends BaseEntity {
 
     @Id
     @Column(comment = "[记录ID] 值=当前时间秒数(一般不会并发操作)")
