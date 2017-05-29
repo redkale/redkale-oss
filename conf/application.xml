@@ -14,11 +14,11 @@
     </resources> 
     <server protocol="HTTP" host="0.0.0.0" port="9292" root="root"> 
         
-        <rest base="org.redkale.oss.base.BaseServlet"/>
+        <rest path="/pipes" base="org.redkale.oss.base.BaseServlet"/>
         
         <services autoload="true"/>
         
-        <filters autoload="true" />
+        <filters  autoload="true" />
         
         <servlets autoload="true" path="/pipes" />
         
