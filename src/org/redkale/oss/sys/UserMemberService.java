@@ -53,7 +53,7 @@ public class UserMemberService extends BaseService {
         return user;
     }
 
-    @RestMapping(name = "login", comment = "账号方式登录")
+    @RestMapping(name = "login", auth = false, comment = "账号方式登录")
     public String login(LoginBean bean) {
         if (bean == null || bean.emptySessionid() || bean.emptyAccount()) return "{\"success\":false, \"retcode\":1, \"message\":\"Login Error\"}";
         final LoginResult result = new LoginResult();

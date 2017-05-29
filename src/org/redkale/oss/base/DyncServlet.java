@@ -159,7 +159,7 @@ public final class DyncServlet extends BaseServlet {
         }
     }
 
-    @HttpMapping(url = "/dync/js/mydata")
+    @HttpMapping(url = "/dync/js/mydata", auth = false)
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript; charset=utf-8");
         StringBuilder sb = new StringBuilder();
