@@ -12,7 +12,6 @@ import org.redkale.net.http.*;
 import org.redkale.oss.base.*;
 import static org.redkale.oss.base.Services.*;
 import static org.redkale.oss.base.OssRetCodes.*;
-import org.redkale.oss.sys.BaseService;
 import org.redkale.service.RetResult;
 import org.redkale.source.*;
 import org.redkale.util.AnyValue;
@@ -54,8 +53,8 @@ public class UserMemberService extends BaseService {
     }
 
     @RestMapping(name = "login", auth = false, comment = "账号方式登录")
-    public String login(LoginBean bean) {
-        if (bean == null || bean.emptySessionid() || bean.emptyAccount()) return "{\"success\":false, \"retcode\":1, \"message\":\"Login Error\"}";
+    public RetResult login(LoginBean bean) {
+        if (bean == null || bean.emptySessionid() || bean.emptyAccount()) return OssRetCodes.retResult(OssRetCodes.RET_PARAMS_ILLEGAL);
         final LoginResult result = new LoginResult();
         final int optionid = Services.optionid(MODULE_USER, ACTION_LOGIN);
         if (!bean.isWxlogin()) bean.setPassword(UserMember.md5IfNeed(bean.getPassword()));
@@ -63,7 +62,7 @@ public class UserMemberService extends BaseService {
         if (detail == null || (!bean.isWxlogin() && !Objects.equals(detail.getPassword(), bean.getPassword()))) {
             result.setRetcode(RET_USER_ACCOUNT_PWD_ILLEGAL);
             super.log(null, optionid, "用户账号或密码错误，登录失败.");
-            return "{\"success\":false, \"retcode\":" + result.getRetcode() + ", \"message\":\"Login Error\"}";
+            return OssRetCodes.retResult(OssRetCodes.RET_USER_ACCOUNT_PWD_ILLEGAL);
         }
         result.setRetcode(0);
         result.setSessionid(bean.getSessionid());
@@ -71,13 +70,13 @@ public class UserMemberService extends BaseService {
         if (user.isStatusFreeze()) {
             result.setRetcode(RET_USER_FREEZED);
             super.log(user, optionid, "用户被禁用，登录失败.");
-            return "{\"success\":false, \"retcode\":" + result.getRetcode() + ", \"message\":\"Login Error\"}";
+            return OssRetCodes.retResult(OssRetCodes.RET_USER_FREEZED);
         }
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
         this.sessions.set(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
-        return "{\"success\":true, \"retcode\":0, \"message\":\"Login Success\"}";
+        return RetResult.success();
     }
 
     @RestMapping(name = "changepwd", auth = true, actionid = ACTION_UPDATE, comment = "修改密码")
