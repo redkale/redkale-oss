@@ -37,10 +37,15 @@ if ($.fn.dataTable) {
             $(settings.nTable).on('preXhr.dt', function (e, settings, data) {
                 delete data.columns;
                 delete data.search;
-                if (data.length) {
-                    var flipper = {limit: data.length, offset: data.start || 0};
+                if (data.length || data.limit) {
+                    var flipper = {limit: data.length || data.limit, offset: data.start || 0};
                     if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
                     data.flipper = JSON.stringify(flipper);
+                    delete data.length;
+                    delete data.limit;
+                    delete data.sort;
+                    delete data.order;
+                    delete data.start;
                 }
             });
             $(settings.nTable).on('xhr.dt', function (e, settings, json) {
