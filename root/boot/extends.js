@@ -38,7 +38,7 @@ if ($.fn.dataTable) {
                 delete data.columns;
                 delete data.search;
                 if (data.length || data.limit) {
-                    var flipper = {limit: data.length || data.limit, offset: data.start || 0};
+                    var flipper = {limit: data.length || data.limit, offset: data.start || data.offset || 0};
                     if (data.sort) flipper.sort = data.sort + (data.order ? (" " + data.order) : "");
                     data.flipper = JSON.stringify(flipper);
                     delete data.length;
@@ -46,6 +46,7 @@ if ($.fn.dataTable) {
                     delete data.sort;
                     delete data.order;
                     delete data.start;
+                    delete data.offset;
                 }
             });
             $(settings.nTable).on('xhr.dt', function (e, settings, json) {
