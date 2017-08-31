@@ -3,12 +3,24 @@ $(document).ready(function () {
     $.get("/base.html", {}, function (data) {
         $("#footer").html('<span>Copyright &copy; 2016. Redkale.</span>' + data);
     });
+
+    window.checkAuth = function (moduleid, actionid) {
+        if (!window['system_memberinfo']) return false;
+        if (!window.system_memberinfo.userid) return false;
+        if (window.system_memberinfo.type == window.system_adminpid) return true;
+        if (!window.system_memberinfo.options) return false;
+        for (var i = 0; i < window.system_memberinfo.options.length; i++) {
+            if (("" + window.system_memberinfo.options[i]) == ("" + moduleid + actionid)) return true;
+        }
+        return false;
+    };
+
     var maincontainer = $('#maincontainer');
     window.openModule = function (url, moduleid) {
         if (!url) return;
         $.get(url, {}, function (data) {
             maincontainer.html(data);
-            if(window.localStorage) localStorage.setItem("storage_moduleid", moduleid);
+            if (window.localStorage) localStorage.setItem("storage_moduleid", moduleid);
         });
     }
     //-------------------------- status ----------------------------------------------------------
@@ -49,10 +61,10 @@ $(document).ready(function () {
     //menu data
     var winhref = '' + window.location.href;
     var hasactived = false;
-    var currmenu = null;    
+    var currmenu = null;
     var oldmoduleid = window.localStorage ? Number(localStorage.getItem("storage_moduleid") || "1") : 1;
     var recursmenu = function (menuhtml, onemenu, index) {
-        if(onemenu.hidden) return;
+        if (onemenu.hidden) return;
         if (onemenu.active) hasactived = true;
         if (onemenu.children && onemenu.children.length) {
             var subhref = false;
@@ -110,7 +122,7 @@ $(document).ready(function () {
     //metis menu
     $("#menu").metisMenu();
     $(".content-page,.side-menu").equalize({});
-    
+
     $('#_leftmenu_sublink_active').focus();
     //tooltips
     $(function () {
