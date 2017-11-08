@@ -27,7 +27,7 @@ public class UserMemberService extends BaseService {
     private final int sessionExpireSeconds = 30 * 60;
 
     @Resource(name = "membersessions")
-    protected CacheSource<String, Integer> sessions;
+    protected CacheSource<Integer> sessions;
 
     @Resource
     protected JsonConvert convert;
