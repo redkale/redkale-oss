@@ -23,6 +23,10 @@ $(document).ready(function () {
             if (window.localStorage) localStorage.setItem("storage_moduleid", moduleid);
         });
     }
+    window.openHomeModule = function(){
+        if (window.localStorage) localStorage.setItem("storage_moduleid", "1");
+        window.location.href = "/index.html";
+    };
     //-------------------------- status ----------------------------------------------------------
     window.defStatusRender = function (value, type, full) {
         if (value === 10) return "<font color=green>正常</font>";
@@ -95,7 +99,7 @@ $(document).ready(function () {
     };
     var menuhtml = [];
     menuhtml.push('<ul class="metismenu clearfix" id="menu">');
-    menuhtml.push('    <li class="first_active"><a href="/index.html"><i class="fa fa-home"></i>  <span>工作台首页</span></a></li>');
+    menuhtml.push('    <li class="first_active"><a href="javascript:openHomeModule()"><i class="fa fa-home"></i>  <span>工作台首页</span></a></li>');
 
     for (var i = 0; window.system_sysmenus && i < system_sysmenus.length; i++) {
         hasactived |= recursmenu(menuhtml, system_sysmenus[i], 1);
