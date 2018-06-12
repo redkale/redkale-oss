@@ -57,7 +57,7 @@ CREATE TABLE `sys_roleinfo` (
 DROP TABLE IF EXISTS `sys_roletooption`;
 
 CREATE TABLE `sys_roletooption` (
-  `seqid` int(11) NOT NULL COMMENT '[记录ID] 值=当前时间秒数(一般不会并发操作)',
+  `seqid` bigint(20) NOT NULL COMMENT '[记录ID] 值=当前时间豪秒数(一般不会并发操作)',
   `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '[角色ID]',
   `optionid` int(11) NOT NULL DEFAULT '0' COMMENT '[模块操作ID] optionid = moduleid * 10000 + actionid',
   `createtime` bigint(20) NOT NULL DEFAULT '0' COMMENT '[创建时间]',

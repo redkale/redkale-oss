@@ -21,8 +21,8 @@ import org.redkale.source.FilterBean;
 public class RoleToOption extends BaseEntity implements FilterBean {
 
     @Id
-    @Column(comment = "[记录ID] 值=当前时间秒数(一般不会并发操作)")
-    private int seqid;
+    @Column(comment = "[记录ID] 值=当前时间豪秒数(一般不会并发操作)")
+    private long seqid;
 
     @Column(comment = "[角色ID]")
     private int roleid;
@@ -62,11 +62,11 @@ public class RoleToOption extends BaseEntity implements FilterBean {
         this.creator = creator;
     }
 
-    public int getSeqid() {
+    public long getSeqid() {
         return seqid;
     }
 
-    public void setSeqid(int seqid) {
+    public void setSeqid(long seqid) {
         this.seqid = seqid;
     }
 

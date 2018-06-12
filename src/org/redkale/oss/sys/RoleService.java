@@ -119,23 +119,22 @@ public class RoleService extends BaseService {
     }
 
     @RestMapping(name = "updoption", auth = true, actionid = ACTION_UPDATE, comment = "更新角色的操作权限")
-    public int[] updateRoleToOption(MemberInfo admin,
-        @RestParam(name = "delseqids", comment = "待删除的角色操作ID") int[] delseqids,
+    public long[] updateRoleToOption(MemberInfo admin,
+        @RestParam(name = "delseqids", comment = "待删除的角色操作ID") long[] delseqids,
         @RestParam(name = "bean", comment = "待新增的角色与操作关系对象") RoleToOption... infos) {
         final boolean deled = delseqids != null && delseqids.length > 0;
         if (deled) source.delete(RoleToOption.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
-        if (infos.length == 0) return new int[0];
+        if (infos.length == 0) return new long[0];
         if (admin != null) {
             long now = System.currentTimeMillis();
-            int seqid = (int) (now / 1000);
             for (RoleToOption info : infos) {
                 if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
                 info.setCreatetime(now);
-                info.setSeqid(seqid++);
+                info.setSeqid(now++);
                 info.setCreator(admin.getMembername());
             }
         }
-        int[] rs = new int[infos.length];
+        long[] rs = new long[infos.length];
         source.insert(infos);
         for (int i = 0; i < rs.length; i++) {
             rs[i] = infos[i].getSeqid();
