@@ -2,8 +2,7 @@
 
 <application address="127.0.0.1" port="2001">   
    
-    <resources>
-        
+    <resources>        
         <properties>
             <property name="system.property.convert.json.tiny" value="false"/>
             <!--
@@ -11,34 +10,25 @@
             <property name="files.syncmd" value="ssh root@{REMOTEIP} 'mkdir -p /usr/local/nginx%2$s;scp -rp root@{LOCALIP}:/usr/local/redkale-oss-server%1$s /usr/local/nginx%2$s'"/> 
             -->
         </properties>
-
     </resources> 
 
-    <server protocol="HTTP" port="5001"> 
-                
-        <services autoload="true"/>
-        
-        <rest path="/pipes" base="org.redkale.oss.base.BaseServlet"/>
-        
+    <server protocol="HTTP" port="5001">                 
+        <services autoload="true"/>        
+        <rest path="/pipes" base="org.redkale.oss.base.BaseServlet"/>        
         <servlets autoload="true" path="/pipes" />
-        
+		
         <resource-servlet>				
             <caches  limit="0"/>
             <rewrite type="location" match="^/([^-]+)(-[^-\.]+)+\.html(.*)" forward="/$1.html"/>
-        </resource-servlet>            
-
+        </resource-servlet>     
     </server> 
 	
-    <server protocol="SNCP" port="7001"> 
-                
+    <server protocol="SNCP" port="7001">                 
         <services autoload="true"/>
-
     </server> 
 
-    <server protocol="WATCH" port="9001"> 
-                
+    <server protocol="WATCH" port="9001">                 
         <services autoload="true"/>
-
     </server> 
 
 </application>
