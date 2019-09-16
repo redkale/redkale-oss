@@ -17,7 +17,6 @@ import org.redkale.oss.base.BaseEntity;
 public class LogRecord extends BaseEntity {
 
     @Id
-    @GeneratedValue
     private long logid;
 
     private int memberid;//操作用户ID',
