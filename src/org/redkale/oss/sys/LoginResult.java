@@ -21,8 +21,8 @@ public class LoginResult {
     @Comment("员工对象")
     private MemberInfo user;
 
-    @Comment("返回码， 0表示登陆成功")
-    private int retcode = -1; //返回码， 0表示登陆成功
+    @Comment("返回码， 0表示登录成功")
+    private int retcode = -1; //返回码， 0表示登录成功
 
     @Override
     public String toString() {
