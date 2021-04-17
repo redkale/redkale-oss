@@ -119,6 +119,9 @@ public final class DyncServlet extends BaseServlet {
     @Resource
     private RoleService roleService;
 
+    @Resource
+    private UserMemberService userService;
+
     @Resource(name = "APP_HOME")
     private File home;
 
@@ -163,7 +166,8 @@ public final class DyncServlet extends BaseServlet {
     public void mydata(HttpRequest req, HttpResponse resp) throws IOException {
         resp.setContentType("text/javascript; charset=utf-8");
         StringBuilder sb = new StringBuilder();
-        MemberInfo user = req.currentUser();
+        int memberid = req.currentUserid(int.class);
+        MemberInfo user = memberid < 1 ? null : userService.findMemberInfo(memberid);
         String userjson;
         String menujson;
         if (user == null) {

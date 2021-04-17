@@ -45,7 +45,6 @@ import org.redkale.service.RetResult;
  *
  * @author zhangjx
  */
-@HttpUserType(MemberInfo.class)
 public class BaseServlet extends org.redkale.net.http.HttpServlet {
 
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
@@ -69,19 +68,25 @@ public class BaseServlet extends org.redkale.net.http.HttpServlet {
     @Override
     public void preExecute(HttpRequest request, HttpResponse response) throws IOException {
         final String sessionid = request.getSessionid(false);
-        if (sessionid != null) request.setCurrentUser(service.current(sessionid));
+        if (sessionid != null) {
+            MemberInfo user = service.current(sessionid);
+            if (user != null) request.setCurrentUserid(user.getMemberid());
+        }
         response.nextEvent();
     }
 
     @Override
     public void authenticate(HttpRequest request, HttpResponse response) throws IOException {
-        MemberInfo info = request.currentUser();
-        if (info == null) {
+        int memberid = request.currentUserid(int.class);
+        if (memberid == 0) {
             response.finishJson(RET_UNLOGIN);
             return;
-        } else if (!info.checkAuth(request.getModuleid(), request.getActionid())) {
-            response.finishJson(RET_AUTHILLEGAL);
-            return;
+        } else {
+            MemberInfo info = service.findMemberInfo(memberid);
+            if (info == null || !info.checkAuth(request.getModuleid(), request.getActionid())) {
+                response.finishJson(RET_AUTHILLEGAL);
+                return;
+            }
         }
         response.nextEvent();
     }

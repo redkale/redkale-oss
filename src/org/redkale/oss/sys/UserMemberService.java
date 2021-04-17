@@ -27,7 +27,7 @@ public class UserMemberService extends BaseService {
     private final int sessionExpireSeconds = 30 * 60;
 
     @Resource(name = "membersessions")
-    protected CacheSource<Integer> sessions;
+    protected CacheSource sessions;
 
     @Resource
     protected JsonConvert convert;
@@ -45,8 +45,8 @@ public class UserMemberService extends BaseService {
     }
 
     public MemberInfo current(String sessionid) {
-        Integer memberid = sessions.getAndRefresh(sessionid, sessionExpireSeconds);
-        MemberInfo user = memberid == null ? null : findMemberInfo(memberid);
+        long memberid = sessions.getLongAndRefresh(sessionid, sessionExpireSeconds, 0L);
+        MemberInfo user = memberid < 1 ? null : findMemberInfo((int) memberid);
         if (user == null) return null;
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         return user;
@@ -75,7 +75,7 @@ public class UserMemberService extends BaseService {
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
-        this.sessions.set(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
+        this.sessions.setLong(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
         return RetResult.success();
     }
 
