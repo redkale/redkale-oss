@@ -27,8 +27,4 @@
         <services autoload="true"/>
     </server> 
 
-    <server protocol="WATCH" port="9001">                 
-        <services autoload="true"/>
-    </server> 
-
 </application>
