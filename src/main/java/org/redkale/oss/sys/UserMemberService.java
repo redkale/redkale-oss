@@ -75,7 +75,7 @@ public class UserMemberService extends BaseService {
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
-        this.sessions.setLong(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
+        this.sessions.setexLong(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
         return RetResult.success();
     }
 
@@ -94,7 +94,7 @@ public class UserMemberService extends BaseService {
 
     @RestMapping(name = "logout", auth = true, comment = "用户退出登录")
     public HttpResult logout(@RestSessionid String sessionid) {
-        sessions.remove(sessionid);
+        sessions.del(sessionid);
         return new HttpResult().header("Location", "/").status(302);
     }
 
@@ -105,7 +105,7 @@ public class UserMemberService extends BaseService {
 
     @RestMapping(name = "jsmyinfo", auth = false, comment = "获取当前用户信息(js格式)")
     public HttpResult jsmyinfo(@RestSessionid String sessionid) {
-        sessions.remove(sessionid);
+        sessions.del(sessionid);
         return new HttpResult("var userself = " + convert.convertTo(current(sessionid)) + ";").contentType("application/javascript; charset=utf-8");
     }
 
