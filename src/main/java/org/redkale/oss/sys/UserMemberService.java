@@ -5,17 +5,18 @@
  */
 package org.redkale.oss.sys;
 
-import java.util.*;
+import java.util.Objects;
 import org.redkale.annotation.Resource;
 import org.redkale.convert.json.JsonConvert;
 import org.redkale.net.http.*;
-import org.redkale.oss.base.*;
-import static org.redkale.oss.base.Services.*;
 import static org.redkale.oss.base.OssRetCodes.*;
+import org.redkale.oss.base.*;
+import static org.redkale.oss.base.OssRetCodes.*;
+import static org.redkale.oss.base.Services.*;
+import org.redkale.oss.sys.BaseService;
 import org.redkale.service.RetResult;
 import org.redkale.source.*;
-import org.redkale.util.AnyValue;
-import org.redkale.util.Sheet;
+import org.redkale.util.*;
 
 /**
  *
@@ -45,7 +46,7 @@ public class UserMemberService extends BaseService {
     }
 
     public MemberInfo current(String sessionid) {
-        long memberid = sessions.getLongAndRefresh(sessionid, sessionExpireSeconds, 0L);
+        long memberid = sessions.getexLong(sessionid, sessionExpireSeconds, 0L);
         MemberInfo user = memberid < 1 ? null : findMemberInfo((int) memberid);
         if (user == null) return null;
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
@@ -75,7 +76,7 @@ public class UserMemberService extends BaseService {
         if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
-        this.sessions.setexLong(sessionExpireSeconds, bean.getSessionid(), result.getUser().getMemberid());
+        this.sessions.setexLong(bean.getSessionid(), sessionExpireSeconds, result.getUser().getMemberid());
         return RetResult.success();
     }
 
