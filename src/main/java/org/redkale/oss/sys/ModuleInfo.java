@@ -5,8 +5,8 @@
  */
 package org.redkale.oss.sys;
 
-import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
+import org.redkale.persistence.*;
 
 /**
  * @author zhangjx

@@ -7,7 +7,7 @@ package org.redkale.oss.base;
 
 import java.io.IOException;
 import java.util.logging.*;
-import javax.annotation.Resource;
+import org.redkale.annotation.Resource;
 import org.redkale.convert.json.JsonConvert;
 import org.redkale.net.http.*;
 import org.redkale.oss.sys.UserMemberService;

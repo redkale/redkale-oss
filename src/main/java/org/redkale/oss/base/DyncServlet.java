@@ -7,7 +7,7 @@ package org.redkale.oss.base;
 
 import java.io.*;
 import java.util.*;
-import javax.annotation.Resource;
+import org.redkale.annotation.Resource;
 import org.redkale.convert.*;
 import org.redkale.convert.json.*;
 import org.redkale.net.http.*;

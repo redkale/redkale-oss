@@ -6,8 +6,8 @@
 package org.redkale.oss.base;
 
 import java.util.logging.Logger;
+import org.redkale.annotation.AutoLoad;
 import org.redkale.service.*;
-import org.redkale.util.AutoLoad;
 
 /**
  *

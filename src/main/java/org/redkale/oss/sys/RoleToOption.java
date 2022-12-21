@@ -6,8 +6,8 @@
 package org.redkale.oss.sys;
 
 import java.util.List;
-import javax.persistence.*;
 import org.redkale.oss.base.BaseEntity;
+import org.redkale.persistence.*;
 import org.redkale.source.FilterBean;
 
 /**

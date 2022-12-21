@@ -6,10 +6,10 @@
 package org.redkale.oss.sys;
 
 import java.security.*;
-import javax.persistence.*;
 import org.redkale.convert.*;
 import org.redkale.oss.base.*;
 import static org.redkale.oss.base.MemberInfo.STATUS_NORMAL;
+import org.redkale.persistence.*;
 import org.redkale.util.*;
 
 /**

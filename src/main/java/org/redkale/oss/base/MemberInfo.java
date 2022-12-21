@@ -6,8 +6,8 @@
 package org.redkale.oss.base;
 
 import java.util.Arrays;
-import javax.persistence.*;
 import org.redkale.convert.ConvertColumn;
+import org.redkale.persistence.*;
 
 /**
  * 内存中常驻的用户基本信息

@@ -5,9 +5,8 @@
  */
 package org.redkale.oss.sys;
 
-import javax.annotation.Resource;
+import org.redkale.annotation.*;
 import org.redkale.source.DataSource;
-import org.redkale.util.AutoLoad;
 
 /**
  *

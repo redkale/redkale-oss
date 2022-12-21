@@ -5,8 +5,8 @@
  */
 package org.redkale.oss.sys;
 
+import org.redkale.annotation.Comment;
 import org.redkale.oss.base.MemberInfo;
-import org.redkale.util.Comment;
 
 /**
  *

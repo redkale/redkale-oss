@@ -5,11 +5,11 @@
  */
 package org.redkale.oss.sys;
 
-import javax.persistence.Column;
+import org.redkale.annotation.Comment;
 import org.redkale.oss.base.BaseBean;
+import org.redkale.persistence.Column;
 import org.redkale.source.*;
 import static org.redkale.source.FilterExpress.*;
-import org.redkale.util.Comment;
 
 /**
  *

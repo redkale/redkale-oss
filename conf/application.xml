@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <application address="127.0.0.1" port="2001">   
-   
-    <resources>        
-        <properties>
-            <property name="system.property.convert.json.tiny" value="false"/>
-            <!--
-            <property name="files.syncip" value="x.x.x.x"/> 
-            <property name="files.syncmd" value="ssh root@{REMOTEIP} 'mkdir -p /usr/local/nginx%2$s;scp -rp root@{LOCALIP}:/usr/local/redkale-oss-server%1$s /usr/local/nginx%2$s'"/> 
-            -->
-        </properties>
-    </resources> 
+         
+    <properties>
+        <property name="system.property.convert.json.tiny" value="false"/>
+        <!--
+        <property name="files.syncip" value="x.x.x.x"/> 
+        <property name="files.syncmd" value="ssh root@{REMOTEIP} 'mkdir -p /usr/local/nginx%2$s;scp -rp root@{LOCALIP}:/usr/local/redkale-oss-server%1$s /usr/local/nginx%2$s'"/> 
+        -->
+    </properties>
 
     <server protocol="HTTP" port="5001">                 
         <services autoload="true"/>        
