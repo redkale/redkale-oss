@@ -9,11 +9,11 @@ import java.lang.reflect.*;
 import java.util.*;
 import org.redkale.annotation.Comment;
 import org.redkale.net.http.*;
+import org.redkale.oss.base.MemberInfo;
 import org.redkale.oss.base.Services;
+import static org.redkale.oss.base.Services.*;
 import org.redkale.oss.base.Services.ActionName;
 import org.redkale.oss.base.Services.ModuleName;
-import org.redkale.oss.base.MemberInfo;
-import static org.redkale.oss.base.Services.*;
 import org.redkale.service.RetResult;
 import org.redkale.source.*;
 import org.redkale.util.*;
@@ -84,7 +84,9 @@ public class RoleService extends BaseService {
     @RestMapping(ignore = true, comment = "删除员工角色关联")
     public void deleteUserToRole(@Comment("员工角色关联对象ID") int seqid) {
         UserToRole utr = source.find(UserToRole.class, seqid);
-        if (utr == null) return;
+        if (utr == null) {
+            return;
+        }
         source.delete(utr);
     }
 
@@ -99,13 +101,19 @@ public class RoleService extends BaseService {
         @RestParam(name = "delroleids", comment = "待删除员工的角色ID") int[] delroleids,
         @RestParam(name = "bean", comment = "待新增的角色与员工关系对象") UserToRole... beans) {
         final boolean deled = delmemberid > 0 && delroleids != null && delroleids.length > 0;
-        if (deled) source.delete(UserToRole.class, FilterNode.create("roleid", FilterExpress.IN, delroleids).and("memberid", delmemberid));
-        if (beans.length == 0) return new int[0];
+        if (deled) {
+            source.delete(UserToRole.class, FilterNodes.in("roleid", delroleids).and("memberid", delmemberid));
+        }
+        if (beans.length == 0) {
+            return new int[0];
+        }
         if (admin != null) {
             long now = System.currentTimeMillis();
             int seqid = (int) (now / 1000);
             for (UserToRole info : beans) {
-                if (info.getMemberid() < 1 || info.getRoleid() < 1) throw new RuntimeException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
+                if (info.getMemberid() < 1 || info.getRoleid() < 1) {
+                    throw new RedkaleException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
+                }
                 info.setCreatetime(now);
                 info.setSeqid(seqid++);
                 info.setCreator(admin.getMembername());
@@ -124,12 +132,18 @@ public class RoleService extends BaseService {
         @RestParam(name = "delseqids", comment = "待删除的角色操作ID") long[] delseqids,
         @RestParam(name = "bean", comment = "待新增的角色与操作关系对象") RoleToOption... infos) {
         final boolean deled = delseqids != null && delseqids.length > 0;
-        if (deled) source.delete(RoleToOption.class, FilterNode.create("seqid", FilterExpress.IN, delseqids));
-        if (infos.length == 0) return new long[0];
+        if (deled) {
+            source.delete(RoleToOption.class, FilterNodes.in("seqid", delseqids));
+        }
+        if (infos.length == 0) {
+            return new long[0];
+        }
         if (admin != null) {
             long now = System.currentTimeMillis();
             for (RoleToOption info : infos) {
-                if (info.getRoleid() < 1 || info.getOptionid() < 1) throw new RuntimeException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
+                if (info.getRoleid() < 1 || info.getOptionid() < 1) {
+                    throw new RedkaleException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
+                }
                 info.setCreatetime(now);
                 info.setSeqid(now++);
                 info.setCreator(admin.getMembername());
@@ -145,10 +159,14 @@ public class RoleService extends BaseService {
 
     public void deleteRoleToOption(int seqid) {
         RoleToOption rto = source.find(RoleToOption.class, seqid);
-        if (rto == null) return;
+        if (rto == null) {
+            return;
+        }
         source.delete(rto);
-        List<UserToRole> utrs = source.queryList(UserToRole.class, FilterNode.create("roleid", rto.getRoleid()));
-        if (utrs.isEmpty()) return;
+        List<UserToRole> utrs = source.queryList(UserToRole.class, FilterNodes.eq("roleid", rto.getRoleid()));
+        if (utrs.isEmpty()) {
+            return;
+        }
         int[] memberids = new int[utrs.size()];
         int index = -1;
         for (int i = 0; i < memberids.length; i++) {
@@ -172,7 +190,9 @@ public class RoleService extends BaseService {
     }
 
     private static int[] format(Collection<Integer> list) {
-        if (list == null || list.isEmpty()) return new int[0];
+        if (list == null || list.isEmpty()) {
+            return new int[0];
+        }
         int[] rs = new int[list.size()];
         int i = -1;
         for (int v : list) {
@@ -187,7 +207,9 @@ public class RoleService extends BaseService {
 
     static {
         for (Field field : Services.class.getFields()) {
-            if (!Modifier.isStatic(field.getModifiers())) continue;
+            if (!Modifier.isStatic(field.getModifiers())) {
+                continue;
+            }
             int value;
             try {
                 value = field.getInt(null);

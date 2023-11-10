@@ -9,7 +9,6 @@ import java.util.Objects;
 import org.redkale.annotation.Resource;
 import org.redkale.convert.json.JsonConvert;
 import org.redkale.net.http.*;
-import static org.redkale.oss.base.OssRetCodes.*;
 import org.redkale.oss.base.*;
 import static org.redkale.oss.base.OssRetCodes.*;
 import static org.redkale.oss.base.Services.*;
@@ -48,17 +47,25 @@ public class UserMemberService extends BaseService {
     public MemberInfo current(String sessionid) {
         long memberid = sessions.getexLong(sessionid, sessionExpireSeconds, 0L);
         MemberInfo user = memberid < 1 ? null : findMemberInfo((int) memberid);
-        if (user == null) return null;
-        if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
+        if (user == null) {
+            return null;
+        }
+        if (!user.canAdmin()) {
+            user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
+        }
         return user;
     }
 
     @RestMapping(name = "login", auth = false, comment = "账号方式登录")
     public RetResult login(LoginBean bean) {
-        if (bean == null || bean.emptySessionid() || bean.emptyAccount()) return OssRetCodes.retResult(OssRetCodes.RET_PARAMS_ILLEGAL);
+        if (bean == null || bean.emptySessionid() || bean.emptyAccount()) {
+            return OssRetCodes.retResult(OssRetCodes.RET_PARAMS_ILLEGAL);
+        }
         final LoginResult result = new LoginResult();
         final int optionid = Services.optionid(MODULE_USER, ACTION_LOGIN);
-        if (!bean.isWxlogin()) bean.setPassword(UserMember.md5IfNeed(bean.getPassword()));
+        if (!bean.isWxlogin()) {
+            bean.setPassword(UserMember.md5IfNeed(bean.getPassword()));
+        }
         UserMember detail = source.find(UserMember.class, "account", bean.getAccount());
         if (detail == null || (!bean.isWxlogin() && !Objects.equals(detail.getPassword(), bean.getPassword()))) {
             result.setRetcode(RET_USER_ACCOUNT_PWD_ILLEGAL);
@@ -73,7 +80,9 @@ public class UserMemberService extends BaseService {
             super.log(user, optionid, "用户被禁用，登录失败.");
             return OssRetCodes.retResult(OssRetCodes.RET_USER_FREEZED);
         }
-        if (!user.canAdmin()) user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
+        if (!user.canAdmin()) {
+            user.setOptions(roleService.queryOptionidsByMemberid(user.getMemberid()));
+        }
         result.setUser(user);
         super.log(user, optionid, "用户登录成功.");
         this.sessions.setexLong(bean.getSessionid(), sessionExpireSeconds, result.getUser().getMemberid());
@@ -85,9 +94,15 @@ public class UserMemberService extends BaseService {
         @RestParam(name = "newpwd", comment = "新密码md5") String newpwd,
         @RestParam(name = "oldpwd", comment = "旧密码md5") String oldpwd) {
         MemberInfo user = sessionid == null ? null : current(sessionid);
-        if (user == null) return OssRetCodes.retResult(RET_USER_NOTEXISTS);
-        if (newpwd == null || newpwd.length() < 30) return OssRetCodes.retResult(RET_USER_PASSWORD_ILLEGAL);
-        if (!Objects.equals(user.getPassword(), oldpwd)) return OssRetCodes.retResult(RET_USER_PASSWORD_ILLEGAL);
+        if (user == null) {
+            return OssRetCodes.retResult(RET_USER_NOTEXISTS);
+        }
+        if (newpwd == null || newpwd.length() < 30) {
+            return OssRetCodes.retResult(RET_USER_PASSWORD_ILLEGAL);
+        }
+        if (!Objects.equals(user.getPassword(), oldpwd)) {
+            return OssRetCodes.retResult(RET_USER_PASSWORD_ILLEGAL);
+        }
         source.updateColumn(UserMember.class, user.getMemberid(), "password", newpwd);
         user.setPassword(newpwd);
         return RetResult.success();
@@ -114,23 +129,31 @@ public class UserMemberService extends BaseService {
     public Sheet<UserMember> queryMember(Flipper flipper,
         @RestParam(name = "bean", comment = "过滤条件") final UserMemberBean bean) {
         Sheet<UserMember> sheet = source.querySheet(UserMember.class, flipper, bean);
-        if (sheet.isEmpty()) return sheet;
+        if (sheet.isEmpty()) {
+            return sheet;
+        }
         int oldmemberid = bean == null ? 0 : bean.getMemberid();
         for (UserMember detail : sheet.getRows()) {
             detail.setRoleids(roleService.queryRoleidByMemberid(detail.getMemberid()));
         }
-        if (bean != null) bean.setMemberid(oldmemberid);
+        if (bean != null) {
+            bean.setMemberid(oldmemberid);
+        }
         return sheet;
     }
 
     public UserMember findMember(int memberid) {
-        if (memberid < 1) return null;
+        if (memberid < 1) {
+            return null;
+        }
         return source.find(UserMember.class, memberid);
     }
 
     public UserMember findMemberByWeixin(String weixin) {
-        if (weixin == null || weixin.isEmpty()) return null;
-        return source.find(UserMember.class, FilterNode.create("weixin", weixin));
+        if (weixin == null || weixin.isEmpty()) {
+            return null;
+        }
+        return source.find(UserMember.class, FilterNodes.eq("weixin", weixin));
     }
 
     @RestMapping(name = "create", auth = true, actionid = ACTION_CREATE, comment = "新增员工")
