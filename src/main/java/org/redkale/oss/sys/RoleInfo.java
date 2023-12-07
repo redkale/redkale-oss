@@ -9,11 +9,10 @@ import org.redkale.oss.base.BaseEntity;
 import org.redkale.persistence.*;
 
 /**
- * 
+ *
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_roleinfo", comment = "角色信息表")
 public class RoleInfo extends BaseEntity {
 

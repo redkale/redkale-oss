@@ -14,8 +14,7 @@ import org.redkale.source.FilterBean;
  *
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_roletooption", comment = "角色操作关联表", uniqueConstraints = {
     @UniqueConstraint(name = "unique", columnNames = {"roleid", "optionid"})})
 public class RoleToOption extends BaseEntity implements FilterBean {
@@ -37,7 +36,9 @@ public class RoleToOption extends BaseEntity implements FilterBean {
     private String creator = "";
 
     public static int[] getOptionids(final List<RoleToOption> options) {
-        if (options == null) return new int[0];
+        if (options == null) {
+            return new int[0];
+        }
         int[] ints = new int[options.size()];
         int i = 0;
         for (RoleToOption t : options) {

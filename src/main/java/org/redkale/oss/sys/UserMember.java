@@ -8,7 +8,7 @@ package org.redkale.oss.sys;
 import java.security.*;
 import org.redkale.convert.*;
 import org.redkale.oss.base.*;
-import static org.redkale.oss.base.MemberInfo.STATUS_NORMAL;
+import static org.redkale.oss.base.BaseEntity.STATUS_NORMAL;
 import org.redkale.persistence.*;
 import org.redkale.util.*;
 
@@ -16,8 +16,7 @@ import org.redkale.util.*;
  *
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_usermember", comment = "员工信息表", uniqueConstraints = {
     @UniqueConstraint(name = "unique", columnNames = {"account"})})
 public class UserMember extends BaseEntity {
@@ -91,8 +90,12 @@ public class UserMember extends BaseEntity {
     }
 
     public static String md5IfNeed(String password) {
-        if (password == null || password.trim().isEmpty()) return "";
-        if (password.length() == 32) return password; //已经MD5了
+        if (password == null || password.trim().isEmpty()) {
+            return "";
+        }
+        if (password.length() == 32) {
+            return password; //已经MD5了
+        }
         byte[] bytes = password.trim().getBytes();
         synchronized (md5) {
             bytes = md5.digest(bytes);

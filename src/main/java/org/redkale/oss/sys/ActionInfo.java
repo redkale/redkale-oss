@@ -12,8 +12,7 @@ import org.redkale.persistence.*;
  *
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_actioninfo", comment = "操作信息表")
 public class ActionInfo extends BaseEntity {
 
@@ -39,8 +38,12 @@ public class ActionInfo extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final ActionInfo other = (ActionInfo) obj;
         return (this.actionid == other.actionid);
     }

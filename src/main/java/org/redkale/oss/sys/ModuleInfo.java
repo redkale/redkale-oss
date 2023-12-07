@@ -11,8 +11,7 @@ import org.redkale.persistence.*;
 /**
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_moduleinfo", comment = "模块信息表")
 public class ModuleInfo extends BaseEntity {
 
@@ -38,8 +37,12 @@ public class ModuleInfo extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final ModuleInfo other = (ModuleInfo) obj;
         return (this.moduleid == other.moduleid);
     }

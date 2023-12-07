@@ -12,8 +12,7 @@ import org.redkale.persistence.*;
  *
  * @author zhangjx
  */
-@Entity
-@Cacheable
+@Entity(cacheable = true)
 @Table(name = "sys_usertorole", comment = "员工角色关联表", uniqueConstraints = {
     @UniqueConstraint(name = "unique", columnNames = {"roleid", "memberid"})})
 public class UserToRole extends BaseEntity {
