@@ -30,7 +30,7 @@
             <input  name="roleid" type="hidden">
             <div class="form-group">
                 <label class="col-lg-2 control-label">角色名称</label>
-                <div class="col-lg-10"><input  name="rolename" placeholder="" class="form-control" required=""></div>
+                <div class="col-lg-10"><input  name="roleName" placeholder="" class="form-control" required=""></div>
             </div>           
             <div class="form-group">
                 <label class="col-lg-2 control-label">备注说明</label>
@@ -71,8 +71,8 @@
             columns: [
                 {"data": "", render: $.defrender},
                 {"data": "roleid"},
-                {"data": "rolename", render: $.defrender},
-                {"data": "createtime", render: Date.DateFormatter},
+                {"data": "roleName", render: $.defrender},
+                {"data": "createTime", render: Date.DateFormatter},
                 {"data": "creator", render: $.defrender},
                 {"data": "description", render: $.defrender}
             ]
@@ -147,7 +147,7 @@
             $.ajax({
                 dataType: "json",
                 type: "POST",
-                url: '/pipes/role/updoption',
+                url: '/pipes/role/updateRoleToOption',
                 data: {
                     "delseqids": "[" + delseqids.join(",") + "]",
                     "bean": $.objectToString(newoptions)
@@ -171,7 +171,7 @@
             $("#form-auth-update").form('load', rolerow); // 给roleid赋值
             $.ajax({
                 dataType: "json",
-                url: '/pipes/role/qryoption',
+                url: '/pipes/role/queryRoleToOption',
                 data: {
                     "bean": "{'roleid':" + rolerow.roleid + "}"
                 },
@@ -191,12 +191,12 @@
                     var dataset = [];
                     columns.push({title: '模块名称'});
                     for (var i = 0; i < system_actiones.length; i++) {
-                        columns.push({title: system_actiones[i].actionname});
+                        columns.push({title: system_actiones[i].actionName});
                     }
                     for (var i = 0; i < system_rmodules.length; i++) {
                         var module = system_rmodules[i];
                         var suboptions = [];
-                        suboptions.push("<a style='color:#999;font-weight:bold;' href='javascript:selectRoleModuleCheckbox(" + module.moduleid + ")'>" + module.modulename + "</a>");
+                        suboptions.push("<a style='color:#999;font-weight:bold;' href='javascript:selectRoleModuleCheckbox(" + module.moduleid + ")'>" + module.moduleName + "</a>");
                         for (var j = 0; j < system_actiones.length; j++) {
                             var optionid = module.moduleid * 10000 + system_actiones[j].actionid;
                             var cked = !!(optionobj["" + optionid]);
@@ -204,7 +204,7 @@
                         }
                         dataset.push(suboptions);
                     }
-                    $('#dtitle-auth-update').html("修改【" + rolerow.rolename + "】权限");
+                    $('#dtitle-auth-update').html("修改【" + rolerow.roleName + "】权限");
                     $('#dialog-auth-update').modal('show');
 
                     if (atable) atable.api(true).destroy(false);

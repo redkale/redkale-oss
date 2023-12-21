@@ -70,23 +70,23 @@ public class BaseServlet extends org.redkale.net.http.HttpServlet {
         final String sessionid = request.getSessionid(false);
         if (sessionid != null) {
             MemberInfo user = service.current(sessionid);
-            if (user != null) request.setCurrentUserid(user.getMemberid());
+            if (user != null) {
+                request.setCurrentUserid(user.getMemberid());
+                request.setCurrentUserSupplier(() -> user);
+            }
         }
         response.nextEvent();
     }
 
     @Override
     public void authenticate(HttpRequest request, HttpResponse response) throws IOException {
-        int memberid = request.currentUserid(int.class);
-        if (memberid == 0) {
+        MemberInfo member = request.currentUser();
+        if (member == null) {
             response.finishJson(RET_UNLOGIN);
             return;
-        } else {
-            MemberInfo info = service.findMemberInfo(memberid);
-            if (info == null || !info.checkAuth(request.getModuleid(), request.getActionid())) {
-                response.finishJson(RET_AUTHILLEGAL);
-                return;
-            }
+        } else if (!member.checkAuth(request.getModuleid(), request.getActionid())) {
+            response.finishJson(RET_AUTHILLEGAL);
+            return;
         }
         response.nextEvent();
     }

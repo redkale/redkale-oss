@@ -40,8 +40,8 @@ public class RoleService extends BaseService {
     @RestMapping(name = "create", auth = true, actionid = ACTION_CREATE, comment = "新增单个角色对象")
     public int createRoleInfo(@Comment("当前用户") MemberInfo admin, @Comment("角色对象") RoleInfo bean) {
         if (admin != null) {
-            bean.setCreatetime(System.currentTimeMillis());
-            bean.setCreator(admin.getMembername());
+            bean.setCreateTime(System.currentTimeMillis());
+            bean.setCreator(admin.getMemberName());
         }
         int maxid = source.getNumberResult(RoleInfo.class, FilterFunc.MAX, 2000, "roleid", (FilterNode) null).intValue();
         bean.setRoleid(maxid + 1);
@@ -73,8 +73,8 @@ public class RoleService extends BaseService {
     @RestMapping(ignore = true, comment = "创建员工角色关联")
     public int createUserToRole(@Comment("当前用户") MemberInfo admin, @Comment("员工角色关联对象") UserToRole info) {
         if (admin != null) {
-            info.setCreatetime(System.currentTimeMillis());
-            info.setCreator(admin.getMembername());
+            info.setCreateTime(System.currentTimeMillis());
+            info.setCreator(admin.getMemberName());
         }
         info.setSeqid((int) (System.currentTimeMillis() / 1000));
         source.insert(info);
@@ -90,12 +90,12 @@ public class RoleService extends BaseService {
         source.delete(utr);
     }
 
-    @RestMapping(name = "qryuserole", auth = true, actionid = ACTION_QUERY, comment = "查询角色员工关系列表")
+    @RestMapping(name = "queryUserToRole", auth = true, actionid = ACTION_QUERY, comment = "查询角色员工关系列表")
     public Sheet<UserToRole> queryUserToRole(@Comment("过滤条件") UserMemberBean bean, @Comment("翻页信息") Flipper flipper) {
         return source.querySheet(UserToRole.class, flipper, bean);
     }
 
-    @RestMapping(name = "upduserole", auth = true, actionid = ACTION_UPDATE, comment = "更新角色员工用户")
+    @RestMapping(name = "updateUserToRole", auth = true, actionid = ACTION_UPDATE, comment = "更新角色员工用户")
     public int[] updateUserToRole(MemberInfo admin,
         @RestParam(name = "delmemberid", comment = "待删除的员工ID") int delmemberid,
         @RestParam(name = "delroleids", comment = "待删除员工的角色ID") int[] delroleids,
@@ -114,9 +114,9 @@ public class RoleService extends BaseService {
                 if (info.getMemberid() < 1 || info.getRoleid() < 1) {
                     throw new RedkaleException(UserToRole.class.getSimpleName() + "(" + info + ") is illegal");
                 }
-                info.setCreatetime(now);
+                info.setCreateTime(now);
                 info.setSeqid(seqid++);
-                info.setCreator(admin.getMembername());
+                info.setCreator(admin.getMemberName());
             }
         }
         int[] rs = new int[beans.length];
@@ -127,7 +127,7 @@ public class RoleService extends BaseService {
         return rs;
     }
 
-    @RestMapping(name = "updoption", auth = true, actionid = ACTION_UPDATE, comment = "更新角色的操作权限")
+    @RestMapping(name = "updateRoleToOption", auth = true, actionid = ACTION_UPDATE, comment = "更新角色的操作权限")
     public long[] updateRoleToOption(MemberInfo admin,
         @RestParam(name = "delseqids", comment = "待删除的角色操作ID") long[] delseqids,
         @RestParam(name = "bean", comment = "待新增的角色与操作关系对象") RoleToOption... infos) {
@@ -144,9 +144,9 @@ public class RoleService extends BaseService {
                 if (info.getRoleid() < 1 || info.getOptionid() < 1) {
                     throw new RedkaleException(RoleToOption.class.getSimpleName() + "(" + info + ") is illegal");
                 }
-                info.setCreatetime(now);
+                info.setCreateTime(now);
                 info.setSeqid(now++);
-                info.setCreator(admin.getMembername());
+                info.setCreator(admin.getMemberName());
             }
         }
         long[] rs = new long[infos.length];
@@ -174,7 +174,7 @@ public class RoleService extends BaseService {
         }
     }
 
-    @RestMapping(name = "qryoption", auth = true, actionid = ACTION_QUERY, comment = "查询角色操作关系列表")
+    @RestMapping(name = "queryRoleToOption", auth = true, actionid = ACTION_QUERY, comment = "查询角色操作关系列表")
     public List<RoleToOption> queryRoleToOption(RoleToOption bean) {
         return source.queryList(RoleToOption.class, bean);
     }

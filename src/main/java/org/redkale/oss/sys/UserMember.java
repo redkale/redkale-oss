@@ -40,10 +40,10 @@ public class UserMember extends BaseEntity {
     @Column(length = 64, comment = "[用户账号]")
     private String account = "";
 
-    @Column(length = 255, comment = "[用户昵称]，通常为员工姓名")
-    private String membername = "";
+    @Column(length = 255, comment = "[用户昵称]，通常为员工姓名", nullable = false)
+    private String memberName = "";
 
-    @Column(length = 64, comment = "密码")
+    @Column(length = 64, comment = "密码", nullable = false)
     @ConvertColumn(ignore = true, type = ConvertType.JSON)
     private String password = "";
 
@@ -53,23 +53,23 @@ public class UserMember extends BaseEntity {
     @Column(comment = "[状态]: 10:正常;20:待审批;40:冻结;50:隐藏;60:关闭;70:过期;80:删除;")
     private short status = STATUS_NORMAL;
 
-    @Column(length = 32, comment = "[手机号码]")
+    @Column(length = 32, comment = "[手机号码]", nullable = false)
     private String mobile = "";
 
-    @Column(length = 128, comment = "[邮箱地址]")
+    @Column(length = 128, comment = "[邮箱地址]", nullable = false)
     private String email = "";
 
-    @Column(length = 128, comment = "[微信账号]")
+    @Column(length = 128, comment = "[微信账号]", nullable = false)
     private String weixin = "";
 
-    @Column(length = 255, comment = "[备注]")
+    @Column(length = 255, comment = "[备注]", nullable = false)
     private String remark = "";
 
     @Column(updatable = false, comment = "[创建时间]")
-    private long createtime;
+    private long createTime;
 
     @Column(comment = "[更新时间]")
-    private long updatetime;
+    private long updateTime;
 
     @Transient
     private int[] roleids;
@@ -77,7 +77,7 @@ public class UserMember extends BaseEntity {
     public MemberInfo createMemberInfo() {
         MemberInfo info = new MemberInfo();
         info.setAccount(this.account);
-        info.setMembername(this.membername);
+        info.setMemberName(this.memberName);
         info.setPassword(this.password);
         info.setStatus(this.status);
         info.setType(this.type);
@@ -119,12 +119,12 @@ public class UserMember extends BaseEntity {
         this.account = account;
     }
 
-    public String getMembername() {
-        return membername;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setMembername(String membername) {
-        this.membername = membername;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public String getPassword() {
@@ -175,20 +175,20 @@ public class UserMember extends BaseEntity {
         this.weixin = weixin;
     }
 
-    public long getCreatetime() {
-        return createtime;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(long createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
-    public long getUpdatetime() {
-        return updatetime;
+    public long getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdatetime(long updatetime) {
-        this.updatetime = updatetime;
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getRemark() {

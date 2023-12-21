@@ -20,16 +20,16 @@ public class RoleInfo extends BaseEntity {
     @Column(comment = "[角色ID] 值范围必须是2001-999，1xxx预留给框架")
     private int roleid;
 
-    @Column(length = 64, comment = "[角色名称]")
-    private String rolename;
+    @Column(length = 64, comment = "[角色名称]", nullable = false)
+    private String roleName;
 
-    @Column(length = 255, comment = "[角色描述]")
+    @Column(length = 255, comment = "[角色描述]", nullable = false)
     private String description = "";
 
     @Column(updatable = false, comment = "[创建时间]")
-    private long createtime;
+    private long createTime;
 
-    @Column(length = 255, comment = "[创建人]")
+    @Column(length = 255, comment = "[创建人]", nullable = false)
     private String creator = "";
 
     public int getRoleid() {
@@ -48,20 +48,20 @@ public class RoleInfo extends BaseEntity {
         this.description = description;
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public long getCreatetime() {
-        return createtime;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(long createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public String getCreator() {

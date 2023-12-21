@@ -24,7 +24,7 @@ import org.redkale.util.*;
 @RestService(name = "user", moduleid = MODULE_USER, comment = "【OSS系统】员工管理模块")
 public class UserMemberService extends BaseService {
 
-    private final int sessionExpireSeconds = 30 * 60;
+    private static final int sessionExpireSeconds = 30 * 60;
 
     @Resource(name = "membersessions")
     protected CacheSource sessions;
@@ -37,6 +37,7 @@ public class UserMemberService extends BaseService {
 
     @Override
     public void destroy(AnyValue conf) {
+        //do nothing
     }
 
     public MemberInfo findMemberInfo(int memberid) {
@@ -158,7 +159,7 @@ public class UserMemberService extends BaseService {
 
     @RestMapping(name = "create", auth = true, actionid = ACTION_CREATE, comment = "新增员工")
     public void createMember(@RestParam(name = "bean") UserMember user) {
-        user.setCreatetime(System.currentTimeMillis());
+        user.setCreateTime(System.currentTimeMillis());
         user.setPassword(user.passwordForMD5());
         user.setStatus(MemberInfo.STATUS_NORMAL);
         int maxid = source.getNumberResult(UserMember.class, FilterFunc.MAX, 1000000, "memberid", (FilterNode) null).intValue();
@@ -168,7 +169,7 @@ public class UserMemberService extends BaseService {
 
     @RestMapping(name = "update", auth = true, actionid = ACTION_UPDATE, comment = "修改员工")
     public void updateMember(UserMember bean) {
-        bean.setUpdatetime(System.currentTimeMillis());
+        bean.setUpdateTime(System.currentTimeMillis());
         source.update(bean);
     }
 

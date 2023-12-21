@@ -109,10 +109,10 @@
                     var roleprefix = "role_" + new Date().getTime() + "_";
                     for (var i = 0; i < rolerows.length; i++) {
                         var role = rolerows[i];
-                        allroledata["" + role.roleid] = rolerows[i].rolename;
+                        allroledata["" + role.roleid] = rolerows[i].roleName;
                         var elrid = roleprefix + role.roleid;
                         divroleboxhtml.push('<div class="form-group">');
-                        divroleboxhtml.push('   <label class="col-lg-2 control-label" for="' + elrid + '" style="margin-top: -5px;width: 50%;">' + role.rolename + '</label>');
+                        divroleboxhtml.push('   <label class="col-lg-2 control-label" for="' + elrid + '" style="margin-top: -5px;width: 50%;">' + role.roleName + '</label>');
                         divroleboxhtml.push('   <input name="roleid_' + role.roleid + '" id="' + elrid + '" type="checkbox" value="' + role.roleid + '"/>');
                         divroleboxhtml.push('</div>');
                     }
@@ -138,7 +138,7 @@
                             {"data": "", render: $.defrender},
                             {"data": "memberid", render: $.defrender},
                             {"data": "account", render: $.defrender},
-                            {"data": "membername", render: $.defrender},
+                            {"data": "memberName", render: $.defrender},
                             {"data": "status", render: defStatusRender},
                             {"data": "roleids", render: function (value, type, full) {
                                     if (!value || !value.length) return "";
@@ -152,7 +152,7 @@
                             {"data": "mobile", render: $.defrender},
                             {"data": "email", render: $.defrender},
                             {"data": "weixin", render: $.defrender},
-                            {"data": "createtime", render: Date.DateFormatter},
+                            {"data": "createTime", render: Date.DateFormatter},
                             {"data": "remark", render: $.defrender}
                         ]
                     });
@@ -262,7 +262,7 @@
                             cache: false,
                             dataType: "json",
                             type: "POST",
-                            url: '/pipes/role/upduserole',
+                            url: '/pipes/role/updateUserToRole',
                             data: {
                                 "delmemberid": delroleids.length ? json.memberid : 0,
                                 "delroleids": $.objectToString(delroleids),

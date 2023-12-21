@@ -21,7 +21,7 @@ public class LogRecord extends BaseEntity {
 
     private int memberid;//操作用户ID',
 
-    private String membername;// '操作用户姓名', 
+    private String memberName;// '操作用户姓名', 
 
     private int moduleid;// '模块ID',
 
@@ -37,7 +37,7 @@ public class LogRecord extends BaseEntity {
 
     private String exceptmsg = "";// '操作异常信息描述',
 
-    private long createtime;// '创建时间',
+    private long createTime;// '创建时间',
 
     public LogRecord() {
     }
@@ -58,12 +58,12 @@ public class LogRecord extends BaseEntity {
         this.memberid = memberid;
     }
 
-    public String getMembername() {
-        return membername;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setMembername(String membername) {
-        this.membername = membername;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     public int getModuleid() {
@@ -122,12 +122,12 @@ public class LogRecord extends BaseEntity {
         this.exceptmsg = exceptmsg;
     }
 
-    public long getCreatetime() {
-        return createtime;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(long createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
 }

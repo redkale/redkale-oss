@@ -19,15 +19,15 @@ public class ModuleInfo extends BaseEntity {
     @Column(comment = "[模块ID] 值范围必须是2001-9999，1xx预留给框架")
     private int moduleid;
 
-    @Column(length = 64, comment = "[模块名称]")
-    private String modulename;
+    @Column(length = 64, comment = "[模块名称]", nullable = false)
+    private String moduleName;
 
     public ModuleInfo() {
     }
 
     public ModuleInfo(int moduleid, String name) {
         this.moduleid = moduleid;
-        this.modulename = name;
+        this.moduleName = name;
     }
 
     @Override
@@ -55,12 +55,12 @@ public class ModuleInfo extends BaseEntity {
         this.moduleid = moduleid;
     }
 
-    public String getModulename() {
-        return modulename;
+    public String getModuleName() {
+        return moduleName;
     }
 
-    public void setModulename(String modulename) {
-        this.modulename = modulename;
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
 }

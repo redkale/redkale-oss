@@ -27,7 +27,7 @@ public class MemberInfo extends BaseEntity {
 
     protected String account;
 
-    protected String membername;
+    protected String memberName;
 
     protected String password;
 
@@ -40,17 +40,27 @@ public class MemberInfo extends BaseEntity {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{" + "memberid=" + memberid + ", account=" + account
-            + ", membername=" + membername + ", password=" + password + ", options=" + (options == null ? "[]" : Arrays.toString(options)) + ", type=" + type + ", status=" + status + '}';
+        return this.getClass().getSimpleName() + "{" + "memberid=" + memberid
+            + ", account=" + account + ", memberName=" + memberName + ", password=" + password
+            + ", options=" + (options == null ? "[]" : Arrays.toString(options)) + ", type=" + type
+            + ", status=" + status + '}';
     }
-
+    
     public boolean checkAuth(int moduleid, int actionid) {
-        if (moduleid == 0 || actionid == 0) return true;
-        if (this.canAdmin()) return true;
-        if (options == null || options.length == 0) return false;
+        if (moduleid == 0 || actionid == 0) {
+            return true;
+        }
+        if (this.canAdmin()) {
+            return true;
+        }
+        if (options == null || options.length == 0) {
+            return false;
+        }
         int optionid = moduleid * 10000 + actionid;
         for (int i : options) {
-            if (i == optionid) return true;
+            if (i == optionid) {
+                return true;
+            }
         }
         return false;
     }
@@ -86,12 +96,12 @@ public class MemberInfo extends BaseEntity {
         this.account = account;
     }
 
-    public String getMembername() {
-        return membername;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setMembername(String membername) {
-        this.membername = membername;
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 
     @ConvertColumn(ignore = true)

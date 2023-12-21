@@ -27,7 +27,7 @@ public class UserMemberBean extends BaseBean implements FilterBean {
 
     @FilterColumn(express = LIKE)
     @Column(length = 255, comment = "员工姓名")
-    private String membername;
+    private String memberName;
 
     public String getAccount() {
         return account;
@@ -45,12 +45,12 @@ public class UserMemberBean extends BaseBean implements FilterBean {
         this.memberid = memberid;
     }
 
-    public String getMembername() {
-        return membername;
+    public String getMemberName() {
+        return memberName;
     }
 
-    public void setMembername(String membername) {
-        if (membername != null && !membername.isEmpty()) this.membername = membername;
+    public void setMemberName(String memberName) {
+        if (memberName != null && !memberName.isEmpty()) this.memberName = memberName;
     }
 
 }

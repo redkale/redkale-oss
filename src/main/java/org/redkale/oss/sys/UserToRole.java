@@ -28,17 +28,17 @@ public class UserToRole extends BaseEntity {
     private int memberid;
 
     @Column(updatable = false, comment = "[创建时间]")
-    private long createtime;
+    private long createTime;
 
     @Column(length = 255, comment = "[创建人]")
     private String creator = "";
 
-    public long getCreatetime() {
-        return createtime;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(long createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public String getCreator() {

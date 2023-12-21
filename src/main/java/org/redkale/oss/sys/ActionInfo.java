@@ -21,14 +21,14 @@ public class ActionInfo extends BaseEntity {
     private int actionid;
 
     @Column(length = 64, comment = "[操作名称] 系统已经存在的有查询、新增、修改、删除、登录")
-    private String actionname;
+    private String actionName;
 
     public ActionInfo() {
     }
 
     public ActionInfo(int actionid, String name) {
         this.actionid = actionid;
-        this.actionname = name;
+        this.actionName = name;
     }
 
     @Override
@@ -56,12 +56,12 @@ public class ActionInfo extends BaseEntity {
         this.actionid = actionid;
     }
 
-    public String getActionname() {
-        return actionname;
+    public String getActionName() {
+        return actionName;
     }
 
-    public void setActionname(String actionname) {
-        this.actionname = actionname;
+    public void setActionName(String actionName) {
+        this.actionName = actionName;
     }
 
 }
