@@ -17,8 +17,8 @@ import org.redkale.util.*;
  * @author zhangjx
  */
 @Entity(cacheable = true)
-@Table(name = "sys_usermember", comment = "员工信息表", uniqueConstraints = {
-    @UniqueConstraint(name = "unique", columnNames = {"account"})})
+@Table(name = "sys_usermember", comment = "员工信息表")
+@Index(name = "unique", columns = {"account"}, unique = true)
 public class UserMember extends BaseEntity {
 
     private static final MessageDigest md5;

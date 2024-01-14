@@ -15,8 +15,8 @@ import org.redkale.source.FilterBean;
  * @author zhangjx
  */
 @Entity(cacheable = true)
-@Table(name = "sys_roletooption", comment = "角色操作关联表", uniqueConstraints = {
-    @UniqueConstraint(name = "unique", columnNames = {"roleid", "optionid"})})
+@Table(name = "sys_roletooption", comment = "角色操作关联表")
+@Index(name = "unique", columns = {"roleid", "optionid"}, unique = true)
 public class RoleToOption extends BaseEntity implements FilterBean {
 
     @Id
